@@ -1,36 +1,4 @@
-// 语言切换功能
-let currentLanguage = 'en';
-
-function toggleLanguage() {
-    currentLanguage = currentLanguage === 'zh' ? 'en' : 'zh';
-    updateLanguage();
-    updateButtonText();
-}
-
-function updateLanguage() {
-    const elements = document.querySelectorAll('[data-en]');
-    elements.forEach(element => {
-        if (currentLanguage === 'en') {
-            // 显示英文内容
-            element.textContent = element.getAttribute('data-en');
-        } else {
-            // 显示中文内容 - 如果有data-zh属性就用它，否则用原始内容
-            const zhContent = element.getAttribute('data-zh') || element.textContent;
-            element.textContent = zhContent;
-        }
-    });
-}
-
-function updateButtonText() {
-    const button = document.querySelector('.language-switch');
-    if (currentLanguage === 'en') {
-        button.textContent = '中文';
-    } else {
-        button.textContent = 'EN';
-    }
-}
-
-// 平滑滚动功能
+// Smooth scrolling function
 function scrollToSection(sectionId) {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -49,7 +17,7 @@ function scrollToFeatures() {
     scrollToSection('features');
 }
 
-// 导航栏滚动效果
+// Navigation scroll effect
 let lastScrollY = window.scrollY;
 const navbar = document.querySelector('.navbar');
 
@@ -57,17 +25,17 @@ window.addEventListener('scroll', () => {
     const currentScrollY = window.scrollY;
     
     if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // 向下滚动，隐藏导航栏
+        // Scroll down - hide navbar
         navbar.style.transform = 'translateY(-100%)';
     } else {
-        // 向上滚动或顶部，显示导航栏
+        // Scroll up or at top - show navbar
         navbar.style.transform = 'translateY(0)';
     }
     
     lastScrollY = currentScrollY;
 });
 
-// 动画效果 - 滚动显示
+// Animation effects - scroll reveal
 function initAnimations() {
     const observerOptions = {
         threshold: 0.1,
@@ -83,7 +51,7 @@ function initAnimations() {
         });
     }, observerOptions);
 
-    // 观察需要动画的元素
+    // Observe elements that need animation
     const animatedElements = document.querySelectorAll('.feature-card, .comparison-table, .download-btn');
     animatedElements.forEach(el => {
         el.style.opacity = '0';
@@ -93,34 +61,28 @@ function initAnimations() {
     });
 }
 
-// 应用商店按钮点击效果
+// App store button click effect
 document.querySelectorAll('.download-btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
         e.preventDefault();
         
-        // 添加点击动画效果
+        // Add click animation effect
         this.style.transform = 'scale(0.95)';
         setTimeout(() => {
             this.style.transform = '';
         }, 150);
         
-        // 显示下载提示（实际项目中应链接到应用商店）
-        alert(currentLanguage === 'en' ? 
-            'Redirecting to app store download page' : 
-            '即将跳转到应用商店下载页面');
+        // Show download prompt (in real project should link to app store)
+        alert('Redirecting to app store download page');
     });
 });
 
-// 页面加载完成后初始化
+// Initialize after page load
 document.addEventListener('DOMContentLoaded', function() {
-    // 初始化语言 - 默认显示英文
-    updateLanguage();
-    updateButtonText();
-    
-    // 初始化动画
+    // Initialize animations
     initAnimations();
     
-    // 添加鼠标悬停效果到功能卡片
+    // Add hover effects to feature cards
     const featureCards = document.querySelectorAll('.feature-card');
     featureCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
@@ -132,14 +94,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // 控制台欢迎信息
+    // Console welcome message
     console.log('%c📚 Studyflow - Smart Learning Management App', 
         'color: #2563eb; font-size: 18px; font-weight: bold;');
     console.log('%cWelcome to the Studyflow official website!', 
         'color: #64748b; font-size: 14px;');
+    
+    // Enhanced navigation effects and number counting animation
+    setupNavigationEffects();
+    startNumberCounting();
+    setupSparkleEffects();
 });
 
-// 性能优化 - 图片懒加载
+// Performance optimization - Lazy loading images
 if ('IntersectionObserver' in window) {
     const lazyImages = document.querySelectorAll('img[data-src]');
     
@@ -159,38 +126,142 @@ if ('IntersectionObserver' in window) {
     });
 }
 
-// 错误处理
+// Error handling
 window.addEventListener('error', function(e) {
-    console.error('页面错误:', e.error);
+    console.error('Page error:', e.error);
 });
 
-// 键盘导航支持
+// Keyboard navigation support
 document.addEventListener('keydown', function(e) {
-    // ESC键关闭所有模态框（如果有）
+    // ESC key to close all modals (if any)
     if (e.key === 'Escape') {
         console.log('ESC pressed - closing modals');
     }
     
-    // 空格键滚动
+    // Space key for scrolling
     if (e.key === ' ' && e.target === document.body) {
         e.preventDefault();
         window.scrollBy(0, window.innerHeight * 0.8);
     }
 });
 
-// 移动端触摸优化
-let touchStartY = 0;
-
-document.addEventListener('touchstart', function(e) {
-    touchStartY = e.touches[0].clientY;
-});
-
-document.addEventListener('touchend', function(e) {
-    const touchEndY = e.changedTouches[0].clientY;
-    const diffY = touchEndY - touchStartY;
+// Mobile touch optimization
+function setupMobileTouch() {
+    let lastTouchY = 0;
     
-    // 快速下滑刷新页面
-    if (diffY > 100 && window.scrollY === 0) {
-        window.location.reload();
+    document.addEventListener('touchstart', function(e) {
+        lastTouchY = e.touches[0].clientY;
+    });
+    
+    document.addEventListener('touchmove', function(e) {
+        const currentY = e.touches[0].clientY;
+        const deltaY = currentY - lastTouchY;
+        
+        // Quick swipe down to refresh page
+        if (deltaY > 100 && currentY < 100) {
+            window.location.reload();
+        }
+        
+        lastTouchY = currentY;
+    });
+}
+
+// Enhanced navigation effects
+function setupNavigationEffects() {
+    const navbar = document.querySelector('.navbar');
+    
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+    
+    // Add click effects to navigation links
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+        });
+    });
+}
+
+// Number counting animation
+function startNumberCounting() {
+    const statNumbers = document.querySelectorAll('.stat-number');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const numberElement = entry.target;
+                const targetValue = parseFloat(numberElement.getAttribute('data-count'));
+                const isDecimal = targetValue % 1 !== 0;
+                const duration = 2000;
+                const startTime = performance.now();
+                
+                function animateNumber(currentTime) {
+                    const elapsedTime = currentTime - startTime;
+                    const progress = Math.min(elapsedTime / duration, 1);
+                    
+                    let currentValue;
+                    if (isDecimal) {
+                        currentValue = (targetValue * progress).toFixed(1);
+                    } else {
+                        currentValue = Math.floor(targetValue * progress);
+                    }
+                    
+                    numberElement.textContent = isDecimal ? currentValue : currentValue + (targetValue > 24 ? '%' : '');
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animateNumber);
+                    }
+                }
+                
+                requestAnimationFrame(animateNumber);
+                observer.unobserve(numberElement);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    statNumbers.forEach(number => observer.observe(number));
+}
+
+// Sparkle effects for buttons
+function setupSparkleEffects() {
+    const primaryButtons = document.querySelectorAll('.btn-primary');
+    
+    primaryButtons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            createSparkles(this);
+        });
+    });
+    
+    function createSparkles(button) {
+        const buttonRect = button.getBoundingClientRect();
+        
+        for (let i = 0; i < 5; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'btn-sparkle';
+            
+            // Random positions within button
+            const x = Math.random() * buttonRect.width - 10;
+            const y = Math.random() * buttonRect.height - 10;
+            
+            sparkle.style.setProperty('--sparkle-x', `${x}px`);
+            sparkle.style.setProperty('--sparkle-y', `${y}px`);
+            
+            button.appendChild(sparkle);
+            
+            // Remove sparkle after animation
+            setTimeout(() => {
+                if (sparkle.parentNode === button) {
+                    button.removeChild(sparkle);
+                }
+            }, 2000);
+        }
     }
-});
+}

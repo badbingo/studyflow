@@ -10,210 +10,303 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- 导航栏 -->
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <i class="fas fa-graduation-cap"></i>
+                <i class="fas fa-book-open"></i>
                 <span>Studyflow</span>
             </div>
-            <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#comparison">Comparison</a>
-                <a href="#download">Download</a>
-                <button class="language-switch" onclick="toggleLanguage()">中文</button>
+            <div class="nav-menu">
+                <a href="#features" onclick="scrollToFeatures()">Features</a>
+                <a href="#parent-student" onclick="scrollToSection('parent-student')">Parent-Student</a>
+                <a href="#download" onclick="scrollToDownload()">Download</a>
             </div>
         </div>
     </nav>
 
-    <!-- 英雄区域 -->
+    <!-- Hero Section - Redesigned -->
     <section class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1 class="hero-title" data-en="Revolutionize Your Learning Experience">
-                    重新定义你的学习体验
-                </h1>
-                <p class="hero-description" data-en="Studyflow is the all-in-one learning management app that helps students track grades, manage assignments, plan exams, and analyze performance with AI-powered insights.">
-                    Studyflow是一款一体化学习管理应用，帮助学生追踪成绩、管理作业、规划考试，并通过AI驱动的洞察分析学习表现。
-                </p>
-                <div class="hero-buttons">
-                    <button class="btn-primary" onclick="scrollToDownload()">
-                        <span data-en="Download Now">立即下载</span>
-                    </button>
-                    <button class="btn-secondary" onclick="scrollToFeatures()">
-                        <span data-en="Learn More">了解更多</span>
-                    </button>
+        <div class="hero-background">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-award"></i>
+                <span>Trusted by 75,000+ Students & Educators Worldwide</span>
+            </div>
+            
+            <h1 class="hero-title">
+                <span class="hero-title-line">Transform Your</span>
+                <span class="hero-title-line gradient-text">Learning Journey</span>
+                <span class="hero-title-line">with Studyflow</span>
+            </h1>
+            
+            <p class="hero-description">
+                The intelligent platform that seamlessly connects students, parents, and educators 
+                for unparalleled academic excellence and collaborative success
+            </p>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number" data-count="95">0</div>
+                    <div class="stat-label">Grade Improvement</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="98">0</div>
+                    <div class="stat-label">User Satisfaction</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="24">0</div>
+                    <div class="stat-label">/7 Support</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="4.9">0</div>
+                    <div class="stat-label">App Store Rating</div>
                 </div>
             </div>
-            <div class="hero-image">
-                <div class="app-mockup">
-                    <div class="mockup-screen">
-                        <div class="screen-content">
-                            <div class="grade-card">
-                                <div class="grade-header">
-                                    <h4>Mathematics</h4>
-                                    <span class="grade-badge A">A</span>
-                                </div>
-                                <div class="grade-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 92%"></div>
-                                    </div>
-                                    <span>92%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            
+            <div class="hero-buttons">
+                <button class="btn-primary hero-btn" onclick="scrollToDownload()">
+                    <i class="fas fa-rocket"></i>
+                    <span>Start Your Journey</span>
+                    <div class="btn-sparkle"></div>
+                </button>
+                <button class="btn-secondary hero-btn" onclick="scrollToFeatures()">
+                    <i class="fas fa-play-circle"></i>
+                    <span>Watch Demo</span>
+                </button>
+            </div>
+            
+            <div class="hero-scroll-indicator">
+                <div class="scroll-arrow">
+                    <i class="fas fa-chevron-down"></i>
                 </div>
+                <span>Discover More</span>
             </div>
         </div>
     </section>
 
-    <!-- 功能特点 -->
+    <!-- Features Section -->
     <section id="features" class="features">
         <div class="container">
-            <h2 class="section-title" data-en="Key Features">核心功能</h2>
+            <div class="section-header">
+                <h2 class="section-title">Features</h2>
+                <p>Discover the powerful features that make StudyFlow the ultimate learning companion</p>
+            </div>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3 data-en="Smart Grade Tracking">智能成绩追踪</h3>
-                    <p data-en="Real-time grade monitoring with color-coded performance indicators and detailed analytics.">
-                        实时成绩监控，带有颜色编码的表现指标和详细分析报告。
-                    </p>
+                    <h3>Smart Grade Tracking</h3>
+                    <p>Real-time grade monitoring with color-coded performance indicators and detailed analytics.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-tasks"></i>
                     </div>
-                    <h3 data-en="Assignment Management">作业管理</h3>
-                    <p data-en="Organize homework with due dates, priorities, and automatic reminders to never miss deadlines.">
-                        按截止日期和优先级组织作业，自动提醒确保永不错过期限。
-                    </p>
+                    <h3>Assignment Management</h3>
+                    <p>Organize homework with due dates, priorities, and automatic reminders to never miss deadlines.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
-                    <h3 data-en="Exam Planning">考试规划</h3>
-                    <p data-en="Create study schedules, set revision goals, and track preparation progress for each exam.">
-                        创建学习计划，设定复习目标，跟踪每次考试的备考进度。
-                    </p>
+                    <h3>Exam Planning</h3>
+                    <p>Create study schedules, set revision goals, and track preparation progress for each exam.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-brain"></i>
                     </div>
-                    <h3 data-en="AI Insights">AI智能分析</h3>
-                    <p data-en="Get personalized recommendations based on your learning patterns and performance trends.">
-                        基于学习模式和表现趋势，获得个性化的学习建议。
-                    </p>
+                    <h3>AI Insights</h3>
+                    <p>Get personalized recommendations based on your learning patterns and performance trends.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-chart-pie"></i>
                     </div>
-                    <h3 data-en="Performance Analytics">表现分析</h3>
-                    <p data-en="Comprehensive visual reports showing your strengths, weaknesses, and improvement areas.">
-                        全面的可视化报告，展示优势、劣势和改进领域。
-                    </p>
+                    <h3>Performance Analytics</h3>
+                    <p>Comprehensive visual reports showing your strengths, weaknesses, and improvement areas.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-sync"></i>
                     </div>
-                    <h3 data-en="Multi-Device Sync">多设备同步</h3>
-                    <p data-en="Seamless synchronization across all your devices with real-time cloud backup.">
-                        跨所有设备无缝同步，实时云备份保障数据安全。
-                    </p>
+                    <h3>Multi-Device Sync</h3>
+                    <p>Seamless synchronization across all your devices with real-time cloud backup.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-users"></i>
                     </div>
-                    <h3 data-en="Parent-Student Connection">学生家长互联</h3>
-                    <p data-en="Parents can connect with students, monitor progress, manage tasks, and provide guidance through dedicated parent portal.">
-                        家长可以通过家长端与学生建立连接，监督进度，管理任务，并通过专属家长门户提供指导。
-                    </p>
+                    <h3>Parent-Student Connection</h3>
+                    <p>Parents can connect with students, monitor progress, manage tasks, and provide guidance through dedicated parent portal.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-gift"></i>
                     </div>
-                    <h3 data-en="Reward System">奖励系统</h3>
-                    <p data-en="Parents can set up reward systems with material incentives for excellent performance, motivating students to achieve their goals.">
-                        家长可以为表现优异的孩子设置物质奖励系统，激励学生达成学习目标。
-                    </p>
+                    <h3>Reward System</h3>
+                    <p>Parents can set up reward systems for excellent performance to motivate students to achieve learning goals.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-comments"></i>
                     </div>
-                    <h3 data-en="Real-time Communication">实时交流</h3>
-                    <p data-en="Students can communicate with classmates in real-time, share learning experiences, and collaborate on study projects.">
-                        学生可以与同学实时交流，分享学习心得，并在学习项目上进行协作。
-                    </p>
+                    <h3>Real-time Communication</h3>
+                    <p>Students can communicate with classmates in real-time, share learning insights, and collaborate on study projects.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 竞争优势 -->
+    <!-- Parent-Student Interaction Section -->
+    <section id="parent-student" class="parent-student">
+        <div class="container">
+            <h2 class="section-title">Parent-Student Interaction</h2>
+            <p class="section-subtitle" data-en="Bridge the gap between parents and students with our innovative connection features">
+                Bridge the gap between parents and students with our innovative connection features
+            </p>
+            
+            <div class="interaction-content">
+                <div class="interaction-text">
+                    <div class="interaction-features">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <h4>Real-time Progress Tracking</h4>
+                                <p>Parents can monitor student progress and grade changes in real-time</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div>
+                                <h4>Direct Messaging</h4>
+                                <p>Communicate directly with teachers and stay informed</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Smart Scheduling</h4>
+                                <p>Schedule parent-teacher conferences and track important dates</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div>
+                                <h4>Instant Notifications</h4>
+                                <p>Receive alerts for grades, assignments, and school announcements</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="scrollToDownload()">
+                        <i class="fas fa-rocket"></i>
+                        Get Started Today
+                    </button>
+                </div>
+                <div class="interaction-visual">
+                    <div class="interaction-showcase">
+                        <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Parent-Student interaction" />
+                        <div class="floating-card">
+                            <div class="card-header">
+                                <div class="avatar">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div>
+                                    <h5>Sarah's Progress</h5>
+                                    <span>Math Grade Improved</span>
+                                </div>
+                            </div>
+                            <div class="progress-display">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 85%"></div>
+                                </div>
+                                <span>85% - Excellent!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cta-container">
+                <h3 data-en="Start Your Connected Learning Journey Today">Start Your Connected Learning Journey Today</h3>
+                <p data-en="Join families who are transforming education through better communication and collaboration">
+                    Join families who are transforming education through better communication and collaboration
+                </p>
+                <button class="btn-primary" onclick="scrollToDownload()">
+                    <span data-en="Get Started">Get Started</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competitive Advantages -->
     <section id="comparison" class="comparison">
         <div class="container">
-            <h2 class="section-title" data-en="Why Choose Studyflow?">为什么选择Studyflow？</h2>
+            <h2 class="section-title" data-en="Why Choose Studyflow?">Why Choose Studyflow?</h2>
             <div class="comparison-table">
                 <table>
                     <thead>
                         <tr>
-                            <th>功能</th>
-                            <th>Studyflow</th>
-                            <th>其他学习应用</th>
+                            <th data-en="Feature">Feature</th>
+                            <th data-en="Studyflow">Studyflow</th>
+                            <th data-en="Other Learning Apps">Other Learning Apps</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td data-en="Real-time Grade Tracking">实时成绩追踪</td>
+                            <td>Real-time Grade Tracking</td>
                             <td><i class="fas fa-check-circle"></i></td>
                             <td><i class="fas fa-times-circle"></i></td>
                         </tr>
                         <tr>
-                            <td data-en="AI-Powered Insights">AI智能分析</td>
+                            <td>AI-Powered Insights</td>
                             <td><i class="fas fa-check-circle"></i></td>
                             <td><i class="fas fa-times-circle"></i></td>
                         </tr>
                         <tr>
-                            <td data-en="Multi-Device Sync">多设备同步</td>
+                            <td>Multi-Device Sync</td>
                             <td><i class="fas fa-check-circle"></i></td>
                             <td><i class="fas fa-check-circle"></i></td>
                         </tr>
                         <tr>
-                            <td data-en="Detailed Analytics">详细分析报告</td>
+                            <td>Detailed Analytics</td>
                             <td><i class="fas fa-check-circle"></i></td>
                             <td><i class="fas fa-times-circle"></i></td>
                         </tr>
                         <tr>
-                            <td data-en="Exam Planning Tools">考试规划工具</td>
+                            <td>Exam Planning Tools</td>
                             <td><i class="fas fa-check-circle"></i></td>
                             <td><i class="fas fa-check-circle"></i></td>
                         </tr>
                         <tr>
-                            <td data-en="Free to Use">免费使用</td>
+                            <td>Free to Use</td>
                             <td><i class="fas fa-check-circle"></i></td>
                             <td><i class="fas fa-times-circle"></i></td>
                         </tr>
                         <tr>
-                            <td data-en="Parent-Student Connection">学生家长互联</td>
+                            <td>Parent-Student Connection</td>
                             <td><i class="fas fa-check-circle"></i></td>
                             <td><i class="fas fa-times-circle"></i></td>
                         </tr>
                         <tr>
-                            <td data-en="Reward System">奖励系统</td>
+                            <td>Reward System</td>
                             <td><i class="fas fa-check-circle"></i></td>
                             <td><i class="fas fa-times-circle"></i></td>
                         </tr>
                         <tr>
-                            <td data-en="Real-time Student Communication">学生实时交流</td>
+                            <td>Real-time Student Communication</td>
                             <td><i class="fas fa-check-circle"></i></td>
                             <td><i class="fas fa-times-circle"></i></td>
                         </tr>
@@ -223,49 +316,104 @@
         </div>
     </section>
 
-    <!-- 下载区域 -->
+    <!-- Download Section -->
     <section id="download" class="download">
         <div class="container">
-            <h2 class="section-title" data-en="Get Studyflow Today">立即获取Studyflow</h2>
-            <p class="download-description" data-en="Join thousands of students who have transformed their learning experience with Studyflow.">
-                加入数千名通过Studyflow改变学习体验的学生行列。
-            </p>
+            <div class="section-header">
+                <h2 class="section-title" data-en="Get Studyflow Today">Get Studyflow Today</h2>
+                <p class="download-description" data-en="Join thousands of students who have transformed their learning experience with Studyflow.">
+                    Join thousands of students who have transformed their learning experience with Studyflow.
+                </p>
+            </div>
             <div class="download-buttons">
                 <button class="download-btn app-store">
                     <i class="fab fa-apple"></i>
-                    <span>
-                        <span data-en="Download on the">在</span>
-                        <span data-en="App Store">App Store</span>
-                    </span>
+                    <div>
+                        <span>Download on the</span>
+                        <strong>App Store</strong>
+                    </div>
                 </button>
                 <button class="download-btn google-play">
                     <i class="fab fa-google-play"></i>
-                    <span>
-                        <span data-en="GET IT ON">在</span>
-                        <span data-en="Google Play">Google Play</span>
-                    </span>
+                    <div>
+                        <span>GET IT ON</span>
+                        <strong>Google Play</strong>
+                    </div>
                 </button>
             </div>
         </div>
     </section>
 
-    <!-- 页脚 -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-brand">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>Studyflow</span>
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Studyflow</span>
+                    </div>
+                    <p>Transforming education through innovative technology and seamless collaboration.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
                 </div>
-                <div class="footer-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Contact Us</a>
+                
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#download">Download</a></li>
+                        <li><a href="#parent-student">Parent Portal</a></li>
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Status</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
                 </div>
             </div>
-            <p class="footer-copyright">
-                © 2024 Studyflow. All rights reserved.
-            </p>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Studyflow. All rights reserved. Made with ❤️ for better education.</p>
+            </div>
         </div>
     </footer>
 
