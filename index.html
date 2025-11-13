@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studyflow - 智能学习管理应用</title>
+    <meta name="description" content="Studyflow是一款革命性的学习管理应用，集成绩追踪、作业管理、考试规划和智能分析于一体，帮助学生高效学习。">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Studyflow</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">功能特点</a>
+                <a href="#comparison">竞争优势</a>
+                <a href="#download">立即下载</a>
+                <button class="language-switch" onclick="toggleLanguage()">EN</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title" data-en="Revolutionize Your Learning Experience">
+                    重新定义你的学习体验
+                </h1>
+                <p class="hero-description" data-en="Studyflow is the all-in-one learning management app that helps students track grades, manage assignments, plan exams, and analyze performance with AI-powered insights.">
+                    Studyflow是一款一体化学习管理应用，帮助学生追踪成绩、管理作业、规划考试，并通过AI驱动的洞察分析学习表现。
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="scrollToDownload()">
+                        <span data-en="Download Now">立即下载</span>
+                    </button>
+                    <button class="btn-secondary" onclick="scrollToFeatures()">
+                        <span data-en="Learn More">了解更多</span>
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="app-mockup">
+                    <div class="mockup-screen">
+                        <div class="screen-content">
+                            <div class="grade-card">
+                                <div class="grade-header">
+                                    <h4>数学</h4>
+                                    <span class="grade-badge A">A</span>
+                                </div>
+                                <div class="grade-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 92%"></div>
+                                    </div>
+                                    <span>92%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 功能特点 -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title" data-en="Key Features">核心功能</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 data-en="Smart Grade Tracking">智能成绩追踪</h3>
+                    <p data-en="Real-time grade monitoring with color-coded performance indicators and detailed analytics.">
+                        实时成绩监控，带有颜色编码的表现指标和详细分析报告。
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3 data-en="Assignment Management">作业管理</h3>
+                    <p data-en="Organize homework with due dates, priorities, and automatic reminders to never miss deadlines.">
+                        按截止日期和优先级组织作业，自动提醒确保永不错过期限。
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 data-en="Exam Planning">考试规划</h3>
+                    <p data-en="Create study schedules, set revision goals, and track preparation progress for each exam.">
+                        创建学习计划，设定复习目标，跟踪每次考试的备考进度。
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 data-en="AI Insights">AI智能分析</h3>
+                    <p data-en="Get personalized recommendations based on your learning patterns and performance trends.">
+                        基于学习模式和表现趋势，获得个性化的学习建议。
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3 data-en="Performance Analytics">表现分析</h3>
+                    <p data-en="Comprehensive visual reports showing your strengths, weaknesses, and improvement areas.">
+                        全面的可视化报告，展示优势、劣势和改进领域。
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync"></i>
+                    </div>
+                    <h3 data-en="Multi-Device Sync">多设备同步</h3>
+                    <p data-en="Seamless synchronization across all your devices with real-time cloud backup.">
+                        跨所有设备无缝同步，实时云备份保障数据安全。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 竞争优势 -->
+    <section id="comparison" class="comparison">
+        <div class="container">
+            <h2 class="section-title" data-en="Why Choose Studyflow?">为什么选择Studyflow？</h2>
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>功能</th>
+                            <th>Studyflow</th>
+                            <th>其他学习应用</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-en="Real-time Grade Tracking">实时成绩追踪</td>
+                            <td><i class="fas fa-check-circle"></i></td>
+                            <td><i class="fas fa-times-circle"></i></td>
+                        </tr>
+                        <tr>
+                            <td data-en="AI-Powered Insights">AI智能分析</td>
+                            <td><i class="fas fa-check-circle"></i></td>
+                            <td><i class="fas fa-times-circle"></i></td>
+                        </tr>
+                        <tr>
+                            <td data-en="Multi-Device Sync">多设备同步</td>
+                            <td><i class="fas fa-check-circle"></i></td>
+                            <td><i class="fas fa-check-circle"></i></td>
+                        </tr>
+                        <tr>
+                            <td data-en="Detailed Analytics">详细分析报告</td>
+                            <td><i class="fas fa-check-circle"></i></td>
+                            <td><i class="fas fa-times-circle"></i></td>
+                        </tr>
+                        <tr>
+                            <td data-en="Exam Planning Tools">考试规划工具</td>
+                            <td><i class="fas fa-check-circle"></i></td>
+                            <td><i class="fas fa-check-circle"></i></td>
+                        </tr>
+                        <tr>
+                            <td data-en="Free to Use">免费使用</td>
+                            <td><i class="fas fa-check-circle"></i></td>
+                            <td><i class="fas fa-times-circle"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 下载区域 -->
+    <section id="download" class="download">
+        <div class="container">
+            <h2 class="section-title" data-en="Get Studyflow Today">立即获取Studyflow</h2>
+            <p class="download-description" data-en="Join thousands of students who have transformed their learning experience with Studyflow.">
+                加入数千名通过Studyflow改变学习体验的学生行列。
+            </p>
+            <div class="download-buttons">
+                <button class="download-btn app-store">
+                    <i class="fab fa-apple"></i>
+                    <span>
+                        <span data-en="Download on the">在</span>
+                        <span data-en="App Store">App Store</span>
+                    </span>
+                </button>
+                <button class="download-btn google-play">
+                    <i class="fab fa-google-play"></i>
+                    <span>
+                        <span data-en="GET IT ON">在</span>
+                        <span data-en="Google Play">Google Play</span>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Studyflow</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#">隐私政策</a>
+                    <a href="#">服务条款</a>
+                    <a href="#">联系我们</a>
+                </div>
+            </div>
+            <p class="footer-copyright">
+                © 2024 Studyflow. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
