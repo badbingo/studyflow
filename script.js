@@ -1,5 +1,5 @@
 // 语言切换功能
-let currentLanguage = 'zh';
+let currentLanguage = 'en';
 
 function toggleLanguage() {
     currentLanguage = currentLanguage === 'zh' ? 'en' : 'zh';
@@ -11,22 +11,22 @@ function updateLanguage() {
     const elements = document.querySelectorAll('[data-en]');
     elements.forEach(element => {
         if (currentLanguage === 'en') {
+            // 显示英文内容
             element.textContent = element.getAttribute('data-en');
         } else {
-            // 恢复原始中文内容
-            const originalText = element.textContent;
-            element.setAttribute('data-zh', originalText);
-            element.textContent = element.getAttribute('data-en');
+            // 显示中文内容 - 如果有data-zh属性就用它，否则用原始内容
+            const zhContent = element.getAttribute('data-zh') || element.textContent;
+            element.textContent = zhContent;
         }
     });
 }
 
 function updateButtonText() {
     const button = document.querySelector('.language-switch');
-    if (currentLanguage === 'zh') {
-        button.textContent = 'EN';
-    } else {
+    if (currentLanguage === 'en') {
         button.textContent = '中文';
+    } else {
+        button.textContent = 'EN';
     }
 }
 
@@ -105,14 +105,18 @@ document.querySelectorAll('.download-btn').forEach(btn => {
         }, 150);
         
         // 显示下载提示（实际项目中应链接到应用商店）
-        alert(currentLanguage === 'zh' ? 
-            '即将跳转到应用商店下载页面' : 
-            'Redirecting to app store download page');
+        alert(currentLanguage === 'en' ? 
+            'Redirecting to app store download page' : 
+            '即将跳转到应用商店下载页面');
     });
 });
 
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
+    // 初始化语言 - 默认显示英文
+    updateLanguage();
+    updateButtonText();
+    
     // 初始化动画
     initAnimations();
     
@@ -129,9 +133,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // 控制台欢迎信息
-    console.log('%c📚 Studyflow - 智能学习管理应用', 
+    console.log('%c📚 Studyflow - Smart Learning Management App', 
         'color: #2563eb; font-size: 18px; font-weight: bold;');
-    console.log('%c欢迎来到Studyflow官方网站！', 
+    console.log('%cWelcome to the Studyflow official website!', 
         'color: #64748b; font-size: 14px;');
 });
 
