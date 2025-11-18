@@ -1116,7 +1116,7 @@ body {
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    color: white;
+    color: var(--text-primary);
 }
 
 .cta-container p {
