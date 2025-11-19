@@ -746,6 +746,10 @@ body {
     text-align: center;
 }
 
+.download .section-title {
+    color: white;
+}
+
 .download-description {
     font-size: 1.25rem;
     margin-bottom: 3rem;
