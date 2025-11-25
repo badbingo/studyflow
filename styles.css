@@ -175,6 +175,7 @@ body {
     overflow: hidden;
     color: white;
     background: linear-gradient(135deg, rgba(37, 99, 235, 0.95) 0%, rgba(59, 130, 246, 0.95) 50%, rgba(102, 126, 234, 0.95) 100%);
+    padding-top: env(safe-area-inset-top);
 }
 
 .hero-background {
@@ -202,7 +203,7 @@ body {
 .hero-content {
     text-align: center;
     max-width: 1000px;
-    padding: 60px 30px;
+    padding: calc(60px + env(safe-area-inset-top)) 30px 60px;
     position: relative;
     z-index: 1;
 }
@@ -687,9 +688,621 @@ body {
         padding: 12px 20px;
         font-size: 0.95rem;
     }
-    .features-grid {
+
+
+/* New Styles for Redesigned Sections */
+
+/* Hero Highlights */
+.hero-highlights {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 12px 20px;
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.highlight-item:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+.highlight-item i {
+    color: #ffd700;
+    font-size: 1.1rem;
+}
+
+.highlight-item span {
+    color: white;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* Benefits Sections */
+.benefits-section {
+    padding: 100px 0;
+    background: white;
+}
+
+.student-benefits {
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+}
+
+.parent-benefits {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.benefit-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.benefit-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.benefit-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.benefit-card:hover::before {
+    opacity: 1;
+}
+
+.benefit-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px;
+    color: white;
+    font-size: 2rem;
+    transition: all 0.3s ease;
+}
+
+.benefit-card:hover .benefit-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.benefit-card h3 {
+    color: var(--text-primary);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.benefit-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+/* Why Studyflow Section */
+.why-studyflow {
+    padding: 100px 0;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.reasons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.reason-card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    transition: all 0.3s ease;
+}
+
+.reason-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.reason-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.reason-card h3 {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.reason-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.unique-selling-point {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 50px;
+    border-radius: 20px;
+    text-align: center;
+    margin-top: 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.unique-selling-point::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" patternUnits="userSpaceOnUse" width="100" height="100"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+    opacity: 0.1;
+}
+
+.usp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 20px;
+    border-radius: 25px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.usp-badge i {
+    color: #ffd700;
+}
+
+.unique-selling-point h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.usp-features {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.usp-feature {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 12px 20px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Key Features Showcase */
+.key-features {
+    padding: 100px 0;
+    background: white;
+}
+
+.features-showcase {
+    margin-top: 60px;
+}
+
+.feature-showcase-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+.feature-showcase-item.reverse {
+    direction: rtl;
+}
+
+.feature-showcase-item.reverse > * {
+    direction: ltr;
+}
+
+.feature-content h3 {
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.feature-content p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.feature-benefits {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-benefits li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.feature-benefits i {
+    color: var(--success-color);
+    font-size: 1.1rem;
+}
+
+.feature-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.feature-demo {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 4rem;
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+}
+
+.feature-demo:hover {
+    transform: scale(1.05) rotate(5deg);
+}
+
+.ai-demo {
+    position: relative;
+}
+
+.ai-demo i:first-child {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    font-size: 2rem;
+}
+
+.ai-demo i:last-child {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    font-size: 2rem;
+}
+
+/* Final CTA Section */
+.final-cta {
+    padding: 120px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+}
+
+.cta-content {
+    max-width: 800px;
+    margin: 0 auto 60px;
+}
+
+.cta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 15px 25px;
+    border-radius: 30px;
+    margin-bottom: 30px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cta-badge i {
+    color: #ffd700;
+}
+
+.cta-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    line-height: 1.2;
+}
+
+.cta-benefits {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.cta-benefit {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.cta-benefit i {
+    color: #ffd700;
+    font-size: 1.2rem;
+}
+
+.cta-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Download Section */
+.download {
+    background: white;
+    padding: 60px 40px;
+    border-radius: 30px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.download-title {
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.download-platforms {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.platform-card {
+    background: #f8fafc;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    transition: all 0.3s ease;
+}
+
+.platform-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.platform-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 2.5rem;
+}
+
+.platform-card h4 {
+    color: var(--text-primary);
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.platform-card p {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.platform-download-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+}
+
+.platform-download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+.web-btn {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.download-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 40px;
+    padding: 30px 0;
+    border-top: 1px solid rgba(102, 126, 234, 0.1);
+    border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.download-stat {
+    text-align: center;
+}
+
+.download-stat .stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.download-stat .stat-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.app-features-preview {
+    text-align: center;
+}
+
+.app-features-preview h4 {
+    color: var(--text-primary);
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.feature-previews {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.feature-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 15px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.feature-preview i {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-highlights {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .benefits-grid {
         grid-template-columns: 1fr;
-        gap: 24px;
+    }
+    
+    .feature-showcase-item {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+    
+    .feature-showcase-item.reverse {
+        direction: ltr;
+    }
+    
+    .download-platforms {
+        grid-template-columns: 1fr;
+    }
+    
+    .download-stats {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .feature-previews {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .cta-title {
+        font-size: 2.2rem;
+    }
+    
+    .cta-benefits {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .feature-previews {
+        grid-template-columns: 1fr;
+    }
+    
+    .usp-features {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .cta-title {
+        font-size: 1.8rem;
     }
 }
 
@@ -1277,35 +1890,153 @@ body {
     }
 }
 
+/* Mobile First Responsive Design - 480px Breakpoint */
 @media (max-width: 480px) {
-    .interaction-flow {
-        grid-template-columns: 1fr;
+    /* Navigation */
+    .nav-container {
+        padding: 0.8rem 12px;
     }
     
-    .flow-step {
-        min-height: 160px;
+    /* Hero Section */
+    .hero-content {
+        padding: 60px 16px;
     }
-    
-    .section-subtitle {
-        font-size: 1.1rem;
-        margin-bottom: 3rem;
+    .hero-content h1 {
+        font-size: 2.2rem;
+        line-height: 1.2;
     }
-}
-
-@media (max-width: 480px) {
+    .hero-content p {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+    .hero-stats {
+        gap: 24px;
+        flex-direction: column;
+        align-items: center;
+    }
     .hero-title {
         font-size: 2rem;
     }
-
+    
+    /* Hero Highlights */
+    .hero-highlights {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .highlight-item {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+    
+    /* Benefits Grid */
+    .benefits-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .benefit-card {
+        padding: 30px 20px;
+    }
+    
+    /* Reason Cards */
+    .reason-card {
+        padding: 25px 20px;
+    }
+    
+    /* Feature Showcase */
+    .feature-showcase-item {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 20px;
+    }
+    .feature-showcase-content {
+        order: 2;
+    }
+    .feature-showcase-image {
+        order: 1;
+        margin-bottom: 20px;
+    }
+    
+    /* Feature Previews */
+    .feature-previews {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    /* USP Features */
+    .usp-features {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    /* Download Section */
+    .download-platforms {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .platform-card {
+        padding: 25px 20px;
+    }
+    .download-stats {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    .download-btn {
+        min-width: 180px;
+        width: 100%;
+    }
+    
+    /* CTA Section */
+    .cta-container {
+        padding: 40px 20px;
+        margin: 20px 0;
+        text-align: center;
+    }
+    .cta-title {
+        font-size: 1.8rem;
+        line-height: 1.3;
+    }
+    .cta-buttons {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+    .btn-large {
+        padding: 16px 24px;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    /* General Styles */
     .section-title {
         font-size: 2rem;
+        line-height: 1.2;
     }
-
+    .section-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 3rem;
+        padding: 0 1rem;
+    }
     .feature-card {
         padding: 1.5rem;
     }
-
-    .download-btn {
-        min-width: 180px;
+    
+    /* Interaction Flow */
+    .interaction-flow {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .flow-step {
+        min-height: 160px;
+        padding: 20px 15px;
+    }
+    
+    /* Comparison Table */
+    .comparison-table {
+        overflow-x: auto;
+    }
+    .comparison-table table {
+        min-width: 500px;
     }
 }
