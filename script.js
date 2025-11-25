@@ -85,4 +85,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // 5. Parallax Effect for Backgrounds
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const parallaxBgs = document.querySelectorAll('.parallax-bg');
+        
+        parallaxBgs.forEach(bg => {
+            const speed = 0.4;
+            const section = bg.parentElement;
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            
+            // Only animate when in view (with some buffer)
+            if (scrolled + window.innerHeight > sectionTop && scrolled < sectionTop + sectionHeight) {
+                // Calculate position relative to the viewport/scroll
+                const yPos = -(scrolled - sectionTop) * speed;
+                bg.style.transform = `translateY(${yPos}px)`;
+            }
+        });
+    });
 });
