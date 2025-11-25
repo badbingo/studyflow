@@ -3,204 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studyflow - The First All-in-One Study Planner for Grades 6–12</title>
+    <title>Studyflow - Master Your Studies</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
-            <div class="logo">
-                <span class="logo-icon"><i class="fas fa-layer-group"></i></span>
+            <a href="#" class="logo">
+                <img src="images/logo.png" alt="Studyflow Logo" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
                 <span class="logo-text">Studyflow</span>
-            </div>
+            </a>
             <div class="nav-links">
                 <a href="#features">Features</a>
-                <a href="#parents">For Parents</a>
-                <a href="#why">Why Studyflow</a>
-                <a href="#" class="btn btn-primary small">Download App</a>
+                <a href="#students">Students</a>
+                <a href="#parents">Parents</a>
+                <a href="#reviews">Reviews</a>
             </div>
-            <div class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
+            <div class="nav-actions">
+                <a href="#" class="btn btn-sm btn-outline">Log In</a>
+                <a href="#" class="btn btn-sm btn-primary">Download App</a>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <header class="hero">
+        <div class="hero-bg-circle"></div>
         <div class="container hero-container">
-            <div class="hero-content">
-                <div class="badge-sparkle">
-                    <i class="fas fa-star"></i> <span>For Grades 6–12</span>
+            <div class="hero-content fade-in-up">
+                <div class="badge-new">
+                    <span class="badge-icon">✨</span>
+                    <span>The #1 Planner for Grades 6–12</span>
                 </div>
-                <h1>The First All-in-One Study Planner</h1>
-                <p class="hero-subtitle">Connects students and parents. Organize homework, plan exams, and stay motivated—all in one place.</p>
+                <h1>Turn Chaos Into <span class="text-gradient">Confidence</span></h1>
+                <p class="hero-desc">
+                    Studyflow connects students and parents in one seamless platform. Organize homework, crush exams, and build habits that last a lifetime.
+                </p>
                 <div class="hero-btns">
-                    <a href="#" class="btn btn-primary"><i class="fab fa-apple"></i> App Store</a>
-                    <a href="#" class="btn btn-secondary"><i class="fab fa-google-play"></i> Play Store</a>
+                    <a href="#" class="btn btn-lg btn-primary shadow-glow">
+                        <i class="fab fa-apple"></i> App Store
+                    </a>
+                    <a href="#" class="btn btn-lg btn-white">
+                        <i class="fab fa-google-play"></i> Google Play
+                    </a>
                 </div>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <i class="fas fa-check-circle"></i> <span>Smart Planning</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-users"></i> <span>Parent Connect</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-bolt"></i> <span>AI Input</span>
+                <div class="hero-trust">
+                    <span>Trusted by 50,000+ students from</span>
+                    <div class="school-logos">
+                        <i class="fas fa-university"></i>
+                        <i class="fas fa-school"></i>
+                        <i class="fas fa-graduation-cap"></i>
+                        <i class="fas fa-book-reader"></i>
                     </div>
                 </div>
             </div>
-            <div class="hero-visual">
-                <div class="app-showcase">
-                    <div class="screen-frame">
-                        <!-- Abstract representation of the app UI -->
-                        <div class="ui-header">
-                            <div class="ui-avatar"></div>
-                            <div class="ui-date">Today, 25 Nov</div>
+            <div class="hero-image fade-in-up delay-200">
+                <div class="phone-mockup">
+                    <div class="phone-notch"></div>
+                    <img src="images/main.png" alt="Studyflow App Screenshot" class="app-screen">
+                    <!-- Decorative Elements -->
+                    <div class="float-card card-calendar">
+                        <div class="icon-circle bg-blue"><i class="fas fa-calendar-check"></i></div>
+                        <div class="float-text">
+                            <strong>Math Exam</strong>
+                            <span>Tomorrow, 9:00 AM</span>
                         </div>
-                        <div class="ui-card task-card active">
-                            <div class="check"></div>
-                            <div class="lines">
-                                <div class="line short"></div>
-                                <div class="line long"></div>
-                            </div>
-                        </div>
-                        <div class="ui-card task-card">
-                            <div class="check"></div>
-                            <div class="lines">
-                                <div class="line medium"></div>
-                            </div>
-                        </div>
-                        <div class="ui-fab"><i class="fas fa-microphone"></i></div>
                     </div>
-                    <div class="floating-card card-1">
-                        <i class="fas fa-camera"></i>
-                        <span>Scan Timetable</span>
-                    </div>
-                    <div class="floating-card card-2">
-                        <i class="fas fa-clock"></i>
-                        <span>Pomodoro: 25m</span>
+                    <div class="float-card card-ai">
+                        <div class="icon-circle bg-purple"><i class="fas fa-robot"></i></div>
+                        <div class="float-text">
+                            <strong>Schedule Created</strong>
+                            <span>via AI Scan</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Bento Grid Features Section -->
-    <section id="features" class="section features-section">
+    <!-- Value Props (Icons) -->
+    <section class="section values-section">
         <div class="container">
-            <div class="section-header center">
-                <h2>For Students: Stay Focused, Achieve More</h2>
-                <p>Everything you need to build strong study habits and reduce stress.</p>
-            </div>
-            
-            <div class="bento-grid">
-                <!-- Large Card: AI Input -->
-                <div class="bento-card large ai-card">
-                    <div class="card-content">
-                        <div class="icon-box gradient-1"><i class="fas fa-robot"></i></div>
-                        <h3>AI-Powered Quick Input</h3>
-                        <p>Upload a photo of your school timetable and Studyflow sets up your schedule in 5 seconds. Add tasks by simply speaking—AI converts your voice instantly.</p>
-                    </div>
-                    <div class="card-visual ai-visual">
-                        <div class="scan-line"></div>
-                        <div class="visual-icon"><i class="fas fa-camera"></i></div>
-                    </div>
+            <div class="values-grid">
+                <div class="value-item fade-in">
+                    <div class="value-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>AI Quick Input</h3>
+                    <p>Snap a photo of your timetable. Done in 5 seconds.</p>
                 </div>
-
-                <!-- Medium Card: Planning -->
-                <div class="bento-card medium plan-card">
-                    <div class="icon-box gradient-2"><i class="fas fa-calendar-check"></i></div>
-                    <h3>Smart Planning</h3>
-                    <p>Plan homework, exams, and goals. Break big tasks into manageable sessions.</p>
+                <div class="value-item fade-in delay-100">
+                    <div class="value-icon"><i class="fas fa-users"></i></div>
+                    <h3>Parent Connect</h3>
+                    <p>Keep parents in the loop without the nagging.</p>
                 </div>
-
-                <!-- Medium Card: Pomodoro -->
-                <div class="bento-card medium focus-card">
-                    <div class="icon-box gradient-3"><i class="fas fa-hourglass-half"></i></div>
-                    <h3>Pomodoro Timer</h3>
-                    <p>Stay focused with customizable study and break intervals.</p>
-                </div>
-
-                <!-- Wide Card: Community -->
-                <div class="bento-card wide community-card">
-                    <div class="card-content">
-                        <div class="icon-box gradient-4"><i class="fas fa-users"></i></div>
-                        <h3>Student Community</h3>
-                        <p>Connect with classmates, share tips, and celebrate milestones together.</p>
-                    </div>
-                    <div class="card-visual community-visual">
-                        <div class="chat-bubble b1">Keep it up! 🔥</div>
-                        <div class="chat-bubble b2">Done with Math! ✅</div>
-                    </div>
-                </div>
-
-                <!-- Small Card: Progress -->
-                <div class="bento-card small stats-card">
-                    <div class="icon-box gradient-5"><i class="fas fa-chart-line"></i></div>
-                    <h3>Progress</h3>
-                    <p>Track trends & activity.</p>
-                </div>
-
-                <!-- Small Card: Rewards -->
-                <div class="bento-card small reward-card">
-                    <div class="icon-box gradient-6"><i class="fas fa-gift"></i></div>
-                    <h3>Rewards</h3>
-                    <p>Request parent rewards.</p>
+                <div class="value-item fade-in delay-200">
+                    <div class="value-icon"><i class="fas fa-clock"></i></div>
+                    <h3>Smart Reminders</h3>
+                    <p>Never forget a deadline or exam again.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Parent Section -->
-    <section id="parents" class="section parent-section">
+    <!-- Feature 1: AI & Input (Zigzag) -->
+    <section id="features" class="section feature-zigzag">
         <div class="container">
-            <div class="split-layout">
-                <div class="split-content">
-                    <div class="badge-pill">For Parents</div>
-                    <h2>Guide, Motivate, and Celebrate</h2>
-                    <p class="lead">Bridge the gap between school and home without micromanaging.</p>
-                    
-                    <ul class="feature-list">
-                        <li>
-                            <i class="fas fa-check-circle"></i>
-                            <div>
-                                <strong>Link up to 4 students</strong>
-                                <p>Manage the whole family from a single account.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check-circle"></i>
-                            <div>
-                                <strong>View progress at a glance</strong>
-                                <p>See schedules, deadlines, and completed tasks.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check-circle"></i>
-                            <div>
-                                <strong>Approve & Reward</strong>
-                                <p>Reinforce positive habits by approving goals and rewards.</p>
-                            </div>
-                        </li>
+            <div class="zigzag-row">
+                <div class="zigzag-content fade-in-left">
+                    <div class="feature-tag">Smart Input</div>
+                    <h2>Planning shouldn't be a chore.</h2>
+                    <p class="lead">Use AI to capture your schedule instantly. Just speak or snap a photo.</p>
+                    <ul class="check-list">
+                        <li><i class="fas fa-check-circle"></i> <strong>Voice to Task:</strong> "Math homework due Friday" → Added instantly.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Photo Scan:</strong> Turn paper timetables into digital calendars.</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Smart Sorting:</strong> Automatically categorizes by subject and priority.</li>
                     </ul>
                 </div>
-                <div class="split-visual">
-                    <div class="parent-card">
-                        <div class="parent-header">
-                            <div class="p-avatar"><i class="fas fa-user"></i></div>
-                            <div class="p-info">
-                                <span class="p-name">Alex's Goal</span>
-                                <span class="p-status">Pending Approval</span>
-                            </div>
-                        </div>
-                        <div class="p-body">
-                            <h4>Finish Science Project</h4>
-                            <p>Reward: Weekend Movie Night 🎬</p>
-                        </div>
-                        <div class="p-actions">
-                            <button class="btn-approve">Approve</button>
+                <div class="zigzag-image fade-in-right">
+                    <div class="image-frame tilt-left">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Student using phone">
+                        <div class="floating-ui ui-scan">
+                            <i class="fas fa-camera"></i> Scanning...
                         </div>
                     </div>
                 </div>
@@ -208,71 +136,161 @@
         </div>
     </section>
 
-    <!-- Why Section -->
-    <section id="why" class="section why-section">
+    <!-- Feature 2: Parent Connection -->
+    <section id="parents" class="section feature-zigzag bg-light">
         <div class="container">
-            <div class="section-header center">
-                <h2>Why Studyflow Works</h2>
-                <p>Designed for real school rhythms and family support.</p>
+            <div class="zigzag-row reverse">
+                <div class="zigzag-content fade-in-right">
+                    <div class="feature-tag color-green">For Parents</div>
+                    <h2>Support their journey, don't micromanage.</h2>
+                    <p class="lead">Get the visibility you need to celebrate wins and offer help when it counts.</p>
+                    <div class="feature-cards">
+                        <div class="f-card">
+                            <i class="fas fa-eye"></i>
+                            <h4>View Progress</h4>
+                            <p>See upcoming exams and completed tasks at a glance.</p>
+                        </div>
+                        <div class="f-card">
+                            <i class="fas fa-gift"></i>
+                            <h4>Approve Rewards</h4>
+                            <p>Motivate with parent-approved rewards for goals reached.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="zigzag-image fade-in-left">
+                    <div class="image-frame tilt-right">
+                        <img src="https://images.unsplash.com/photo-1488190213531-9e3696629062?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Parent helping student">
+                        <div class="floating-ui ui-approve">
+                            <div class="ui-avatar"></div>
+                            <div>
+                                <span>Alex requested a reward</span>
+                                <div class="ui-btn-xs">Approve</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="grid-3">
-                <div class="why-item">
-                    <i class="fas fa-brain"></i>
-                    <h4>Focus on Habits</h4>
-                    <p>Gentle habit-building turns small steps into measurable progress.</p>
+        </div>
+    </section>
+
+    <!-- Feature 3: Focus & Habits -->
+    <section id="students" class="section feature-zigzag">
+        <div class="container">
+            <div class="zigzag-row">
+                <div class="zigzag-content fade-in-left">
+                    <div class="feature-tag color-orange">Focus Mode</div>
+                    <h2>Build habits that stick.</h2>
+                    <p class="lead">Beat procrastination with built-in focus tools designed for students.</p>
+                    <ul class="check-list">
+                        <li><i class="fas fa-hourglass-half"></i> <strong>Pomodoro Timer:</strong> Customizable work/break intervals.</li>
+                        <li><i class="fas fa-chart-line"></i> <strong>Progress Tracking:</strong> Visual charts showing your study streaks.</li>
+                        <li><i class="fas fa-users"></i> <strong>Study Community:</strong> Share tips and stay motivated with peers.</li>
+                    </ul>
                 </div>
-                <div class="why-item">
-                    <i class="fas fa-heart"></i>
-                    <h4>Parental Support</h4>
-                    <p>Research shows students with home support are more motivated.</p>
+                <div class="zigzag-image fade-in-right">
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Focused Study">
+                    </div>
                 </div>
-                <div class="why-item">
-                    <i class="fas fa-magic"></i>
-                    <h4>Effortless Input</h4>
-                    <p>AI photo recognition and voice input remove the friction of planning.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="reviews" class="section reviews-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Loved by Students & Parents</h2>
+                <p>Join thousands achieving their academic best.</p>
+            </div>
+            <div class="reviews-grid">
+                <div class="review-card fade-in-up">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="review-text">"I used to forget homework all the time. Studyflow's AI input is a lifesaver. I just snap a pic and it's planned."</p>
+                    <div class="reviewer">
+                        <div class="r-avatar bg-1">JD</div>
+                        <div class="r-info">
+                            <strong>Jason D.</strong>
+                            <span>10th Grade Student</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card fade-in-up delay-100">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="review-text">"Finally, an app that lets me stay involved without nagging my son. The reward system is genius!"</p>
+                    <div class="reviewer">
+                        <div class="r-avatar bg-2">SM</div>
+                        <div class="r-info">
+                            <strong>Sarah M.</strong>
+                            <span>Parent</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card fade-in-up delay-200">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="review-text">"The Pomodoro timer helps me focus so much better. My grades have actually gone up this semester."</p>
+                    <div class="reviewer">
+                        <div class="r-avatar bg-3">EL</div>
+                        <div class="r-info">
+                            <strong>Emily L.</strong>
+                            <span>8th Grade Student</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="cta-section">
+    <section class="section cta-banner">
         <div class="container">
-            <div class="cta-box">
-                <h2>Start Learning Smarter Today</h2>
-                <p>Join thousands of students and parents using Studyflow to achieve their best.</p>
-                <div class="cta-btns">
-                    <a href="#" class="btn btn-white">Download for iOS</a>
-                    <a href="#" class="btn btn-outline-white">Download for Android</a>
+            <div class="cta-content">
+                <h2>Ready to Transform Your Study Habits?</h2>
+                <p>Download Studyflow today and start your journey to better grades and less stress.</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-white btn-lg"><i class="fab fa-apple"></i> iOS Download</a>
+                    <a href="#" class="btn btn-outline-white btn-lg"><i class="fab fa-android"></i> Android Download</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="container footer-container">
-            <div class="footer-brand">
-                <span class="logo-text">Studyflow</span>
-                <p>The all-in-one study planner for Grades 6–12.</p>
-            </div>
-            <div class="footer-links">
-                <div class="link-col">
-                    <h4>Product</h4>
-                    <a href="#">Features</a>
-                    <a href="#">For Students</a>
-                    <a href="#">For Parents</a>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-layer-group"></i> Studyflow
+                    </div>
+                    <p>The all-in-one study planner for Grades 6–12.</p>
                 </div>
-                <div class="link-col">
-                    <h4>Support</h4>
-                    <a href="#">Help Center</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
+                <div class="footer-nav">
+                    <div class="col">
+                        <h4>Product</h4>
+                        <a href="#">Features</a>
+                        <a href="#">Pricing</a>
+                        <a href="#">Download</a>
+                    </div>
+                    <div class="col">
+                        <h4>Company</h4>
+                        <a href="#">About Us</a>
+                        <a href="#">Contact</a>
+                        <a href="#">Privacy</a>
+                    </div>
+                    <div class="col">
+                        <h4>Social</h4>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="container copyright">
-            <p>&copy; 2025 Studyflow. All rights reserved.</p>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Studyflow Inc. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 

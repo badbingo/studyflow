@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Studyflow · 管理后台</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --primary: #2b6ef2;
+      --primary-hover: #1f5fe0;
+      --primary-light: #eef4ff;
+      --success: #12b76a;
+      --success-light: #ecfdf3;
+      --error: #f04438;
+      --error-light: #fef3f2;
+      --warning: #f79009;
+      --text-primary: #1a1f2c;
+      --text-secondary: #667085;
+      --text-muted: #98a2b3;
+      --border: #e4e7ec;
+      --border-light: #f2f4f7;
+      --background: #f9fafb;
+      --surface: #ffffff;
+      --shadow: 0 20px 40px rgba(16, 24, 40, 0.12);
+      --shadow-sm: 0 4px 12px rgba(16, 24, 40, 0.08);
+      --radius-lg: 20px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --accent: #7c3aed;
+    }
+
+    html, body {
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary-light) 0%, #f5f7ff 100%);
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      color: var(--text-primary);
+    }
+
+    .admin-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .admin-header-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .brand i {
+      background: linear-gradient(135deg, var(--primary), #4f86f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 24px;
+    }
+    .role-switch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+    .role-switch select {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      background: var(--surface);
+      color: var(--text-primary);
+      outline: none;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 12px;
+      padding: 12px 24px;
+      max-width: 1320px;
+      margin: 0 auto;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-primary);
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--primary), #4f86f7);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 6px 16px rgba(43,110,242,0.25);
+    }
+
+    .dashboard {
+      max-width: 1320px;
+      margin: 8px auto 24px;
+      padding: 0 24px;
+      display: none;
+    }
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+    .grid.cols-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .grid.cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .grid.cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @media (max-width: 1100px) {
+      .grid.cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 720px) {
+      .grid.cols-4, .grid.cols-3, .grid.cols-2 { grid-template-columns: 1fr; }
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      gap: 8px;
+    }
+    .stat-title { color: var(--text-secondary); font-size: 12px; font-weight: 600; }
+    .stat-value { font-size: 24px; font-weight: 800; color: var(--text-primary); }
+    .stat-trend { font-size: 11px; font-weight: 600; }
+    .up { color: var(--success); }
+    .down { color: var(--error); }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .panel-title { font-size: 15px; font-weight: 700; }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .table th, .table td {
+      border-bottom: 1px solid var(--border-light);
+      padding: 12px;
+      text-align: left;
+      font-size: 14px;
+    }
+    .table th {
+      background: #f7f9ff;
+      color: var(--text-secondary);
+      font-weight: 700;
+    }
+    .status {
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-block;
+    }
+    .status.active { background: var(--success-light); color: var(--success); }
+    .status.inactive { background: #fff6ed; color: #f97316; }
+
+    .actions { display: flex; gap: 8px; }
+    .btn {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(16,24,40,0.06); }
+    .btn-primary { background: var(--primary); color: white; border-color: transparent; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-danger { background: var(--error); border-color: transparent; color: white; }
+    .btn-ghost { background: transparent; }
+    .btn-sm { padding: 4px 8px; font-size: 12px; border-radius: 6px; }
+
+    .name-cell { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .name-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      background: var(--text-primary);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      display: none;
+      z-index: 50;
+      font-size: 14px;
+    }
+
+    .auth-gate {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary-light) 0%, #f2f6ff 100%);
+      z-index: 100;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+    .auth-header { text-align: center; margin-bottom: 16px; }
+    .auth-title { font-weight: 800; font-size: 22px; background: linear-gradient(135deg, var(--primary), #4f86f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .auth-subtitle { color: var(--text-secondary); font-size: 14px; }
+    .input-row { margin-top: 16px; position: relative; }
+    .input-row input {
+      width: 100%;
+      padding: 12px 40px 12px 12px;
+      font-size: 15px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      background: var(--background);
+    }
+    .input-row input:focus { border-color: var(--primary); background: var(--surface); box-shadow: 0 0 0 4px rgba(43,110,242,0.08); }
+    .toggle-eye {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .auth-error { display: none; margin-top: 10px; color: var(--error); font-size: 13px; }
+    .auth-actions { margin-top: 16px; display: grid; gap: 10px; }
+
+    .hidden { display: none !important; }
+
+    .help { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+    .help ul { padding-left: 18px; }
+    .help li { margin: 4px 0; }
+
+    .chart-area { position: relative; height: 220px; max-height: 260px; min-height: 180px; }
+    .chart-area canvas { width: 100% !important; height: 100% !important; }
+  </style>
+</head>
+<body>
+  <div class="auth-gate" id="authGate">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;">
+          <i class="fas fa-graduation-cap" style="font-size:28px;color:var(--primary);"></i>
+          <div style="font-weight:800;color:var(--primary);">Studyflow 管理后台</div>
+        </div>
+        <div class="auth-title">访问受限</div>
+        <div class="auth-subtitle">请输入访问密码以进入后台</div>
+      </div>
+      <div class="input-row">
+        <input id="adminPassword" type="password" placeholder="输入密码" autocomplete="current-password" />
+        <button class="toggle-eye" id="toggleEye" aria-label="显示/隐藏密码"><i class="fas fa-eye"></i></button>
+      </div>
+      <div id="authError" class="auth-error">密码错误，请重试</div>
+      <div class="auth-actions">
+        <button id="enterBtn" class="btn btn-primary"><i class="fas fa-unlock"></i> 进入后台</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="admin-header">
+    <div class="admin-header-inner">
+      <a class="brand" href="#">
+        <i class="fas fa-book-open"></i>
+        <span>Studyflow Admin</span>
+      </a>
+      <div class="role-switch">
+        <i class="fas fa-user-group"></i>
+        <span>视图：</span>
+        <select id="roleFilter">
+          <option value="all">全部</option>
+          <option value="parent">家长</option>
+          <option value="student">学生</option>
+        </select>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-target="tab-users"><i class="fas fa-users"></i> 注册用户</button>
+      <button class="tab-btn" data-target="tab-behavior"><i class="fas fa-chart-line"></i> 用户行为</button>
+      <button class="tab-btn" data-target="tab-feedback"><i class="fas fa-comments"></i> 反馈与调查</button>
+      <button class="tab-btn" data-target="tab-db"><i class="fas fa-database"></i> 数据库维护</button>
+      <button class="tab-btn" data-target="tab-payment"><i class="fas fa-credit-card"></i> 付费统计</button>
+    </div>
+  </header>
+
+  <main class="dashboard" id="dashboard">
+    <section id="tab-users">
+      <div class="grid cols-4" style="margin:16px 0;">
+        <div class="stat-card">
+          <div class="stat-title">注册用户总数</div>
+          <div class="stat-value" id="usersTotal">0</div>
+          <div class="stat-trend up" id="usersGrowth">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">家长</div>
+          <div class="stat-value" id="parentsTotal">0</div>
+          <div class="stat-trend" style="color:#7c3aed" id="parentsRatio">0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">学生</div>
+          <div class="stat-value" id="studentsTotal">0</div>
+          <div class="stat-trend" style="color:#0ea5e9" id="studentsRatio">0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">近7日新增</div>
+          <div class="stat-value" id="usersNew7">0</div>
+          <div class="stat-trend up" id="usersNewTrend">+0%</div>
+        </div>
+      </div>
+      <div class="panel help" style="margin-bottom:12px;">
+        <div class="panel-header"><div class="panel-title">使用说明</div></div>
+        <ul>
+          <li>右上角可切换视图：全部/家长/学生，影响统计与列表。</li>
+          <li>角色占比展示家长与学生比例；注册趋势展示近30日新增。</li>
+          <li>用户列表支持刷新与导出 CSV，用于离线分析。</li>
+        </ul>
+      </div>
+      <div class="two-col" style="margin-bottom:12px;">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">角色占比</div>
+          </div>
+          <div class="chart-area"><canvas id="chartUsersRole"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">注册趋势（近30日）</div>
+          </div>
+          <div class="chart-area"><canvas id="chartUsersTrend"></canvas></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">用户列表</div>
+          <div class="actions">
+            <button class="btn btn-ghost" id="exportUsers"><i class="fas fa-download"></i> 导出</button>
+            <button class="btn" id="refreshUsers"><i class="fas fa-rotate"></i> 刷新</button>
+          </div>
+        </div>
+        <table class="table" id="usersTable">
+          <thead>
+            <tr>
+              <th>姓名</th>
+              <th>邮箱</th>
+              <th>角色</th>
+              <th>注册时间</th>
+              <th>状态</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tab-behavior" class="hidden">
+      <div class="grid cols-4" style="margin:16px 0;">
+        <div class="stat-card">
+          <div class="stat-title">DAU</div>
+          <div class="stat-value" id="dau">0</div>
+          <div class="stat-trend up" id="dauTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">WAU</div>
+          <div class="stat-value" id="wau">0</div>
+          <div class="stat-trend up" id="wauTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">平均会话时长</div>
+          <div class="stat-value" id="avgSession">0m</div>
+          <div class="stat-trend up" id="avgSessionTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">次日留存</div>
+          <div class="stat-value" id="retention">0%</div>
+          <div class="stat-trend up" id="retentionTrend">+0%</div>
+        </div>
+      </div>
+      <div class="panel help" style="margin-bottom:12px;">
+        <div class="panel-header"><div class="panel-title">使用说明</div></div>
+        <ul>
+          <li>DAU/WAU 分别代表日活与周活，反映使用粘性。</li>
+          <li>活跃趋势展示过去30天活跃量变化。</li>
+          <li>功能使用分布用于识别核心场景占比，指导优化。</li>
+        </ul>
+      </div>
+      <div class="panel" style="margin-bottom:12px;">
+        <div class="panel-header">
+          <div class="panel-title">Weekly Report Banner 控制</div>
+          <div class="actions">
+            <button class="btn btn-primary" id="toggleBanner">
+              <i class="fas fa-eye"></i> 显示/隐藏 Banner
+            </button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <p style="margin:0;color:var(--text-secondary);font-size:14px;">
+            控制 Weekly Report 页面中的 "More Learning Resources" banner 显示状态。
+            关闭后 banner 将不会在 app 中显示。
+          </p>
+          <div style="margin-top:12px;padding:12px;background:var(--border-light);border-radius:var(--radius-sm);">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <i class="fas fa-info-circle" style="color:var(--primary);"></i>
+              <span style="font-size:13px;color:var(--text-secondary);">
+                当前状态: <span id="bannerStatus" style="font-weight:500;">加载中...</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">活跃趋势（近30日）</div></div>
+          <div class="chart-area"><canvas id="chartActive"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">功能使用分布</div></div>
+          <div class="chart-area"><canvas id="chartFeatureUsage"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-feedback" class="hidden">
+      <div class="grid cols-4" style="margin:16px 0;">
+        <div class="stat-card">
+          <div class="stat-title">平均评分</div>
+          <div class="stat-value" id="avgRating">0.0</div>
+          <div class="stat-trend up" id="avgRatingTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">反馈总数</div>
+          <div class="stat-value" id="feedbackCount">0</div>
+          <div class="stat-trend up" id="feedbackTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">正向比例</div>
+          <div class="stat-value" id="positiveRatio">0%</div>
+          <div class="stat-trend up" id="positiveTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">NPS</div>
+          <div class="stat-value" id="nps">0</div>
+          <div class="stat-trend up" id="npsTrend">+0</div>
+        </div>
+      </div>
+      <div class="panel help" style="margin-bottom:12px;">
+        <div class="panel-header"><div class="panel-title">使用说明</div></div>
+        <ul>
+          <li>平均评分与分布反映用户满意度，NPS 衡量推荐意愿。</li>
+          <li>关键词 Top5 可帮助定位高频痛点或亮点。</li>
+          <li>点击刷新同步最新反馈；列表可用于内容审阅。</li>
+        </ul>
+      </div>
+      <div class="two-col" style="margin-bottom:12px;">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">评分分布</div></div>
+          <div class="chart-area"><canvas id="chartRatings"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">关键词 Top5</div></div>
+          <ul id="keywordsList" style="padding:8px 4px;display:grid;gap:8px;font-size:14px;color:var(--text-secondary);"></ul>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">反馈列表</div>
+          <div class="actions">
+            <button class="btn" id="refreshFeedback"><i class="fas fa-rotate"></i> 刷新</button>
+          </div>
+        </div>
+        <table class="table" id="feedbackTable">
+          <thead>
+            <tr>
+              <th>时间</th>
+              <th>角色</th>
+              <th>评分</th>
+              <th>内容</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tab-db" class="hidden">
+      <div class="grid cols-3" style="margin:16px 0;">
+        <div class="stat-card">
+          <div class="stat-title">孤立记录</div>
+          <div class="stat-value" id="orphans">0</div>
+          <div class="stat-trend down" id="orphansTrend">-0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">重复数据</div>
+          <div class="stat-value" id="duplicates">0</div>
+          <div class="stat-trend down" id="duplicatesTrend">-0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">待归档</div>
+          <div class="stat-value" id="archives">0</div>
+          <div class="stat-trend down" id="archivesTrend">-0%</div>
+        </div>
+      </div>
+      <div class="panel help" style="margin-bottom:12px;">
+        <div class="panel-header"><div class="panel-title">使用说明</div></div>
+        <ul>
+          <li>孤立记录：无外键关联的残留数据；清理后将减少。</li>
+          <li>重复数据：键值重复的冗余记录；使用去重处理。</li>
+          <li>待归档：历史陈旧数据；归档后从在线表迁移至历史表。</li>
+          <li>重建索引与压缩空间用于性能与存储优化。</li>
+          <li>安全限制：服务端需配置 <code>SUPABASE_SERVICE_ROLE_KEY</code> 才允许写操作；单次删除有上限（≤1000 条）。</li>
+        </ul>
+      </div>
+      <div class="panel" style="margin-bottom:12px;">
+        <div class="panel-header"><div class="panel-title">维护操作</div></div>
+        <div class="actions" style="flex-wrap:wrap;">
+          <button class="btn btn-danger" data-action="cleanup">清理残留数据</button>
+          <button class="btn btn-primary" data-action="dedupe">去重</button>
+          <button class="btn" data-action="reindex">重建索引</button>
+          <button class="btn" data-action="archive">归档旧记录</button>
+          <button class="btn" data-action="vacuum">压缩空间</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title">操作日志</div></div>
+        <div id="dbLogs" style="font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:13px; color:var(--text-secondary); display:grid; gap:6px;"></div>
+      </div>
+    </section>
+
+    <section id="tab-payment" class="hidden">
+      <div class="grid cols-4" style="margin:16px 0;">
+        <div class="stat-card">
+          <div class="stat-title">总收入</div>
+          <div class="stat-value" id="revenueTotal">$0</div>
+          <div class="stat-trend up" id="revenueTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">付费用户</div>
+          <div class="stat-value" id="paidUsers">0</div>
+          <div class="stat-trend up" id="paidUsersTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">转化率</div>
+          <div class="stat-value" id="conversion">0%</div>
+          <div class="stat-trend up" id="conversionTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">月增长</div>
+          <div class="stat-value" id="mrrGrowth">0%</div>
+          <div class="stat-trend up" id="mrrGrowthTrend">+0%</div>
+        </div>
+      </div>
+      <div class="panel help" style="margin-bottom:12px;">
+        <div class="panel-header"><div class="panel-title">使用说明</div></div>
+        <ul>
+          <li>总收入为累计收入；月度收入用于观察季节性。</li>
+          <li>付费用户与转化率用于增长与投放评估。</li>
+          <li>套餐分布可指导定价与促销策略。</li>
+        </ul>
+      </div>
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">月度收入</div></div>
+          <div class="chart-area"><canvas id="chartRevenue"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">套餐分布</div></div>
+          <div class="chart-area"><canvas id="chartPlans"></canvas></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const PASSWORD = 'Badbingo@31415926';
+    const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:8787' : '/api';
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+    const authGate = $('#authGate');
+    const dashboard = $('#dashboard');
+    const enterBtn = $('#enterBtn');
+    const pwdInput = $('#adminPassword');
+    const toggleEye = $('#toggleEye');
+    const authError = $('#authError');
+    const roleFilter = $('#roleFilter');
+    const toast = $('#toast');
+
+    let charts = {};
+
+    function daysAgo(d) { const dt = new Date(); dt.setDate(dt.getDate() - d); return dt.toISOString().slice(0,10); }
+    function fmtPct(v) { return `${Number(v||0).toFixed(1)}%`; }
+    function fmtMoney(v) { return `$${(Number(v)||0).toLocaleString()}`; }
+
+    async function apiGet(path) {
+      const res = await fetch(`${API_BASE}${path}`, { headers: { 'X-Admin-Password': PASSWORD } });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error||'API error');
+      return json;
+    }
+    async function apiPost(path, body, opts={}) {
+      const headers = { 'Content-Type':'application/json', 'X-Admin-Password': PASSWORD, ...(opts.headers||{}) };
+      const res = await fetch(`${API_BASE}${path}`, { method: 'POST', headers, body: JSON.stringify(body||{}) });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error||'API error');
+      return json;
+    }
+
+    function showToast(text) {
+      toast.textContent = text;
+      toast.style.display = 'block';
+      setTimeout(()=> toast.style.display = 'none', 2400);
+    }
+
+    function unlock() {
+      authGate.classList.add('hidden');
+      dashboard.style.display = 'block';
+      sessionStorage.setItem('sf_admin_unlocked', '1');
+    }
+
+    toggleEye.addEventListener('click', () => {
+      const isPw = pwdInput.type === 'password';
+      pwdInput.type = isPw ? 'text' : 'password';
+      toggleEye.innerHTML = isPw ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+    });
+    enterBtn.addEventListener('click', () => {
+      if (pwdInput.value === PASSWORD) { authError.style.display = 'none'; unlock(); init(); }
+      else { authError.style.display = 'block'; }
+    });
+    pwdInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ enterBtn.click(); }});
+
+    if (sessionStorage.getItem('sf_admin_unlocked') === '1') {
+      unlock();
+      init();
+    }
+
+    $$('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        $$('.tab-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const target = btn.getAttribute('data-target');
+        ['tab-users','tab-behavior','tab-feedback','tab-db','tab-payment'].forEach(id => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          if (id === target) el.classList.remove('hidden'); else el.classList.add('hidden');
+        });
+      });
+    });
+
+    roleFilter.addEventListener('change', () => renderAll());
+
+    function init() {
+      renderAll().catch(err => { console.error(err); showToast('后端不可用或未配置'); });
+      bindActions();
+    }
+
+    function bindActions() {
+      $('#refreshUsers').addEventListener('click', async ()=> { try { await renderUsers(); showToast('用户数据已刷新'); } catch(e){ console.error(e); showToast('刷新失败'); } });
+      $('#exportUsers').addEventListener('click', ()=> exportTableCSV('#usersTable', 'users.csv'));
+      $('#refreshFeedback').addEventListener('click', async ()=> { try { await renderFeedback(); showToast('反馈数据已刷新'); } catch(e){ console.error(e); showToast('刷新失败'); } });
+      $('#toggleBanner').addEventListener('click', async ()=> { 
+        try { 
+          await toggleBannerVisibility(); 
+        } catch(e){ 
+          console.error(e); 
+          showToast('Banner 状态切换失败'); 
+        } 
+      });
+      $$('#tab-db [data-action]').forEach(btn=>{
+        btn.addEventListener('click', ()=> runMaintenance(btn.getAttribute('data-action')));
+      });
+    }
+
+    
+
+    async function renderAll() {
+      const tasks = [
+        () => renderUsers(),
+        () => renderBehavior(),
+        () => renderFeedback(),
+        () => renderMaintenance(),
+        () => renderPayment(),
+      ];
+      const results = await Promise.allSettled(tasks.map(t => t()));
+      results.forEach((r, i) => {
+        if (r.status === 'rejected') {
+          const names = ['用户','行为','反馈','维护','付费'];
+          console.error(`加载${names[i]}数据失败:`, r.reason);
+        }
+      });
+    }
+
+    async function renderUsers() {
+      const role = roleFilter.value;
+      const metrics = await apiGet(`/metrics/users?role=${encodeURIComponent(role)}`);
+      const listRes = await apiGet(`/users?role=${encodeURIComponent(role)}`);
+
+      const total = metrics.metrics.total;
+      const parents = metrics.metrics.parents;
+      const students = metrics.metrics.students;
+      const pRatio = parents/(parents+students||1)*100;
+      const sRatio = 100 - pRatio;
+
+      $('#usersTotal').textContent = String(total);
+      $('#parentsTotal').textContent = String(parents);
+      $('#studentsTotal').textContent = String(students);
+      $('#parentsRatio').textContent = fmtPct(pRatio);
+      $('#studentsRatio').textContent = fmtPct(sRatio);
+      $('#usersNew7').textContent = String(metrics.metrics.new7||0);
+      $('#usersGrowth').textContent = '+—';
+      $('#usersNewTrend').textContent = '+—';
+
+      const tbody = $('#usersTable tbody');
+      tbody.innerHTML = '';
+      (listRes.users||[]).slice(0, 200).forEach(u=>{
+        const status = 'active';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td class="name-cell"><span class="name-text">${u.full_name||''}</span><button class="btn btn-danger btn-sm btn-delete" data-id="${u.id}"><i class="fas fa-trash"></i> 删除</button></td><td>${u.email||''}</td><td>${u.role==='parent'?'家长':'学生'}</td><td>${(u.created_at||'').slice(0,10)}</td><td><span class="status ${status==='active'?'active':'inactive'}">${status==='active'?'活跃':'停用'}</span></td>`;
+        const btn = tr.querySelector('.btn-delete');
+        btn.addEventListener('click', async ()=>{
+          const name = u.full_name || u.email || u.id;
+          if (!confirm(`确认删除用户「${name}」？此操作不可恢复`)) return;
+          try {
+            await apiPost('/users/delete', { id: u.id });
+            showToast('删除成功');
+            await renderUsers();
+          } catch (e) {
+            console.error(e);
+            showToast('删除失败');
+          }
+        });
+        tbody.appendChild(tr);
+      });
+
+      const roleCtx = getOrCreateChart('chartUsersRole', 'doughnut');
+      roleCtx.data = { labels: ['家长','学生'], datasets: [{ data: [parents, students], backgroundColor: ['#7c3aed','#0ea5e9'] }] };
+      roleCtx.update();
+
+      const labels = Array.from({length:30}, (_,i)=> daysAgo(29-i));
+      const trendCtx = getOrCreateChart('chartUsersTrend', 'line');
+      trendCtx.data = { labels, datasets: [{ label: '新增用户', data: Array.from({length:30}, ()=> null), borderColor: '#2b6ef2', backgroundColor: 'rgba(43,110,242,0.15)', fill: true, tension: 0.35 }] };
+      trendCtx.update();
+    }
+
+    
+
+    async function renderBehavior() {
+      const role = roleFilter.value;
+      const res = await apiGet(`/metrics/behavior?role=${encodeURIComponent(role)}`);
+      const m = res.metrics;
+      $('#dau').textContent = String(m.dau||0);
+      $('#wau').textContent = String(m.wau||0);
+      $('#avgSession').textContent = `${m.avgSessionMin||0}m`;
+      $('#retention').textContent = fmtPct(m.retentionD1||0);
+      $('#dauTrend').textContent = '+—';
+      $('#wauTrend').textContent = '+—';
+      $('#avgSessionTrend').textContent = '+—';
+      $('#retentionTrend').textContent = '+—';
+
+      const labels = Array.from({length:30}, (_,i)=> daysAgo(29-i));
+      const activeCtx = getOrCreateChart('chartActive','line');
+      activeCtx.data = { labels, datasets: [{ label: '活跃用户', data: (m.active30||[]), borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.15)', fill: true, tension: 0.35 }] };
+      activeCtx.update();
+
+      const feat = m.featureUsage || { labels: [], values: [] };
+      const featCtx = getOrCreateChart('chartFeatureUsage','bar');
+      featCtx.data = { labels: feat.labels, datasets: [{ label: '数量', data: feat.values, backgroundColor: ['#2b6ef2','#0ea5e9','#7c3aed','#f59e0b','#10b981'] }] };
+      featCtx.options = { scales: { y: { beginAtZero: true } } };
+      featCtx.update();
+      
+      // 加载banner状态
+      await loadBannerStatus();
+    }
+    
+    async function loadBannerStatus() {
+      try {
+        const res = await apiGet('/banner/status');
+        const isVisible = res.visible !== false; // 默认为true
+        updateBannerStatusUI(isVisible);
+      } catch (e) {
+        console.error('Failed to load banner status:', e);
+        $('#bannerStatus').textContent = '加载失败';
+        $('#bannerStatus').style.color = 'var(--error)';
+      }
+    }
+    
+    async function toggleBannerVisibility() {
+      try {
+        const res = await apiGet('/banner/status');
+        const currentVisible = res.visible !== false;
+        const newVisible = !currentVisible;
+        
+        const headers = { 'X-Admin-Password': PASSWORD, 'Content-Type': 'application/json' };
+        const response = await fetch(`${API_BASE}/banner/status`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ visible: newVisible })
+        });
+        
+        if (!response.ok) throw new Error('API request failed');
+        
+        updateBannerStatusUI(newVisible);
+        showToast(newVisible ? 'Banner 已显示' : 'Banner 已隐藏');
+        
+      } catch (e) {
+        console.error('Failed to toggle banner:', e);
+        showToast('Banner 状态切换失败');
+      }
+    }
+    
+    function updateBannerStatusUI(isVisible) {
+      $('#bannerStatus').textContent = isVisible ? '显示中' : '已隐藏';
+      $('#bannerStatus').style.color = isVisible ? 'var(--success)' : 'var(--error)';
+      $('#toggleBanner').innerHTML = isVisible ? 
+        '<i class="fas fa-eye-slash"></i> 隐藏 Banner' : 
+        '<i class="fas fa-eye"></i> 显示 Banner';
+    }
+
+    async function renderFeedback() {
+      const all = (await apiGet('/feedback')).items || [];
+      const role = roleFilter.value;
+      const items = role==='all' ? all : all.filter(i=> i.role===role);
+      const count = items.length;
+      const avg = items.reduce((s,i)=>s+Number(i.rating||0),0)/(count||1);
+      $('#avgRating').textContent = avg.toFixed(1);
+      $('#feedbackCount').textContent = String(count);
+      const positive = items.filter(i=>Number(i.rating)>=4).length/(count||1)*100;
+      $('#positiveRatio').textContent = fmtPct(positive);
+      $('#avgRatingTrend').textContent = '+—';
+      $('#feedbackTrend').textContent = '+—';
+      $('#positiveTrend').textContent = '+—';
+      const promoters = items.filter(i=>Number(i.rating)>=4).length/count*100||0;
+      const detractors = items.filter(i=>Number(i.rating)<=2).length/count*100||0;
+      const nps = Math.round(promoters - detractors);
+      $('#nps').textContent = String(nps);
+      $('#npsTrend').textContent = nps>=0? `+${nps}` : String(nps);
+
+      const dist = [1,2,3,4,5].map(r=> items.filter(i=>Number(i.rating)===r).length);
+      const ratingCtx = getOrCreateChart('chartRatings','bar');
+      ratingCtx.data = { labels: ['1','2','3','4','5'], datasets: [{ label:'数量', data: dist, backgroundColor: ['#ef4444','#f59e0b','#eab308','#22c55e','#10b981'] }] };
+      ratingCtx.update();
+
+      const keywords = ['作业','提醒','家长','语音','速度','界面'];
+      const kList = $('#keywordsList');
+      kList.innerHTML = '';
+      keywords.forEach((k,i)=>{
+        const li = document.createElement('li');
+        li.textContent = `${i+1}. ${k}`;
+        kList.appendChild(li);
+      });
+
+      const tbody = $('#feedbackTable tbody');
+      tbody.innerHTML = '';
+      items.slice(0,200).forEach(f=>{
+        const tr = document.createElement('tr');
+        const at = (f.created_at||'').slice(0,10);
+        tr.innerHTML = `<td>${at}</td><td>${f.role==='parent'?'家长':'学生'}</td><td>${f.rating}</td><td>${escapeHtml(f.text||'')}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function renderMaintenance() {
+      const res = await apiGet('/maintenance/preview');
+      const m = res.metrics;
+      $('#orphans').textContent = String(m.orphans||0);
+      $('#duplicates').textContent = String(m.duplicates||0);
+      $('#archives').textContent = String(m.archives||0);
+      $('#orphansTrend').textContent = '—';
+      $('#duplicatesTrend').textContent = '—';
+      $('#archivesTrend').textContent = '—';
+      if (!$('#dbLogs').dataset.init) {
+        $('#dbLogs').dataset.init = '1';
+        $('#dbLogs').innerHTML = '';
+        logDb('准备就绪');
+      }
+    }
+
+    async function runMaintenance(action) {
+      const map = { cleanup: '清理残留数据', dedupe: '去重', reindex: '重建索引', archive: '归档旧记录', vacuum: '压缩空间' };
+      logDb(`${map[action]}开始`);
+      showToast(`${map[action]}执行中`);
+      const btns = $$('#tab-db [data-action]');
+      btns.forEach(b=> b.disabled = true);
+      try {
+        const headers = { 'X-Admin-Password': PASSWORD };
+        const path = action==='cleanup' || action==='dedupe' || action==='reindex' || action==='archive' || action==='vacuum'
+          ? `/maintenance/${action}` : '';
+        if (path) {
+          const res = await fetch(`${API_BASE}${path}`, { method: 'POST', headers });
+          const json = await res.json();
+          if (!json.ok) throw new Error(json.error||'API error');
+        }
+        logDb(`${map[action]}完成`);
+        await renderMaintenance();
+        showToast(`${map[action]}完成`);
+      } catch (e) {
+        logDb(`${map[action]}失败: ${e.message}`);
+        showToast(`${map[action]}失败`);
+      } finally {
+        btns.forEach(b=> b.disabled = false);
+      }
+    }
+
+    function logDb(msg) {
+      const d = new Date().toISOString().replace('T',' ').slice(0,19);
+      const row = document.createElement('div');
+      row.textContent = `[${d}] ${msg}`;
+      $('#dbLogs').prepend(row);
+    }
+
+    async function renderPayment() {
+      const res = await apiGet('/metrics/payment');
+      const p = res.metrics || {};
+      $('#revenueTotal').textContent = p.unavailable ? 'N/A' : fmtMoney(p.revenueTotal||0);
+      $('#paidUsers').textContent = p.unavailable ? 'N/A' : String(p.paidUsers||0);
+      $('#conversion').textContent = p.unavailable ? 'N/A' : fmtPct(p.conversion||0);
+      $('#mrrGrowth').textContent = p.unavailable ? 'N/A' : fmtPct(p.mrrGrowth||0);
+      $('#revenueTrend').textContent = '—';
+      $('#paidUsersTrend').textContent = '—';
+      $('#conversionTrend').textContent = '—';
+      $('#mrrGrowthTrend').textContent = '—';
+
+      const months = Array.from({length:12}, (_,i)=> `${i+1}月`);
+      const revCtx = getOrCreateChart('chartRevenue','bar');
+      revCtx.data = { labels: months, datasets: [{ label: '收入', data: p.revenueMonthly||[], backgroundColor: '#2b6ef2' }] };
+      revCtx.options = { scales: { y: { beginAtZero: true, ticks: { callback: v=> '$'+v } } } };
+      revCtx.update();
+
+      const planCtx = getOrCreateChart('chartPlans','doughnut');
+      const plans = p.plans || { labels: [], values: [] };
+      planCtx.data = { labels: plans.labels, datasets: [{ data: plans.values, backgroundColor: ['#0ea5e9','#10b981','#7c3aed'] }] };
+      planCtx.update();
+    }
+
+    function getOrCreateChart(id, type) {
+      if (charts[id]) return charts[id];
+      const ctx = document.getElementById(id).getContext('2d');
+      charts[id] = new Chart(ctx, { type, data: {}, options: { plugins: { legend: { labels: { usePointStyle: true } } }, responsive: true, maintainAspectRatio: false, resizeDelay: 100 } });
+      return charts[id];
+    }
+
+    function exportTableCSV(selector, filename) {
+      const rows = $$(selector + ' tr').map(tr => $$("td,th", tr).map(td => '"'+(td.innerText||'').replace(/"/g,'""')+'"').join(','));
+      const csv = rows.join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function escapeHtml(s) { return s.replace(/[&<>"]+/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+  </script>
+</body>
+</html>
