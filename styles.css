@@ -900,11 +900,43 @@ img {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.glass-inner h4 {
+    color: white;
+}
+
+.glass-inner p {
+    color: rgba(255, 255, 255, 0.8);
+}
+
 .feature-fullwidth {
     padding: 140px 0;
 }
 
 .text-white { color: white !important; }
+
+/* New: Subtle background for Focus Section to reduce emptiness */
+.bg-soft-gradient {
+    background: linear-gradient(135deg, #fdfbf7 0%, #f4f6f9 100%);
+    position: relative;
+}
+
+.bg-soft-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(#4f46e5 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.05;
+    z-index: 0;
+}
+
+.bg-soft-gradient .container {
+    position: relative;
+    z-index: 1;
+}
 
 /* =========================================
    12. RESPONSIVE DESIGN
