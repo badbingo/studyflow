@@ -1005,20 +1005,6 @@ body {
     }
 }
 
-@media (max-width: 480px) {
-    .hero-title {
-        font-size: 2.5rem;
-    }
-    
-    .section-header h2 {
-        font-size: 2.5rem;
-    }
-    
-    .feature-card {
-        padding: 30px 20px;
-    }
-
-
 .stat-item:hover {
     transform: translateY(-5px);
     background: rgba(255, 255, 255, 0.15);
@@ -2006,21 +1992,6 @@ body {
 }
 
 @media (max-width: 480px) {
-    .feature-previews {
-        grid-template-columns: 1fr;
-    }
-    
-    .usp-features {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .cta-title {
-        font-size: 1.8rem;
-    }
-}
-
-@media (max-width: 480px) {
     .nav-container {
         padding: 0.8rem 12px;
     }
@@ -2753,4 +2724,5 @@ body {
     .comparison-table table {
         min-width: 500px;
     }
+}
 }
