@@ -1014,33 +1014,62 @@ img {
 }
 
 @media (max-width: 768px) {
+    /* Navigation */
     .nav-links, .nav-actions { display: none; }
     .mobile-menu-toggle { display: block; }
     
     .nav-links.active {
         display: flex;
         flex-direction: column;
-        position: absolute;
+        position: fixed;
         top: 80px;
         left: 0;
         width: 100%;
+        height: calc(100vh - 80px);
         background: white;
-        padding: 20px;
+        padding: 40px 20px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         border-top: 1px solid rgba(0,0,0,0.05);
         align-items: center;
-        gap: 20px;
+        gap: 30px;
+        overflow-y: auto;
+        z-index: 999;
     }
 
-    .hero-container { flex-direction: column; text-align: center; padding-top: 40px; }
-    .hero-btns { justify-content: center; }
-    .hero-trust .school-logos { justify-content: center; }
-    .phone-mockup { width: 260px; }
+    .nav-links.active a {
+        font-size: 1.25rem;
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+
+    /* General Layout */
+    .section { padding: 60px 0; }
+    .hero { padding-top: 120px; padding-bottom: 60px; }
     
-    .values-grid, .reviews-grid { grid-template-columns: 1fr; }
+    /* Typography */
+    .hero h1 { font-size: 2.5rem; }
+    .hero-desc { font-size: 1.1rem; margin-bottom: 30px; }
     
-    .footer-top { flex-direction: column; gap: 40px; }
-    .footer-nav { flex-direction: column; gap: 40px; }
+    /* Hero Section */
+    .hero-container { flex-direction: column; text-align: center; gap: 40px; }
+    .hero-btns { justify-content: center; flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto 40px; }
+    .hero-btns .btn { width: 100%; justify-content: center; }
+    .hero-trust .school-logos { justify-content: center; flex-wrap: wrap; gap: 20px; }
     
-    .cta-buttons { flex-direction: column; }
+    /* Phone Mockup */
+    .phone-mockup { width: 260px; margin: 0 auto; }
+    .float-card { display: none; } /* Hide floating cards on mobile */
+    
+    /* Grids */
+    .values-grid, .reviews-grid, .feature-cards { grid-template-columns: 1fr; gap: 30px; }
+    
+    /* CTA Section */
+    .cta-content { padding: 60px 24px; }
+    .cta-content h2 { font-size: 1.75rem; }
+    .cta-buttons { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto; }
+    .cta-buttons .btn { width: 100%; justify-content: center; }
+    
+    /* Footer - ensure simple footer looks good */
+    .footer-simple-content { padding: 0 20px; }
 }
