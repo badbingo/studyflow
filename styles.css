@@ -573,6 +573,13 @@ img {
     align-items: flex-start;
 }
 
+.ui-approve-large {
+    top: 40%;
+    right: -40px;
+    align-items: flex-start;
+    padding: 16px 24px;
+}
+
 .ui-avatar {
     width: 32px;
     height: 32px;
@@ -1001,7 +1008,91 @@ img {
 }
 
 /* =========================================
-   12. RESPONSIVE DESIGN
+   12. NEW COMPONENTS (Feature Expansion)
+   ========================================= */
+.text-primary { color: var(--primary); }
+.color-purple { color: #8B5CF6; }
+
+/* Grid 4 columns */
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+/* Feature List Grid */
+.features-list-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+
+/* UI Reward */
+.ui-reward {
+    top: 40%;
+    right: -30px;
+    animation-delay: 1s;
+}
+
+.ui-icon-box {
+    width: 36px;
+    height: 36px;
+    background: #F59E0B;
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Research Insight */
+.research-insight {
+    margin-top: 32px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    border-left: 4px solid var(--secondary);
+}
+
+.research-insight h4 {
+    color: white;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.research-insight p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* Tilt Right */
+.tilt-right {
+    transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+    transition: transform 0.5s ease;
+}
+
+.tilt-right:hover {
+    transform: perspective(1000px) rotateY(0) rotateX(0);
+}
+
+/* =========================================
+   13. RESPONSIVE DESIGN
    ========================================= */
 @media (max-width: 1024px) {
     .hero h1 { font-size: 3rem; }
@@ -1062,7 +1153,7 @@ img {
     .float-card { display: none; } /* Hide floating cards on mobile */
     
     /* Grids */
-    .values-grid, .reviews-grid, .feature-cards { grid-template-columns: 1fr; gap: 30px; }
+    .values-grid, .reviews-grid, .feature-cards, .features-list-grid { grid-template-columns: 1fr; gap: 30px; }
     
     /* CTA Section */
     .cta-content { padding: 60px 24px; }
