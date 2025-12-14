@@ -19,7 +19,6 @@
             <div class="nav-links">
                 <a href="#students">For Students</a>
                 <a href="#parents">For Parents</a>
-                <a href="#features">Key Features</a>
                 <a href="#reviews">Reviews</a>
             </div>
 
@@ -91,33 +90,66 @@
         </div>
     </section>
 
-    <!-- For Students Section -->
-    <section id="students" class="section feature-zigzag">
+    <!-- For Students Section (Redesigned) -->
+    <section id="students" class="feature-grid-section">
         <div class="container">
-            <div class="zigzag-row">
-                <div class="zigzag-content fade-in-left">
-                    <div class="feature-tag color-orange">For Students</div>
-                    <h2>Focus, Finish, Feel Proud</h2>
-                    <p class="lead">Studyflow Club helps students take control of their learning and build confidence through visible progress.</p>
-                    <ul class="check-list">
-                        <li><i class="fas fa-list-check"></i> <strong>Plan & Prioritize:</strong> Organize homework, exams, and study goals with clear priorities.</li>
-                        <li><i class="fas fa-layer-group"></i> <strong>Manageable Steps:</strong> Break big tasks into simple, manageable study sessions.</li>
-                        <li><i class="fas fa-hourglass-half"></i> <strong>Pomodoro Timer:</strong> Stay focused with customizable study and break intervals.</li>
-                        <li><i class="fas fa-chart-line"></i> <strong>Track Progress:</strong> Easy-to-read charts showing growth over time.</li>
-                        <li><i class="fas fa-book-open"></i> <strong>Notes & Logs:</strong> Keep notes and revision logs right next to tasks.</li>
-                        <li><i class="fas fa-users"></i> <strong>Connect & Share:</strong> Share tips and celebrate milestones with classmates.</li>
-                        <li><i class="fas fa-gift"></i> <strong>Earn Rewards:</strong> Turn completed goals into reward requests approved by parents.</li>
-                        <li><i class="fas fa-magic"></i> <strong>AI Quick Input:</strong> Snap a photo of your timetable or use voice to add homework instantly.</li>
-                    </ul>
-                    <p class="mt-4"><strong>Less stress. More focus. Real motivation.</strong></p>
+            <div class="section-header">
+                <div class="badge-new mb-3" style="margin-bottom: 16px;">
+                    <span class="badge-icon">🎓</span>
+                    <span>For Students</span>
                 </div>
-                <div class="zigzag-image fade-in-right">
-                    <div class="image-frame">
-                        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Focused Student">
-                         <div class="floating-ui ui-scan">
-                            <i class="fas fa-camera"></i> AI Auto-Schedule
-                        </div>
-                    </div>
+                <h2>Focus, Finish, Feel Proud</h2>
+                <p class="lead mt-3">Take control of your learning. Studyflow Club gives you the tools to organize, focus, and see your own progress.</p>
+            </div>
+
+            <div class="feature-bento-grid">
+                <!-- Card 1 -->
+                <div class="bento-card fade-in-up">
+                    <div class="icon-box"><i class="fas fa-list-check"></i></div>
+                    <h3>Plan & Prioritize</h3>
+                    <p>Organize homework, exams, and study goals with clear priorities so you never feel overwhelmed.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bento-card fade-in-up delay-100">
+                    <div class="icon-box"><i class="fas fa-layer-group"></i></div>
+                    <h3>Manageable Steps</h3>
+                    <p>Break big, scary tasks into simple, manageable study sessions you can actually finish.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bento-card fade-in-up delay-200">
+                    <div class="icon-box"><i class="fas fa-hourglass-half"></i></div>
+                    <h3>Pomodoro Timer</h3>
+                    <p>Stay focused with a built-in timer that balances intense study intervals with refreshing breaks.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="bento-card fade-in-up">
+                    <div class="icon-box"><i class="fas fa-chart-line"></i></div>
+                    <h3>Track Progress</h3>
+                    <p>Watch your growth charts go up as you complete tasks. Visible progress is the best motivation.</p>
+                </div>
+                <!-- Card 5 -->
+                <div class="bento-card fade-in-up delay-100">
+                    <div class="icon-box"><i class="fas fa-magic"></i></div>
+                    <h3>AI Quick Input</h3>
+                    <p>Snap a photo of your timetable or use voice commands to add homework instantly. No typing needed.</p>
+                </div>
+                <!-- Card 6 -->
+                <div class="bento-card fade-in-up delay-200">
+                    <div class="icon-box"><i class="fas fa-book-open"></i></div>
+                    <h3>Notes & Logs</h3>
+                    <p>Keep subject notes and revision logs right next to your tasks for easy review.</p>
+                </div>
+                <!-- Card 7 -->
+                <div class="bento-card fade-in-up">
+                    <div class="icon-box"><i class="fas fa-users"></i></div>
+                    <h3>Connect & Share</h3>
+                    <p>Share study tips and celebrate milestones with classmates in a safe, positive space.</p>
+                </div>
+                <!-- Card 8 -->
+                <div class="bento-card fade-in-up delay-100">
+                    <div class="icon-box"><i class="fas fa-gift"></i></div>
+                    <h3>Earn Rewards</h3>
+                    <p>Turn completed goals into reward requests (like "Movie Night") that parents can approve.</p>
                 </div>
             </div>
         </div>
@@ -128,35 +160,54 @@
         <div class="parallax-bg"></div>
         <div class="overlay-dark"></div>
         <div class="container">
-            <div class="zigzag-row reverse">
-                <div class="zigzag-content fade-in-right glass-card-dark">
-                    <div class="feature-tag color-green">For Parents</div>
-                    <h2 class="text-white">Support Without Stress</h2>
-                    <p class="lead text-light-gray">Studyflow Club helps parents guide and encourage learning—without hovering or constant reminders.</p>
-                    
-                    <ul class="check-list">
-                        <li><i class="fas fa-users-cog"></i> <strong>Family Hub:</strong> Link and manage up to 4 students from one account.</li>
-                        <li><i class="fas fa-eye"></i> <strong>Visibility:</strong> View schedules, deadlines, and progress at a glance.</li>
-                        <li><i class="fas fa-comment-dots"></i> <strong>Encourage:</strong> Send messages and timely reminders.</li>
-                        <li><i class="fas fa-thumbs-up"></i> <strong>Approve Rewards:</strong> Approve rewards tied to completed goals, reinforcing positive habits.</li>
-                        <li><i class="fas fa-hand-holding-heart"></i> <strong>Supportive:</strong> Stay involved in a structured way—without micromanaging.</li>
-                    </ul>
-                    
-                    <p class="text-white mt-3">See effort clearly. Celebrate progress confidently.</p>
-
-                    <div class="research-insight glass-inner mt-4">
-                        <h4><i class="fas fa-lightbulb"></i> Why Parental Support Matters</h4>
-                        <p>Research shows that students who feel supported at home are more organized, focused, and motivated. Studyflow Club bridges the gap between school and home, helping parents recognize effort, celebrate achievements, and reinforce strong study habits—without adding pressure or conflict.</p>
-                    </div>
+            <div class="section-header text-center mb-5" style="margin-bottom: 60px;">
+                <div class="badge-new mb-3" style="background: rgba(16, 185, 129, 0.2); color: #6ee7b7; margin-bottom: 16px;">
+                    <span class="badge-icon">👨‍👩‍👧‍👦</span>
+                    <span>For Parents</span>
                 </div>
-                <div class="zigzag-image fade-in-left">
-                    <div class="floating-ui ui-approve-large">
-                        <div class="ui-avatar"></div>
-                        <div>
-                            <span>Alex requested "Gaming Hour"</span>
-                            <div class="ui-btn-xs">Approve</div>
-                        </div>
-                    </div>
+                <h2 class="text-white">Support Without Stress</h2>
+                <p class="lead text-light-gray max-w-800 mx-auto">
+                    Studyflow Club bridges the gap between school and home. You get visibility and tools to encourage, while they get the independence to grow.
+                </p>
+            </div>
+
+            <div class="glass-grid-container">
+                <!-- Parent Feature 1 -->
+                <div class="glass-feature-card fade-in-up">
+                    <div class="glass-icon"><i class="fas fa-users-cog"></i></div>
+                    <h4>Family Hub</h4>
+                    <p>Link up to 4 students. Manage everyone's schedule from one simple dashboard.</p>
+                </div>
+
+                <!-- Parent Feature 2 -->
+                <div class="glass-feature-card fade-in-up delay-100">
+                    <div class="glass-icon"><i class="fas fa-eye"></i></div>
+                    <h4>Real Visibility</h4>
+                    <p>See upcoming deadlines and completed tasks without asking "Did you do your homework?"</p>
+                </div>
+
+                <!-- Parent Feature 3 -->
+                <div class="glass-feature-card fade-in-up delay-200">
+                    <div class="glass-icon"><i class="fas fa-thumbs-up"></i></div>
+                    <h4>Approve Rewards</h4>
+                    <p>When they finish tasks, they request rewards. You approve them. Positive reinforcement made easy.</p>
+                </div>
+
+                <!-- Parent Feature 4 -->
+                <div class="glass-feature-card fade-in-up">
+                    <div class="glass-icon"><i class="fas fa-comment-dots"></i></div>
+                    <h4>Encouragement</h4>
+                    <p>Send quick nudges or "Great job!" messages to keep morale high.</p>
+                </div>
+            </div>
+
+            <div class="research-insight glass-inner mt-5 fade-in-up">
+                <div style="display: flex; align-items: center; gap: 24px;">
+                     <div class="icon-circle bg-white" style="min-width: 48px; height: 48px; color: var(--primary);"><i class="fas fa-lightbulb"></i></div>
+                     <div>
+                        <h4 style="margin-bottom: 8px;">Why This Works</h4>
+                        <p style="margin-bottom: 0;">Research shows that students with supportive (but not controlling) parental involvement are more organized and motivated. We built Studyflow Club to make that balance easy.</p>
+                     </div>
                 </div>
             </div>
         </div>
@@ -166,61 +217,40 @@
     <section class="section values-section bg-light">
         <div class="container">
             <div class="section-header text-center">
-                <h2>Why Studyflow Club Works for Grades 6–12</h2>
+                <h2>Why Studyflow Club Works</h2>
                 <p>The first app to combine student planning, family collaboration, rewards, community, and AI smart input in one platform.</p>
             </div>
-            <div class="values-grid grid-3">
-                <div class="value-item fade-in">
-                    <div class="value-icon"><i class="fas fa-school"></i></div>
+            <div class="feature-bento-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="bento-card fade-in">
+                    <div class="icon-box"><i class="fas fa-school"></i></div>
                     <h3>Real School Life</h3>
                     <p>Designed for daily assignments, weekly cycles, and exam timelines.</p>
                 </div>
-                <div class="value-item fade-in delay-100">
-                    <div class="value-icon"><i class="fas fa-bullseye"></i></div>
+                <div class="bento-card fade-in delay-100">
+                    <div class="icon-box"><i class="fas fa-bullseye"></i></div>
                     <h3>Focus Tools</h3>
                     <p>Help students prioritize what matters most today.</p>
                 </div>
-                <div class="value-item fade-in delay-200">
-                    <div class="value-icon"><i class="fas fa-seedling"></i></div>
+                <div class="bento-card fade-in delay-200">
+                    <div class="icon-box"><i class="fas fa-seedling"></i></div>
                     <h3>Gentle Habit-Building</h3>
                     <p>Turns small wins into lasting progress.</p>
                 </div>
-                <div class="value-item fade-in">
-                    <div class="value-icon"><i class="fas fa-user-friends"></i></div>
+                <div class="bento-card fade-in">
+                    <div class="icon-box"><i class="fas fa-user-friends"></i></div>
                     <h3>Peer Inspiration</h3>
                     <p>Boosts motivation and consistency.</p>
                 </div>
-                <div class="value-item fade-in delay-100">
-                    <div class="value-icon"><i class="fas fa-trophy"></i></div>
+                <div class="bento-card fade-in delay-100">
+                    <div class="icon-box"><i class="fas fa-trophy"></i></div>
                     <h3>Goal-Based Rewards</h3>
                     <p>Reinforce effort and achievement.</p>
                 </div>
-                <div class="value-item fade-in delay-200">
-                    <div class="value-icon"><i class="fas fa-robot"></i></div>
+                <div class="bento-card fade-in delay-200">
+                    <div class="icon-box"><i class="fas fa-robot"></i></div>
                     <h3>AI-Powered Input</h3>
                     <p>Removes friction and saves time.</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Key Features List -->
-    <section id="features" class="section">
-        <div class="container">
-            <div class="section-header text-center">
-                <h2>Key Features</h2>
-            </div>
-            <div class="features-list-grid">
-                <div class="feature-list-item"><i class="fas fa-check text-primary"></i> Homework & Exam Planning</div>
-                <div class="feature-list-item"><i class="fas fa-check text-primary"></i> Study Session Scheduling & Smart Reminders</div>
-                <div class="feature-list-item"><i class="fas fa-check text-primary"></i> Pomodoro Timer for Focused Work</div>
-                <div class="feature-list-item"><i class="fas fa-check text-primary"></i> Progress Insights & Activity Tracking</div>
-                <div class="feature-list-item"><i class="fas fa-check text-primary"></i> Notes & Revision Logs</div>
-                <div class="feature-list-item"><i class="fas fa-check text-primary"></i> Clean Calendar-Style Schedule View</div>
-                <div class="feature-list-item"><i class="fas fa-check text-primary"></i> Student & Parent Modes (Up to 4 Linked Students)</div>
-                <div class="feature-list-item"><i class="fas fa-check text-primary"></i> Real-Time Student Posts & Learning Community</div>
-                <div class="feature-list-item"><i class="fas fa-check text-primary"></i> Reward Requests with Parent Approval</div>
-                <div class="feature-list-item"><i class="fas fa-check text-primary"></i> AI-Powered Timetable & Homework Input (Photo + Voice)</div>
             </div>
         </div>
     </section>
