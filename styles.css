@@ -1164,3 +1164,166 @@ img {
     /* Footer - ensure simple footer looks good */
     .footer-simple-content { padding: 0 20px; }
 }
+
+/* =========================================
+   14. NEW UTILITIES
+   ========================================= */
+.max-w-800 { max-width: 800px; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 2rem; }
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+/* =========================================
+   15. FEATURE GRID SYSTEM (NEW)
+   ========================================= */
+.feature-grid-section {
+    background: var(--light-bg);
+    position: relative;
+    padding: 100px 0;
+}
+
+.feature-grid-section .section-header {
+    margin-bottom: 60px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.feature-bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto auto;
+    gap: 24px;
+}
+
+.bento-card {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+}
+
+.bento-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    border-color: rgba(79, 70, 229, 0.1);
+}
+
+.bento-card .icon-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+}
+
+.bento-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.bento-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Specific Card Sizes if needed (optional for variety) */
+.bento-span-2 {
+    grid-column: span 2;
+}
+
+@media (max-width: 1024px) {
+    .feature-bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .feature-bento-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   16. GLASS GRID SYSTEM (NEW - PARENTS)
+   ========================================= */
+.glass-grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.glass-feature-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 32px 24px;
+    transition: all 0.3s ease;
+}
+
+.glass-feature-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.glass-feature-card .glass-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary); /* Green for parents */
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+}
+
+.glass-feature-card h4 {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.glass-feature-card p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.text-light-gray {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+@media (max-width: 1024px) {
+    .glass-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .glass-grid-container {
+        grid-template-columns: 1fr;
+    }
+}
