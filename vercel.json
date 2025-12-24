@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "admin-api/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "studyflow-web/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/admin-api/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/studyflow-web/$1"
+    }
+  ],
+  "functions": {
+    "admin-api/server.js": {
+      "maxDuration": 30
+    }
+  }
+}

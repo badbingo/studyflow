@@ -1,0 +1,3232 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Studyflow · 管理后台</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --primary: #2b6ef2;
+      --primary-hover: #1f5fe0;
+      --primary-light: #eef4ff;
+      --success: #12b76a;
+      --success-light: #ecfdf3;
+      --error: #f04438;
+      --error-light: #fef3f2;
+      --warning: #f79009;
+      --text-primary: #1a1f2c;
+      --text-secondary: #667085;
+      --text-muted: #98a2b3;
+      --border: #e4e7ec;
+      --border-light: #f2f4f7;
+      --background: #f9fafb;
+      --surface: #ffffff;
+      --shadow: 0 20px 40px rgba(16, 24, 40, 0.12);
+      --shadow-sm: 0 4px 12px rgba(16, 24, 40, 0.08);
+      --radius-lg: 20px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --accent: #7c3aed;
+    }
+
+    html, body {
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary-light) 0%, #f5f7ff 100%);
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      color: var(--text-primary);
+    }
+
+    .admin-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .admin-header-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .brand i {
+      background: linear-gradient(135deg, var(--primary), #4f86f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 24px;
+    }
+    .role-switch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+    .role-switch select {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      background: var(--surface);
+      color: var(--text-primary);
+      outline: none;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 12px;
+      padding: 12px 24px;
+      max-width: 1320px;
+      margin: 0 auto;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-primary);
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--primary), #4f86f7);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 6px 16px rgba(43,110,242,0.25);
+    }
+
+    .dashboard {
+      max-width: 1320px;
+      margin: 8px auto 24px;
+      padding: 0 24px;
+      display: none;
+    }
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+    .grid.cols-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .grid.cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .grid.cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @media (max-width: 1100px) {
+      .grid.cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 720px) {
+      .grid.cols-4, .grid.cols-3, .grid.cols-2 { grid-template-columns: 1fr; }
+    }
+
+    /* 移动设备优化样式 - 全面美化 */
+    @media (max-width: 768px) {
+      /* 基础布局优化 */
+      .admin-header-inner {
+        padding: 12px 16px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      
+      .brand {
+        justify-content: center;
+      }
+      
+      .role-switch {
+        justify-content: space-between;
+        background: var(--background);
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border-light);
+      }
+      
+      .tabs {
+        padding: 0 16px 12px;
+        margin: 0;
+        gap: 8px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .tabs::-webkit-scrollbar { display: none; }
+      
+      .tab-btn {
+        flex: 0 0 auto;
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+
+      .dashboard {
+        padding: 0 16px;
+        margin-top: 16px;
+      }
+
+      /* 统计卡片优化 */
+      .grid.cols-4, .grid.cols-3 {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px;
+      }
+      
+      .stat-card {
+        padding: 16px;
+      }
+      
+      .stat-value {
+        font-size: 24px;
+      }
+      
+      .stat-title {
+        font-size: 13px;
+      }
+
+      /* 表格转卡片视图 - 核心优化 */
+      .table-container {
+        overflow: visible;
+        margin: 0;
+        padding: 0;
+      }
+
+      .table thead { display: none; }
+
+      .table tbody tr {
+        display: block;
+        background: var(--surface);
+        border: none;
+        border-radius: 16px;
+        margin-bottom: 20px;
+        padding: 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+        position: relative;
+        transition: transform 0.2s;
+      }
+      
+      .table tbody tr:active {
+        transform: scale(0.99);
+      }
+
+      .table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 0;
+        border: none;
+        border-bottom: 1px dashed var(--border-light);
+        text-align: right;
+        font-size: 14px;
+        color: var(--text-primary);
+      }
+
+      .table td:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      /* 用户列表标签 */
+      #usersTable td:nth-of-type(1)::before { content: ""; display: none; }
+      #usersTable td:nth-of-type(2)::before { content: "邮箱"; font-weight: 500; color: var(--text-secondary); font-size: 13px; }
+      #usersTable td:nth-of-type(3)::before { content: "角色"; font-weight: 500; color: var(--text-secondary); font-size: 13px; }
+      #usersTable td:nth-of-type(4)::before { content: "注册时间"; font-weight: 500; color: var(--text-secondary); font-size: 13px; }
+      #usersTable td:nth-of-type(5)::before { content: "状态"; font-weight: 500; color: var(--text-secondary); font-size: 13px; }
+
+      /* 姓名列特殊处理 - 卡片头部风格 */
+      #usersTable td:nth-of-type(1) {
+        border-bottom: 1px solid var(--border-light);
+        background: linear-gradient(to right, rgba(43,110,242,0.03), transparent);
+        padding: 16px;
+        margin: -16px -16px 12px -16px;
+        border-radius: 16px 16px 0 0;
+        justify-content: space-between;
+      }
+      
+      .name-cell {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .name-text {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      /* 删除按钮美化 - 仅图标 */
+      .name-cell .btn-delete {
+        background: transparent;
+        border: none;
+        padding: 8px;
+        box-shadow: none;
+        color: var(--text-muted);
+        font-size: 0; /* 隐藏文字 */
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+      }
+      .name-cell .btn-delete i {
+        font-size: 16px;
+        color: var(--text-muted);
+        transition: color 0.2s;
+      }
+      .name-cell .btn-delete:active {
+        background: var(--error-light);
+      }
+      .name-cell .btn-delete:active i {
+        color: var(--error);
+      }
+
+      /* 反馈列表优化 */
+      #feedbackTable thead { display: none; }
+      #feedbackTable tbody tr {
+        display: block;
+        background: var(--surface);
+        border: 1px solid var(--border-light);
+        border-radius: 16px;
+        margin-bottom: 16px;
+        padding: 16px;
+        box-shadow: var(--shadow-sm);
+      }
+      #feedbackTable td {
+        display: block;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border-light);
+        text-align: left;
+      }
+      #feedbackTable td:last-child { border-bottom: none; }
+
+      /* 弹窗优化 */
+      .modal-content {
+        width: 92%;
+        margin: 20px auto;
+        max-height: 90vh;
+        overflow-y: auto;
+        border-radius: 20px;
+      }
+      
+      .detail-item {
+        grid-template-columns: 80px 1fr;
+        gap: 12px;
+      }
+      
+      /* 其他微调 */
+      .panel {
+        border-radius: 16px;
+      }
+      
+      .chart-area {
+        height: 200px;
+      }
+      
+      /* 紧凑统计卡片网格优化 */
+      .compact-stats-grid {
+        gap: 8px;
+        padding-bottom: 8px; /* 为滚动条留空 */
+      }
+      .compact-stat-card {
+        min-width: 100px;
+        padding: 12px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .admin-header {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+      }
+      
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .tabs {
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+      
+      .tab-btn {
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      
+      .user-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      
+      .user-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+      
+      .maintenance-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      
+      .maintenance-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      gap: 8px;
+    }
+    .stat-title { color: var(--text-secondary); font-size: 12px; font-weight: 600; }
+    .stat-value { font-size: 24px; font-weight: 800; color: var(--text-primary); }
+    .stat-trend { font-size: 11px; font-weight: 600; }
+    .up { color: var(--success); }
+    .down { color: var(--error); }
+
+    /* 紧凑统计卡片布局 */
+    .compact-stats-grid {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+    
+    .compact-stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 12px 8px;
+      box-shadow: var(--shadow-sm);
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .compact-stat-value {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+    
+    .compact-stat-title {
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+    
+    .compact-stat-trend {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 4px;
+      border-radius: 4px;
+      background: var(--background);
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 1024px) {
+      .compact-stat-card {
+        padding: 10px 6px;
+        min-width: 80px;
+      }
+      
+      .compact-stat-value {
+        font-size: 16px;
+      }
+      
+      .compact-stat-title {
+        font-size: 10px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .compact-stats-grid {
+        gap: 6px;
+      }
+      
+      .compact-stat-card {
+        padding: 8px 4px;
+        min-width: 70px;
+      }
+      
+      .compact-stat-value {
+        font-size: 14px;
+      }
+      
+      .compact-stat-title {
+        font-size: 9px;
+      }
+      
+      .compact-stat-trend {
+        font-size: 9px;
+        padding: 1px 3px;
+      }
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .panel-title { font-size: 15px; font-weight: 700; }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .table th, .table td {
+      border-bottom: 1px solid var(--border-light);
+      padding: 12px;
+      text-align: left;
+      font-size: 14px;
+    }
+    .table th {
+      background: #f7f9ff;
+      color: var(--text-secondary);
+      font-weight: 700;
+    }
+    .status {
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-block;
+    }
+    .status.active { background: var(--success-light); color: var(--success); }
+    .status.idle { background: #fff6ed; color: #f97316; }
+    .status.lost { background: #f3f4f6; color: #6b7280; }
+
+      .actions { display: flex; gap: 8px; }
+    .btn {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(16,24,40,0.06); }
+    .btn-primary { background: var(--primary); color: white; border-color: transparent; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-danger { background: var(--error); border-color: transparent; color: white; }
+    .btn-ghost { background: transparent; }
+    .btn-sm { padding: 4px 8px; font-size: 12px; border-radius: 6px; }
+
+    .name-cell { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .name-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      background: var(--text-primary);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      display: none;
+      z-index: 50;
+      font-size: 14px;
+    }
+
+    .auth-gate {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary-light) 0%, #f2f6ff 100%);
+      z-index: 100;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+    .auth-header { text-align: center; margin-bottom: 16px; }
+    .auth-title { font-weight: 800; font-size: 22px; background: linear-gradient(135deg, var(--primary), #4f86f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .auth-subtitle { color: var(--text-secondary); font-size: 14px; }
+    .input-row { margin-top: 16px; position: relative; }
+    .input-row input {
+      width: 100%;
+      padding: 12px 40px 12px 12px;
+      font-size: 15px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      background: var(--background);
+    }
+    .input-row input:focus { border-color: var(--primary); background: var(--surface); box-shadow: 0 0 0 4px rgba(43,110,242,0.08); }
+    .toggle-eye {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .auth-error { display: none; margin-top: 10px; color: var(--error); font-size: 13px; }
+    .auth-actions { margin-top: 16px; display: grid; gap: 10px; }
+
+    .hidden { display: none !important; }
+
+    .help { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+    .help ul { padding-left: 18px; }
+    .help li { margin: 4px 0; }
+
+    .chart-area { position: relative; height: 220px; max-height: 260px; min-height: 180px; }
+    .chart-area canvas { width: 100% !important; height: 100% !important; }
+    
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 16px;
+      border-top: 1px solid var(--border-light);
+    }
+    .page-info {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* 反馈页面专用样式 */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 12px 16px;
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+    }
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .filter-group label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .filter-select, .filter-input {
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 13px;
+      background: var(--surface);
+    }
+    .stat-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .chart-legend {
+      display: flex;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    .keywords-container {
+      padding: 12px;
+      display: grid;
+      gap: 6px;
+    }
+    .keyword-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 8px;
+      background: var(--background);
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    .keyword-count {
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .result-count {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-right: auto;
+    }
+    .feedback-cards {
+      display: grid;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
+    }
+    .feedback-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      transition: all 0.2s ease;
+    }
+    .feedback-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .feedback-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .feedback-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .feedback-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #4f86f7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .feedback-info {
+      flex: 1;
+    }
+    .feedback-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+    .feedback-role {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .feedback-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 18px;
+      color: #f59e0b;
+    }
+    .feedback-content {
+      margin: 8px 0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-primary);
+    }
+    .feedback-time {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: right;
+    }
+    
+    /* 分类标签样式 */
+    .category-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-right: 8px;
+      margin-bottom: 4px;
+    }
+    
+    .category-issue {
+      background: var(--error-light);
+      color: var(--error);
+      border: 1px solid var(--error-light);
+    }
+    
+    .category-feature {
+      background: var(--success-light);
+      color: var(--success);
+      border: 1px solid var(--success-light);
+    }
+
+    .feedback-actions {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      justify-content: flex-end;
+    }
+    
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 12px;
+    }
+    .page-info {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-gate" id="authGate">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;">
+          <i class="fas fa-graduation-cap" style="font-size:28px;color:var(--primary);"></i>
+          <div style="font-weight:800;color:var(--primary);">Studyflow 管理后台</div>
+        </div>
+        <div class="auth-title">访问受限</div>
+        <div class="auth-subtitle">请输入访问密码以进入后台</div>
+      </div>
+      <div class="input-row">
+        <input id="adminPassword" type="password" placeholder="输入密码" autocomplete="current-password" />
+        <button class="toggle-eye" id="toggleEye" aria-label="显示/隐藏密码"><i class="fas fa-eye"></i></button>
+      </div>
+      <div id="authError" class="auth-error">密码错误，请重试</div>
+      <div class="auth-actions">
+        <button id="enterBtn" class="btn btn-primary"><i class="fas fa-unlock"></i> 进入后台</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="admin-header">
+    <div class="admin-header-inner">
+      <a class="brand" href="#">
+        <i class="fas fa-book-open"></i>
+        <span>Studyflow Admin</span>
+      </a>
+      <div class="role-switch">
+        <i class="fas fa-user-group"></i>
+        <span>视图：</span>
+        <select id="roleFilter">
+          <option value="all">全部</option>
+          <option value="parent">家长</option>
+          <option value="student">学生</option>
+        </select>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-target="tab-users"><i class="fas fa-users"></i> 注册用户</button>
+      <button class="tab-btn" data-target="tab-behavior"><i class="fas fa-chart-line"></i> 用户行为</button>
+      <button class="tab-btn" data-target="tab-feedback"><i class="fas fa-comments"></i> 反馈与调查</button>
+      <button class="tab-btn" data-target="tab-db"><i class="fas fa-database"></i> 数据库维护</button>
+      <button class="tab-btn" data-target="tab-payment"><i class="fas fa-credit-card"></i> 付费统计</button>
+    </div>
+  </header>
+
+  <main class="dashboard" id="dashboard">
+    <section id="tab-users">
+      <div class="grid cols-4" style="margin:16px 0;">
+        <div class="stat-card">
+          <div class="stat-title">注册用户总数</div>
+          <div class="stat-value" id="usersTotal">0</div>
+          <div class="stat-trend up" id="usersGrowth">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">家长</div>
+          <div class="stat-value" id="parentsTotal">0</div>
+          <div class="stat-trend" style="color:#7c3aed" id="parentsRatio">0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">学生</div>
+          <div class="stat-value" id="studentsTotal">0</div>
+          <div class="stat-trend" style="color:#0ea5e9" id="studentsRatio">0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">近7日新增</div>
+          <div class="stat-value" id="usersNew7">0</div>
+          <div class="stat-trend up" id="usersNewTrend">+0%</div>
+        </div>
+      </div>
+      <div class="panel help" style="margin-bottom:12px;">
+        <div class="panel-header"><div class="panel-title">使用说明</div></div>
+        <ul>
+          <li>右上角可切换视图：全部/家长/学生，影响统计与列表。</li>
+          <li>角色占比展示家长与学生比例；注册趋势展示近30日新增。</li>
+          <li>用户列表支持刷新与导出 CSV，用于离线分析。</li>
+        </ul>
+      </div>
+      <div class="two-col" style="margin-bottom:12px;">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">角色占比</div>
+          </div>
+          <div class="chart-area"><canvas id="chartUsersRole"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">注册趋势（近30日）</div>
+          </div>
+          <div class="chart-area"><canvas id="chartUsersTrend"></canvas></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">用户列表</div>
+          <div class="actions">
+            <button class="btn btn-ghost" id="exportUsers"><i class="fas fa-download"></i> 导出</button>
+            <button class="btn" id="refreshUsers"><i class="fas fa-rotate"></i> 刷新</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table class="table" id="usersTable">
+            <thead>
+              <tr>
+                <th>姓名</th>
+                <th>邮箱</th>
+                <th>角色</th>
+                <th>注册时间</th>
+                <th>状态</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="pagination-controls" id="usersPagination">
+          <button class="btn btn-sm btn-ghost" id="prevPage"><i class="fas fa-chevron-left"></i> 上一页</button>
+          <span class="page-info">第 <span id="currPage">1</span> 页 / 共 <span id="totalPages">1</span> 页</span>
+          <button class="btn btn-sm btn-ghost" id="nextPage">下一页 <i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-behavior" class="hidden">
+      <div class="grid cols-4" style="margin:16px 0;">
+        <div class="stat-card">
+          <div class="stat-title">DAU</div>
+          <div class="stat-value" id="dau">0</div>
+          <div class="stat-trend up" id="dauTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">WAU</div>
+          <div class="stat-value" id="wau">0</div>
+          <div class="stat-trend up" id="wauTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">MAU</div>
+          <div class="stat-value" id="mau">0</div>
+          <div class="stat-trend up" id="mauTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">平均会话时长</div>
+          <div class="stat-value" id="avgSession">0m</div>
+          <div class="stat-trend up" id="avgSessionTrend">+0%</div>
+        </div>
+      </div>
+      <div class="grid cols-4" style="margin:16px 0;">
+        <div class="stat-card">
+          <div class="stat-title">次日留存</div>
+          <div class="stat-value" id="retention">0%</div>
+          <div class="stat-trend up" id="retentionTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">30天会话数</div>
+          <div class="stat-value" id="sessions30">0</div>
+          <div class="stat-trend up" id="sessions30Trend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">高活跃用户</div>
+          <div class="stat-value" id="highEngagement">0</div>
+          <div class="stat-trend up" id="highEngagementTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">中活跃用户</div>
+          <div class="stat-value" id="mediumEngagement">0</div>
+          <div class="stat-trend up" id="mediumEngagementTrend">+0%</div>
+        </div>
+      </div>
+      <div class="panel help" style="margin-bottom:12px;">
+        <div class="panel-header"><div class="panel-title">使用说明</div></div>
+        <ul>
+          <li>DAU/WAU/MAU 分别代表日活、周活、月活，反映使用粘性。</li>
+          <li><strong>30天总会话数</strong>: 过去30天内所有学习会话的总次数</li>
+          <li><strong>日均会话数</strong>: 30天内平均每天的会话次数</li>
+          <li><strong>高活跃用户</strong>: 每周使用3次以上的深度用户</li>
+          <li><strong>中活跃用户</strong>: 每周使用1-2次的常规用户</li>
+          <li>活跃趋势图表展示过去30天每天的活跃用户数量变化</li>
+          <li>功能使用分布用于识别核心学习场景占比，指导产品优化</li>
+        </ul>
+      </div>
+      <div class="panel" style="margin-bottom:12px;">
+        <div class="panel-header">
+          <div class="panel-title">Weekly Report Banner 控制</div>
+          <div class="actions">
+            <button class="btn btn-primary" id="toggleBanner">
+              <i class="fas fa-eye"></i> 显示/隐藏 Banner
+            </button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <p style="margin:0;color:var(--text-secondary);font-size:14px;">
+            控制 Weekly Report 页面中的 "More Learning Resources" banner 显示状态。
+            关闭后 banner 将不会在 app 中显示。
+          </p>
+          <div style="margin-top:12px;padding:12px;background:var(--border-light);border-radius:var(--radius-sm);">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <i class="fas fa-info-circle" style="color:var(--primary);"></i>
+              <span style="font-size:13px;color:var(--text-secondary);">
+                当前状态: <span id="bannerStatus" style="font-weight:500;">加载中...</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Home Page Banner 配置 -->
+      <div class="panel banner-config-panel" style="margin-bottom:20px;">
+        <div class="panel-header">
+          <div class="panel-title">
+            <i class="fas fa-image" style="margin-right:8px;color:var(--primary);"></i>
+            Home Page Banner 配置
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary" id="saveBannerConfig">
+              <i class="fas fa-save"></i> 保存配置
+            </button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="banner-config-grid">
+            <!-- 左侧配置表单 -->
+            <div class="banner-config-form">
+              <div class="form-group">
+                <label for="bannerTitle" class="form-label">
+                  <i class="fas fa-heading" style="margin-right:6px;color:var(--primary);"></i>
+                  Banner 标题
+                </label>
+                <input type="text" id="bannerTitle" class="form-control modern-input" 
+                       placeholder="输入吸引人的标题文字" 
+                       value="Stop Studying Hard. Start Studying Smart.">
+              </div>
+              
+              <div class="form-group">
+                <label for="bannerUrl" class="form-label">
+                  <i class="fas fa-link" style="margin-right:6px;color:var(--primary);"></i>
+                  点击跳转链接
+                </label>
+                <input type="url" id="bannerUrl" class="form-control modern-input" 
+                       placeholder="https://example.com" 
+                       value="https://studyflow.club/app.html">
+                <small class="form-help">用户点击 banner 时将跳转到此链接</small>
+              </div>
+              
+              <div class="form-group">
+                <label for="bannerVisibility" class="form-label">
+                  <i class="fas fa-eye" style="margin-right:6px;color:var(--primary);"></i>
+                  显示设置
+                </label>
+                <select id="bannerVisibility" class="form-control modern-select">
+                  <option value="true">显示 banner</option>
+                  <option value="false">隐藏 banner</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="reminderTime" class="form-label">
+                  <i class="fas fa-clock" style="margin-right:6px;color:var(--primary);"></i>
+                  提醒时间
+                </label>
+                <input type="time" id="reminderTime" class="form-control modern-input">
+                <small class="form-help">设置后，已安装 app 的用户将在指定时间收到推送提醒</small>
+              </div>
+              
+              <div class="form-group checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="enableReminder" class="modern-checkbox">
+                  <span class="checkmark"></span>
+                  <i class="fas fa-bell" style="margin-right:6px;color:var(--primary);"></i>
+                  启用提醒功能
+                </label>
+              </div>
+            </div>
+            
+            <!-- 右侧预览区域 -->
+            <div class="banner-preview-section">
+              <div class="preview-header">
+                <i class="fas fa-eye" style="margin-right:8px;color:var(--primary);"></i>
+                实时预览
+                <span class="preview-badge">实时更新</span>
+              </div>
+              
+              <div id="bannerPreview" class="banner-preview">
+                <div class="banner-content">
+                  <div class="banner-title">Stop Studying Hard. Start Studying Smart.</div>
+                  <div class="banner-subtitle">点击跳转到 studyflow.club/app.html</div>
+                  <div class="banner-badge">
+                    <i class="fas fa-external-link-alt"></i>
+                    可点击
+                  </div>
+                </div>
+                <div class="banner-gradient-overlay"></div>
+              </div>
+              
+              <div class="preview-info">
+                <div class="info-item">
+                  <i class="fas fa-mobile-alt" style="color:var(--success);"></i>
+                  <span>移动端优化</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-paint-brush" style="color:var(--warning);"></i>
+                  <span>渐变色彩</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-tap" style="color:var(--info);"></i>
+                  <span>点击交互</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">活跃趋势（近30日）</div></div>
+          <div class="chart-area"><canvas id="chartActive"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">功能使用分布</div></div>
+          <div class="chart-area"><canvas id="chartFeatureUsage"></canvas></div>
+        </div>
+      </div>
+      
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">功能使用趋势（近30日）</div></div>
+          <div class="chart-area"><canvas id="chartFeatureTrends"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">用户活跃度分布</div></div>
+          <div class="chart-area"><canvas id="chartUserEngagement"></canvas></div>
+        </div>
+      </div>
+      
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">会话时长分布</div></div>
+          <div class="chart-area"><canvas id="chartSessionDuration"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">使用时段分布</div></div>
+          <div class="chart-area"><canvas id="chartTimeOfDay"></canvas></div>
+        </div>
+      </div>
+      
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title">会话深度分析</div></div>
+        <div class="panel-body">
+          <div class="grid cols-3" style="margin-bottom:16px;">
+            <div class="stat-card small">
+              <div class="stat-title">平均每日会话次数</div>
+              <div class="stat-value" id="avgSessionsPerDay">0</div>
+            </div>
+            <div class="stat-card small">
+              <div class="stat-title">最长连续使用天数</div>
+              <div class="stat-value" id="maxConsecutiveDays">0</div>
+            </div>
+            <div class="stat-card small">
+              <div class="stat-title">总会话次数</div>
+              <div class="stat-value" id="totalSessions">0</div>
+            </div>
+          </div>
+          
+          <div class="grid cols-2">
+            <div class="panel">
+              <div class="panel-header"><div class="panel-title">会话强度分布</div></div>
+              <div class="chart-area"><canvas id="chartSessionIntensity"></canvas></div>
+            </div>
+            <div class="panel">
+              <div class="panel-header"><div class="panel-title">详细统计</div></div>
+              <div class="panel-body">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px;">
+                  <div><strong>短时高频用户:</strong> <span id="shortHighIntensity">0</span></div>
+                  <div><strong>长时低频用户:</strong> <span id="longLowIntensity">0</span></div>
+                  <div><strong>均衡使用用户:</strong> <span id="balancedIntensity">0</span></div>
+                  <div><strong>浅度使用用户:</strong> <span id="lightIntensity">0</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-feedback" class="hidden">
+      <!-- 顶部筛选控制栏 -->
+      <div class="filter-bar" style="margin-bottom:16px;">
+        <div class="filter-group">
+          <label>时间范围:</label>
+          <select id="timeRangeFilter" class="filter-select">
+            <option value="all">全部时间</option>
+            <option value="7d">最近7天</option>
+            <option value="30d">最近30天</option>
+            <option value="90d">最近90天</option>
+            <option value="custom">自定义</option>
+          </select>
+        </div>
+        <div class="filter-group" id="customDateRange" style="display:none;">
+          <label>开始日期:</label>
+          <input type="date" id="startDate" class="filter-input">
+          <label>结束日期:</label>
+          <input type="date" id="endDate" class="filter-input">
+        </div>
+        <div class="filter-group">
+          <label>用户角色:</label>
+          <select id="roleFilterFeedback" class="filter-select">
+            <option value="all">全部角色</option>
+            <option value="student">学生</option>
+            <option value="parent">家长</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>评分:</label>
+          <select id="ratingFilter" class="filter-select">
+            <option value="all">全部评分</option>
+            <option value="5">5星</option>
+            <option value="4">4星</option>
+            <option value="3">3星</option>
+            <option value="2">2星</option>
+            <option value="1">1星</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="applyFilters"><i class="fas fa-filter"></i> 应用筛选</button>
+        <button class="btn" id="exportFeedback"><i class="fas fa-download"></i> 导出数据</button>
+      </div>
+
+      <!-- 统计概览卡片 - 紧凑布局 -->
+      <div class="compact-stats-grid" style="margin:16px 0;">
+        <div class="compact-stat-card">
+          <div class="compact-stat-value" id="feedbackCount">0</div>
+          <div class="compact-stat-title">总反馈数</div>
+          <div class="compact-stat-trend" id="feedbackTrend">+0%</div>
+        </div>
+        <div class="compact-stat-card">
+          <div class="compact-stat-value" id="avgRating">0.0</div>
+          <div class="compact-stat-title">平均评分</div>
+          <div class="compact-stat-trend" id="avgRatingTrend">+0%</div>
+        </div>
+        <div class="compact-stat-card">
+          <div class="compact-stat-value" id="uniqueUsers">0</div>
+          <div class="compact-stat-title">发送用户</div>
+          <div class="compact-stat-trend" id="usersTrend">+0%</div>
+        </div>
+        <div class="compact-stat-card">
+          <div class="compact-stat-value" id="positiveRatio">0%</div>
+          <div class="compact-stat-title">正向反馈</div>
+          <div class="compact-stat-trend" id="positiveTrend">+0%</div>
+        </div>
+        <div class="compact-stat-card">
+          <div class="compact-stat-value" id="nps">0</div>
+          <div class="compact-stat-title">NPS得分</div>
+          <div class="compact-stat-trend" id="npsTrend">+0</div>
+        </div>
+      </div>
+
+      <!-- 分类统计 -->
+      <div class="compact-stats-grid" style="margin:16px 0;background:var(--primary-light);border-radius:var(--radius-md);padding:12px;">
+        <div class="compact-stat-card" style="background:var(--error-light);">
+          <div class="compact-stat-value" id="issuesCount">0</div>
+          <div class="compact-stat-title">问题反馈</div>
+          <div class="compact-stat-trend">Issues</div>
+        </div>
+        <div class="compact-stat-card" style="background:var(--success-light);">
+          <div class="compact-stat-value" id="featureRequestsCount">0</div>
+          <div class="compact-stat-title">功能建议</div>
+          <div class="compact-stat-trend">Feature Requests</div>
+        </div>
+        <div class="compact-stat-card" style="background:var(--primary-light);flex:2;">
+          <div class="compact-stat-value" id="issuesRatio">0%</div>
+          <div class="compact-stat-title">问题占比</div>
+          <div class="compact-stat-trend">of Total</div>
+        </div>
+        <div class="compact-stat-card" style="background:var(--primary-light);flex:2;">
+          <div class="compact-stat-value" id="featuresRatio">0%</div>
+          <div class="compact-stat-title">建议占比</div>
+          <div class="compact-stat-trend">of Total</div>
+        </div>
+      </div>
+
+      <!-- 图表分析区域 -->
+      <div class="two-col" style="margin-bottom:12px;">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">评分分布</div>
+            <div class="chart-legend" id="ratingLegend"></div>
+          </div>
+          <div class="chart-area"><canvas id="chartRatings"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">时间趋势分析</div>
+            <div class="chart-legend" id="trendLegend"></div>
+          </div>
+          <div class="chart-area"><canvas id="chartTrend"></canvas></div>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-bottom:12px;">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">用户角色分布</div>
+          </div>
+          <div class="chart-area"><canvas id="chartRoles"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">关键词分析 Top10</div>
+          </div>
+          <div class="keywords-container" id="keywordsList"></div>
+        </div>
+      </div>
+
+      <!-- 详细反馈列表 -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">反馈详情列表</div>
+          <div class="actions">
+            <span class="result-count" id="feedbackResultCount">显示 0 条结果</span>
+            <button class="btn" id="refreshFeedback"><i class="fas fa-rotate"></i> 刷新</button>
+            <button class="btn btn-secondary" id="toggleFeedbackView"><i class="fas fa-table"></i> 切换视图</button>
+          </div>
+        </div>
+        
+        <!-- 卡片视图 -->
+        <div id="feedbackCardsView" class="feedback-cards">
+          <div class="cards-container" id="feedbackCardsContainer"></div>
+        </div>
+        
+        <!-- 表格视图 -->
+        <div id="feedbackTableView" style="display:none;">
+          <table class="table" id="feedbackTable">
+            <thead>
+              <tr>
+                <th>时间</th>
+                <th>用户信息</th>
+                <th>角色</th>
+                <th>评分</th>
+                <th>反馈内容</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        
+        <div class="pagination" id="feedbackPagination" style="margin-top:16px;">
+          <button class="btn btn-sm" id="prevPage">上一页</button>
+          <span class="page-info" id="pageInfo">第 1 页 / 共 1 页</span>
+          <button class="btn btn-sm" id="nextPage">下一页</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-db" class="hidden">
+      <div class="grid cols-3" style="margin:16px 0;">
+        <div class="stat-card">
+          <div class="stat-title">孤立记录</div>
+          <div class="stat-value" id="orphans">0</div>
+          <div class="stat-trend down" id="orphansTrend">-0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">重复数据</div>
+          <div class="stat-value" id="duplicates">0</div>
+          <div class="stat-trend down" id="duplicatesTrend">-0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">待归档</div>
+          <div class="stat-value" id="archives">0</div>
+          <div class="stat-trend down" id="archivesTrend">-0%</div>
+        </div>
+      </div>
+      <div class="panel help" style="margin-bottom:12px;">
+        <div class="panel-header"><div class="panel-title">数据库维护功能使用说明</div></div>
+        <div style="padding:12px;">
+          
+          <div style="margin-bottom:12px; padding:8px; background:var(--success-light); border-radius:var(--radius-sm); border-left:3px solid var(--success);">
+            <div style="font-weight:500; color:var(--success); margin-bottom:4px;">✅ 备份数据库</div>
+            <div style="font-size:13px; color:var(--text-secondary);">
+              创建完整JSON备份。建议每周使用，重大变更前必做。
+            </div>
+          </div>
+          
+          <div style="margin-bottom:12px; padding:8px; background:var(--warning-light); border-radius:var(--radius-sm); border-left:3px solid var(--warning);">
+            <div style="font-weight:500; color:var(--warning); margin-bottom:4px;">🔄 恢复数据库</div>
+            <div style="font-size:13px; color:var(--text-secondary);">
+              从备份文件恢复。安全模式默认启用，避免数据覆盖。
+            </div>
+          </div>
+          
+          <div style="margin-bottom:12px; padding:8px; background:var(--primary-light); border-radius:var(--radius-sm); border-left:3px solid var(--primary);">
+            <div style="font-weight:500; color:var(--primary); margin-bottom:4px;">🧹 清理残留数据</div>
+            <div style="font-size:13px; color:var(--text-secondary);">
+              删除孤儿记录（无课程关联的作业/考试）。建议每月使用。
+            </div>
+          </div>
+          
+          <div style="margin-bottom:12px; padding:8px; background:var(--primary-light); border-radius:var(--radius-sm); border-left:3px solid var(--primary);">
+            <div style="font-weight:500; color:var(--primary); margin-bottom:4px;">🔍 去重</div>
+            <div style="font-size:13px; color:var(--text-secondary);">
+              删除重复作业记录。按需使用，保留最早记录。
+            </div>
+          </div>
+          
+          <div style="margin-bottom:12px; padding:8px; background:var(--border-light); border-radius:var(--radius-sm); border-left:3px solid var(--text-muted);">
+            <div style="font-weight:500; color:var(--text-muted); margin-bottom:4px;">📊 重建索引</div>
+            <div style="font-size:13px; color:var(--text-secondary);">
+              Noop操作（Supabase自动管理）。自托管环境需要。
+            </div>
+          </div>
+          
+          <div style="margin-bottom:12px; padding:8px; background:var(--border-light); border-radius:var(--radius-sm); border-left:3px solid var(--text-muted);">
+            <div style="font-weight:500; color:var(--text-muted); margin-bottom:4px;">🗃️ 归档旧记录</div>
+            <div style="font-size:13px; color:var(--text-secondary);">
+              Noop操作（设计用于归档180天以上会话）。自托管环境需要。
+            </div>
+          </div>
+          
+          <div style="margin-bottom:12px; padding:8px; background:var(--border-light); border-radius:var(--radius-sm); border-left:3px solid var(--text-muted);">
+            <div style="font-weight:500; color:var(--text-muted); margin-bottom:4px;">💾 压缩空间</div>
+            <div style="font-size:13px; color:var(--text-secondary);">
+              Noop操作（Supabase自动VACUUM）。自托管环境需要。
+            </div>
+          </div>
+          
+          <div style="margin-top:16px; padding:12px; background:var(--background); border-radius:var(--radius-sm); border:1px solid var(--border);">
+            <div style="font-weight:500; color:var(--text-primary); margin-bottom:8px;">🛡️ 安全提示</div>
+            <div style="font-size:13px; color:var(--text-secondary); line-height:1.4;">
+              • 所有操作需要管理员密码验证<br>
+              • 危险操作有数量限制（每次最多1000条）<br>
+              • 恢复功能有多重安全保护<br>
+              • 建议操作前先备份数据
+            </div>
+          </div>
+          
+          <div style="margin-top:16px;padding:12px;background:var(--success-light);border-radius:var(--radius-sm);border-left:4px solid var(--success);">
+            <div style="font-weight:500;color:var(--success-dark);margin-bottom:8px;">📋 推荐维护周期</div>
+            <div style="font-size:13px; color:var(--text-secondary); line-height:1.4;">
+              • <strong>每周</strong>：数据库备份<br>
+              • <strong>每月</strong>：清理残留数据<br>
+              • <strong>按需</strong>：数据恢复、去重<br>
+              • <strong>自动</strong>：索引、归档、压缩（Supabase托管）
+            </div>
+            <div style="margin-top:8px;font-size:12px;color:var(--success-dark);">
+              💡 建议在业务低峰期执行维护操作
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      <div class="panel" style="margin-bottom:12px;">
+        <div class="panel-header"><div class="panel-title">维护操作</div></div>
+        <div class="actions" style="flex-wrap:wrap;">
+          <button class="btn btn-success" data-action="backup" id="backupDbBtn">
+            <i class="fas fa-database"></i> 备份数据库
+          </button>
+          <button class="btn btn-warning" data-action="restore" id="restoreDbBtn">
+            <i class="fas fa-undo"></i> 恢复数据库
+          </button>
+          <button class="btn btn-danger" data-action="cleanup">清理残留数据</button>
+          <button class="btn btn-primary" data-action="dedupe">去重</button>
+          <button class="btn" data-action="reindex">重建索引</button>
+          <button class="btn" data-action="archive">归档旧记录</button>
+          <button class="btn" data-action="vacuum">压缩空间</button>
+        </div>
+        
+        <!-- 数据库恢复面板 -->
+        <div id="restorePanel" style="display:none; margin-top:16px; padding:16px; background:var(--warning-light); border-radius:var(--radius-sm); border-left:4px solid var(--warning);">
+          <div style="font-weight:500; color:var(--warning-dark); margin-bottom:12px;">
+            <i class="fas fa-exclamation-triangle"></i> 数据库恢复
+          </div>
+          <div style="font-size:13px; color:var(--text-secondary); margin-bottom:12px;">
+            选择备份文件进行恢复。此操作会将备份数据插入到当前数据库，不会删除现有数据。
+          </div>
+          
+          <!-- 安全选项 -->
+          <div style="margin-bottom:12px; padding:12px; background:var(--surface); border-radius:var(--radius-sm); border:1px solid var(--border);">
+            <div style="font-weight:500; margin-bottom:8px; color:var(--text-primary);">安全选项</div>
+            
+            <label style="display:flex; align-items:center; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" id="safeMode" checked style="margin-right:8px;">
+              <span>安全模式</span>
+              <span style="margin-left:8px; font-size:12px; color:var(--text-muted);">(默认启用，避免覆盖现有数据)</span>
+            </label>
+            
+            <label style="display:flex; align-items:center; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" id="dryRun" style="margin-right:8px;">
+              <span>干跑模式</span>
+              <span style="margin-left:8px; font-size:12px; color:var(--text-muted);">(只验证不实际插入数据)</span>
+            </label>
+            
+            <div style="font-size:12px; color:var(--text-muted); line-height:1.4;">
+              <i class="fas fa-info-circle"></i> 安全模式会忽略重复记录，干跑模式只验证数据格式而不实际修改数据库。
+            </div>
+          </div>
+          
+          <input type="file" id="restoreFile" accept=".json" style="margin-bottom:12px;" />
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-warning btn-sm" onclick="confirmRestore()">
+              <i class="fas fa-play"></i> 开始恢复
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="cancelRestore()">
+              <i class="fas fa-times"></i> 取消
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title">操作日志</div></div>
+        <div id="dbLogs" style="font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:13px; color:var(--text-secondary); display:grid; gap:6px;"></div>
+      </div>
+    </section>
+
+    <section id="tab-payment" class="hidden">
+      <div class="grid cols-4" style="margin:16px 0;">
+        <div class="stat-card">
+          <div class="stat-title">总收入</div>
+          <div class="stat-value" id="revenueTotal">$0</div>
+          <div class="stat-trend up" id="revenueTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">付费用户</div>
+          <div class="stat-value" id="paidUsers">0</div>
+          <div class="stat-trend up" id="paidUsersTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">转化率</div>
+          <div class="stat-value" id="conversion">0%</div>
+          <div class="stat-trend up" id="conversionTrend">+0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">月增长</div>
+          <div class="stat-value" id="mrrGrowth">0%</div>
+          <div class="stat-trend up" id="mrrGrowthTrend">+0%</div>
+        </div>
+      </div>
+      <div class="panel help" style="margin-bottom:12px;">
+        <div class="panel-header"><div class="panel-title">使用说明</div></div>
+        <ul>
+          <li>总收入为累计收入；月度收入用于观察季节性。</li>
+          <li>付费用户与转化率用于增长与投放评估。</li>
+          <li>套餐分布可指导定价与促销策略。</li>
+        </ul>
+      </div>
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">月度收入</div></div>
+          <div class="chart-area"><canvas id="chartRevenue"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><div class="panel-title">套餐分布</div></div>
+          <div class="chart-area"><canvas id="chartPlans"></canvas></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // 从URL参数或SessionStorage获取密码
+    let PASSWORD = getUrlParameter('password') || sessionStorage.getItem('sf_admin_password') || '';
+    
+    // 获取URL参数的辅助函数
+    function getUrlParameter(name) {
+      if (typeof window === 'undefined') return null;
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      const results = regex.exec(window.location.search);
+      return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+    
+    // 智能检测API地址
+    const getApiBase = () => {
+      // 如果是本地开发环境或局域网访问
+      if (location.hostname === 'localhost' || 
+          location.hostname === '127.0.0.1' || 
+          location.hostname.startsWith('192.168.') ||
+          location.hostname.startsWith('10.') ||
+          location.hostname.startsWith('172.')) {
+        return `http://${location.hostname}:8787`;
+      }
+      // Vercel环境 - 使用相同的域名下的API路径
+      if (location.hostname.includes('vercel.app')) {
+        return '/api';
+      }
+      // 生产环境使用正确的API域名
+      if (location.hostname === 'studyflow.club') {
+        return 'https://studyflow-d2cx5zluv-owens-projects-8a390bfc.vercel.app/api';
+      }
+      // 默认使用相对路径
+      return '/api';
+    };
+    const API_BASE = getApiBase();
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+    const authGate = $('#authGate');
+    const dashboard = $('#dashboard');
+    const enterBtn = $('#enterBtn');
+    const pwdInput = $('#adminPassword');
+    const toggleEye = $('#toggleEye');
+    const authError = $('#authError');
+    const roleFilter = $('#roleFilter');
+    const toast = $('#toast');
+
+    let charts = {};
+    let currentPage = 1;
+    const pageSize = 50;
+
+    function daysAgo(d) { const dt = new Date(); dt.setDate(dt.getDate() - d); return dt.toISOString().slice(0,10); }
+    function fmtPct(v) { return `${Number(v||0).toFixed(1)}%`; }
+    function fmtMoney(v) { return `$${(Number(v)||0).toLocaleString()}`; }
+
+    async function apiGet(path) {
+      const res = await fetch(`${API_BASE}${path}`, { headers: { 'X-Admin-Password': PASSWORD } });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error||'API error');
+      return json;
+    }
+    async function apiPost(path, body, opts={}) {
+      const headers = { 'Content-Type':'application/json', 'X-Admin-Password': PASSWORD, ...(opts.headers||{}) };
+      const res = await fetch(`${API_BASE}${path}`, { method: 'POST', headers, body: JSON.stringify(body||{}) });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error||'API error');
+      return json;
+    }
+
+    async function apiDelete(path, body) {
+      const headers = { 'Content-Type':'application/json', 'X-Admin-Password': PASSWORD };
+      const res = await fetch(`${API_BASE}${path}`, { method: 'DELETE', headers, body: JSON.stringify(body||{}) });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error||'API error');
+      return json;
+    }
+
+    function showToast(text) {
+      toast.textContent = text;
+      toast.style.display = 'block';
+      setTimeout(()=> toast.style.display = 'none', 2400);
+    }
+
+    function unlock() {
+      authGate.classList.add('hidden');
+      dashboard.style.display = 'block';
+      sessionStorage.setItem('sf_admin_unlocked', '1');
+    }
+
+    toggleEye.addEventListener('click', () => {
+      const isPw = pwdInput.type === 'password';
+      pwdInput.type = isPw ? 'text' : 'password';
+      toggleEye.innerHTML = isPw ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+    });
+    enterBtn.addEventListener('click', async () => {
+      const inputPwd = pwdInput.value;
+      if (!inputPwd) {
+        authError.textContent = '请输入密码';
+        authError.style.display = 'block';
+        return;
+      }
+      
+      enterBtn.disabled = true;
+      enterBtn.textContent = '验证中...';
+      
+      try {
+        // 请求 metrics 接口验证密码
+        const res = await fetch(`${API_BASE}/metrics/users?limit=1`, {
+          headers: { 'X-Admin-Password': inputPwd }
+        });
+        
+        if (res.status === 401) {
+          throw new Error('密码错误');
+        }
+        
+        if (!res.ok) {
+          throw new Error(`服务器错误 (${res.status})`);
+        }
+        
+        // 验证通过
+        PASSWORD = inputPwd;
+        sessionStorage.setItem('sf_admin_password', inputPwd);
+        authError.style.display = 'none';
+        unlock();
+        init();
+        
+      } catch (e) {
+        console.error(e);
+        authError.textContent = e.message === '密码错误' ? '密码错误，请重试' : '连接服务器失败';
+        authError.style.display = 'block';
+      } finally {
+        enterBtn.disabled = false;
+        enterBtn.textContent = '进入后台';
+      }
+    });
+    pwdInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ enterBtn.click(); }});
+
+    if (sessionStorage.getItem('sf_admin_unlocked') === '1') {
+      unlock();
+      init();
+    }
+
+    $$('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        $$('.tab-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const target = btn.getAttribute('data-target');
+        ['tab-users','tab-behavior','tab-feedback','tab-db','tab-payment'].forEach(id => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          if (id === target) el.classList.remove('hidden'); else el.classList.add('hidden');
+        });
+      });
+    });
+
+    roleFilter.addEventListener('change', () => renderAll());
+
+    function init() {
+      renderAll().catch(err => { console.error(err); showToast('后端不可用或未配置'); });
+      bindActions();
+    }
+
+    function bindActions() {
+      $('#refreshUsers').addEventListener('click', async ()=> { try { await renderUsers(); showToast('用户数据已刷新'); } catch(e){ console.error(e); showToast('刷新失败'); } });
+      $('#exportUsers').addEventListener('click', ()=> exportTableCSV('#usersTable', 'users.csv'));
+      $('#prevPage').addEventListener('click', async () => { if (currentPage > 1) { currentPage--; await renderUsers(); } });
+      $('#nextPage').addEventListener('click', async () => { if (!$('#nextPage').disabled) { currentPage++; await renderUsers(); } });
+
+      $('#refreshFeedback').addEventListener('click', async ()=> { try { await renderFeedback(); showToast('反馈数据已刷新'); } catch(e){ console.error(e); showToast('刷新失败'); } });
+      $('#toggleBanner').addEventListener('click', async ()=> { 
+        try { 
+          await toggleBannerVisibility(); 
+        } catch(e){ 
+          console.error(e); 
+          showToast('Banner 状态切换失败'); 
+        } 
+      });
+      
+      // 绑定新的 banner 配置事件
+      bindBannerEvents();
+      $$('#tab-db [data-action]').forEach(btn=>{
+        const action = btn.getAttribute('data-action');
+        if (action === 'restore') {
+          btn.addEventListener('click', toggleRestorePanel);
+        } else {
+          btn.addEventListener('click', ()=> runMaintenance(action));
+        }
+      });
+    }
+
+    
+
+    async function renderAll() {
+      const tasks = [
+        () => renderUsers(),
+        () => renderBehavior(),
+        () => renderFeedback(),
+        () => renderMaintenance(),
+        () => renderPayment(),
+      ];
+      const results = await Promise.allSettled(tasks.map(t => t()));
+      results.forEach((r, i) => {
+        if (r.status === 'rejected') {
+          const names = ['用户','行为','反馈','维护','付费'];
+          console.error(`加载${names[i]}数据失败:`, r.reason);
+        }
+      });
+    }
+
+    async function renderUsers() {
+      const role = roleFilter.value;
+      const metrics = await apiGet(`/metrics/users?role=${encodeURIComponent(role)}`);
+      const listRes = await apiGet(`/users?role=${encodeURIComponent(role)}&page=${currentPage}&limit=${pageSize}`);
+
+      const total = metrics.metrics.total;
+      const parents = metrics.metrics.parents;
+      const students = metrics.metrics.students;
+      const pRatio = parents/(parents+students||1)*100;
+      const sRatio = 100 - pRatio;
+
+      $('#usersTotal').textContent = String(total);
+      $('#parentsTotal').textContent = String(parents);
+      $('#studentsTotal').textContent = String(students);
+      $('#parentsRatio').textContent = fmtPct(pRatio);
+      $('#studentsRatio').textContent = fmtPct(sRatio);
+      $('#usersNew7').textContent = String(metrics.metrics.new7||0);
+      $('#usersGrowth').textContent = '+—';
+      $('#usersNewTrend').textContent = '+—';
+
+      const tbody = $('#usersTable tbody');
+      tbody.innerHTML = '';
+      
+      const users = listRes.users || [];
+      const totalCount = listRes.total || 0;
+      const totalPages = Math.ceil(totalCount / pageSize) || 1;
+      
+      $('#currPage').textContent = currentPage;
+      $('#totalPages').textContent = totalPages;
+      $('#prevPage').disabled = currentPage <= 1;
+      $('#nextPage').disabled = currentPage >= totalPages;
+
+      users.forEach(u=>{
+        const status = u.status || 'lost';
+        const statusMap = { active: '活跃', idle: '闲置', lost: '流失' };
+        const statusClass = { active: 'active', idle: 'idle', lost: 'lost' };
+        
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td class="name-cell"><span class="name-text" onclick="showUserDetail(${escapeHtml(JSON.stringify(u))})">${u.full_name||''}</span><button class="btn btn-danger btn-sm btn-delete" data-id="${u.id}"><i class="fas fa-trash"></i> 删除</button></td><td>${u.email||''}</td><td>${u.role==='parent'?'家长':'学生'}</td><td>${(u.created_at||'').slice(0,10)}</td><td><span class="status ${statusClass[status]||'lost'}">${statusMap[status]||'流失'}</span></td>`;
+        const btn = tr.querySelector('.btn-delete');
+        btn.addEventListener('click', async ()=>{
+          const name = u.full_name || u.email || u.id;
+          if (!confirm(`确认删除用户「${name}」？此操作不可恢复`)) return;
+          try {
+            await apiPost('/users/delete', { id: u.id });
+            showToast('删除成功');
+            await renderUsers();
+          } catch (e) {
+            console.error(e);
+            showToast('删除失败');
+          }
+        });
+        tbody.appendChild(tr);
+      });
+
+      const roleCtx = getOrCreateChart('chartUsersRole', 'doughnut');
+      roleCtx.data = { labels: ['家长','学生'], datasets: [{ data: [parents, students], backgroundColor: ['#7c3aed','#0ea5e9'] }] };
+      roleCtx.update();
+
+      const labels = Array.from({length:30}, (_,i)=> daysAgo(29-i));
+      const trendCtx = getOrCreateChart('chartUsersTrend', 'line');
+      trendCtx.data = { labels, datasets: [{ label: '新增用户', data: metrics.metrics.registrationTrend || Array.from({length:30}, ()=> 0), borderColor: '#2b6ef2', backgroundColor: 'rgba(43,110,242,0.15)', fill: true, tension: 0.35 }] };
+      trendCtx.update();
+    }
+
+    
+
+    async function renderBehavior() {
+      const role = roleFilter.value;
+      const res = await apiGet(`/metrics/behavior?role=${encodeURIComponent(role)}`);
+      const m = res.metrics;
+      $('#dau').textContent = String(m.dau||0);
+      $('#wau').textContent = String(m.wau||0);
+      $('#mau').textContent = String(m.mau||0);
+      $('#avgSession').textContent = `${m.avgSessionMin||0}m`;
+      $('#retention').textContent = fmtPct(m.retentionD1||0);
+      $('#sessions30').textContent = String(m.sessions30||0);
+      $('#highEngagement').textContent = String(m.userEngagement?.high||0);
+      $('#mediumEngagement').textContent = String(m.userEngagement?.medium||0);
+      $('#dauTrend').textContent = '+—';
+      $('#wauTrend').textContent = '+—';
+      $('#mauTrend').textContent = '+—';
+      $('#avgSessionTrend').textContent = '+—';
+      $('#retentionTrend').textContent = '+—';
+      $('#sessions30Trend').textContent = '+—';
+      $('#highEngagementTrend').textContent = '+—';
+      $('#mediumEngagementTrend').textContent = '+—';
+      
+      // 计算并显示30天会话数的汇总统计
+      const sessions30Total = m.sessions30 ? m.sessions30.reduce((sum, val) => sum + val, 0) : 0;
+      const sessions30Avg = m.sessions30 ? (sessions30Total / m.sessions30.length).toFixed(1) : 0;
+      const sessions30Max = m.sessions30 ? Math.max(...m.sessions30) : 0;
+      const activeDays = m.sessions30 ? m.sessions30.filter(val => val > 0).length : 0;
+      
+      $('#sessions30').textContent = sessions30Total;
+      $('#sessions30').parentElement.querySelector('.stat-title').textContent = '30天总会话数';
+      $('#sessions30Trend').textContent = `日均: ${sessions30Avg}`;
+
+      const labels = Array.from({length:30}, (_,i)=> daysAgo(29-i));
+      const activeCtx = getOrCreateChart('chartActive','line');
+      activeCtx.data = { 
+        labels, 
+        datasets: [{ 
+          label: '日活跃用户数', 
+          data: (m.active30||[]), 
+          borderColor: '#10b981', 
+          backgroundColor: 'rgba(16,185,129,0.15)', 
+          fill: true, 
+          tension: 0.35 
+        }] 
+      };
+      activeCtx.options = {
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `日期: ${context.label}, 活跃用户: ${context.raw}人`;
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            title: {
+              display: true,
+              text: '用户数量'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: '日期'
+            }
+          }
+        }
+      };
+      activeCtx.update();
+
+      const feat = m.featureUsage || { labels: [], values: [] };
+      const featCtx = getOrCreateChart('chartFeatureUsage','bar');
+      featCtx.data = { labels: feat.labels, datasets: [{ label: '数量', data: feat.values, backgroundColor: ['#2b6ef2','#0ea5e9','#7c3aed','#f59e0b','#10b981'] }] };
+      featCtx.options = { scales: { y: { beginAtZero: true } } };
+      featCtx.update();
+
+      // 渲染功能使用趋势图表
+      const featureTrends = m.featureTrends || {};
+      const trendLabels = Array.from({length:30}, (_,i)=> daysAgo(29-i));
+      const trendCtx = getOrCreateChart('chartFeatureTrends','line');
+      const trendDatasets = [];
+      const colors = ['#2b6ef2', '#0ea5e9', '#7c3aed', '#f59e0b', '#10b981'];
+      let colorIndex = 0;
+      
+      for (const [feature, data] of Object.entries(featureTrends)) {
+        trendDatasets.push({
+          label: feature,
+          data: data,
+          borderColor: colors[colorIndex % colors.length],
+          backgroundColor: `rgba(${parseInt(colors[colorIndex % colors.length].slice(1, 3), 16)}, ${parseInt(colors[colorIndex % colors.length].slice(3, 5), 16)}, ${parseInt(colors[colorIndex % colors.length].slice(5, 7), 16)}, 0.15)`,
+          fill: true,
+          tension: 0.35
+        });
+        colorIndex++;
+      }
+      trendCtx.data = { labels: trendLabels, datasets: trendDatasets };
+      trendCtx.update();
+
+      // 渲染用户活跃度分布图表
+      const userEngagement = m.userEngagement || { high: 0, medium: 0, low: 0, inactive: 0 };
+      const engagementCtx = getOrCreateChart('chartUserEngagement','doughnut');
+      engagementCtx.data = {
+        labels: ['高活跃', '中活跃', '低活跃', '不活跃'],
+        datasets: [{
+          data: [userEngagement.high, userEngagement.medium, userEngagement.low, userEngagement.inactive],
+          backgroundColor: ['#10b981', '#0ea5e9', '#f59e0b', '#6b7280']
+        }]
+      };
+      engagementCtx.update();
+
+      // 渲染会话深度分析图表
+      const sessionDepth = m.sessionDepth || {
+        durationDistribution: { '0-5分钟': 0, '5-15分钟': 0, '15-30分钟': 0, '30-60分钟': 0, '60+分钟': 0 },
+        timeOfDayDistribution: { '凌晨 (0-6点)': 0, '上午 (6-12点)': 0, '下午 (12-18点)': 0, '晚上 (18-24点)': 0 },
+        sessionIntensity: { '短时高频': 0, '长时低频': 0, '均衡使用': 0, '浅度使用': 0 },
+        avgSessionsPerDay: 0,
+        maxConsecutiveDays: 0
+      };
+
+      // 会话时长分布图表
+      const durationCtx = getOrCreateChart('chartSessionDuration','bar');
+      durationCtx.data = {
+        labels: Object.keys(sessionDepth.durationDistribution),
+        datasets: [{
+          label: '会话数量',
+          data: Object.values(sessionDepth.durationDistribution),
+          backgroundColor: ['#2b6ef2', '#0ea5e9', '#7c3aed', '#f59e0b', '#10b981']
+        }]
+      };
+      durationCtx.options = { scales: { y: { beginAtZero: true } } };
+      durationCtx.update();
+
+      // 使用时段分布图表
+      const timeOfDayCtx = getOrCreateChart('chartTimeOfDay','doughnut');
+      timeOfDayCtx.data = {
+        labels: Object.keys(sessionDepth.timeOfDayDistribution),
+        datasets: [{
+          data: Object.values(sessionDepth.timeOfDayDistribution),
+          backgroundColor: ['#2b6ef2', '#0ea5e9', '#7c3aed', '#f59e0b']
+        }]
+      };
+      timeOfDayCtx.update();
+
+      // 会话强度分布图表
+      const intensityCtx = getOrCreateChart('chartSessionIntensity','doughnut');
+      intensityCtx.data = {
+        labels: Object.keys(sessionDepth.sessionIntensity),
+        datasets: [{
+          data: Object.values(sessionDepth.sessionIntensity),
+          backgroundColor: ['#10b981', '#0ea5e9', '#f59e0b', '#6b7280']
+        }]
+      };
+      intensityCtx.update();
+
+      // 更新统计数字
+      $('#avgSessionsPerDay').textContent = sessionDepth.avgSessionsPerDay;
+      $('#maxConsecutiveDays').textContent = sessionDepth.maxConsecutiveDays;
+      $('#totalSessions').textContent = m.sessions30 ? m.sessions30.reduce((sum, val) => sum + val, 0) : 0;
+      $('#shortHighIntensity').textContent = sessionDepth.sessionIntensity['短时高频'] || 0;
+      $('#longLowIntensity').textContent = sessionDepth.sessionIntensity['长时低频'] || 0;
+      $('#balancedIntensity').textContent = sessionDepth.sessionIntensity['均衡使用'] || 0;
+      $('#lightIntensity').textContent = sessionDepth.sessionIntensity['浅度使用'] || 0;
+      
+      // 加载banner状态
+      await loadBannerStatus();
+    }
+    
+    async function loadBannerStatus() {
+      try {
+        const res = await apiGet('/banner/status');
+        const isVisible = res.visible !== false; // 默认为true
+        updateBannerStatusUI(isVisible);
+      } catch (e) {
+        console.error('Failed to load banner status:', e);
+        $('#bannerStatus').textContent = '加载失败';
+        $('#bannerStatus').style.color = 'var(--error)';
+      }
+      
+      // 加载新的 banner 配置
+      await loadBannerConfig();
+    }
+    
+    async function toggleBannerVisibility() {
+      try {
+        const res = await apiGet('/banner/status');
+        const currentVisible = res.visible !== false;
+        const newVisible = !currentVisible;
+        
+        const headers = { 'X-Admin-Password': PASSWORD, 'Content-Type': 'application/json' };
+        const response = await fetch(`${API_BASE}/banner/status`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ visible: newVisible })
+        });
+        
+        if (!response.ok) throw new Error('API request failed');
+        
+        updateBannerStatusUI(newVisible);
+        showToast(newVisible ? 'Banner 已显示' : 'Banner 已隐藏');
+        
+      } catch (e) {
+        console.error('Failed to toggle banner:', e);
+        showToast('Banner 状态切换失败');
+      }
+    }
+    
+    function updateBannerStatusUI(isVisible) {
+      $('#bannerStatus').textContent = isVisible ? '显示中' : '已隐藏';
+      $('#bannerStatus').style.color = isVisible ? 'var(--success)' : 'var(--error)';
+      $('#toggleBanner').innerHTML = isVisible ? 
+        '<i class="fas fa-eye-slash"></i> 隐藏 Banner' : 
+        '<i class="fas fa-eye"></i> 显示 Banner';
+    }
+
+    // Home Page Banner 配置功能
+    async function loadBannerConfig() {
+      try {
+        const config = await apiGet('/banner/config');
+        $('#bannerTitle').value = config.title || 'Stop Studying Hard. Start Studying Smart.';
+        $('#bannerUrl').value = config.url || 'https://studyflow.club/app.html';
+        $('#bannerVisibility').value = config.visible !== false ? 'true' : 'false';
+        $('#reminderTime').value = config.reminderTime || '';
+        $('#enableReminder').checked = config.reminderEnabled || false;
+        
+        // 更新预览
+        updateBannerPreview();
+      } catch (error) {
+        console.error('Failed to load banner config:', error);
+        showToast('加载 banner 配置失败');
+      }
+    }
+
+    async function saveBannerConfig() {
+      try {
+        const config = {
+          title: $('#bannerTitle').value,
+          url: $('#bannerUrl').value,
+          visible: $('#bannerVisibility').value === 'true',
+          reminderTime: $('#reminderTime').value,
+          reminderEnabled: $('#enableReminder').checked
+        };
+
+        const headers = { 
+          'X-Admin-Password': PASSWORD, 
+          'Content-Type': 'application/json' 
+        };
+        
+        const response = await fetch(`${API_BASE}/banner/config`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(config)
+        });
+
+        if (!response.ok) throw new Error('保存失败');
+
+        showToast('Banner 配置已保存');
+        updateBannerPreview();
+      } catch (error) {
+        console.error('Failed to save banner config:', error);
+        showToast('保存 banner 配置失败');
+      }
+    }
+
+    function updateBannerPreview() {
+      const title = $('#bannerTitle').value || 'Stop Studying Hard. Start Studying Smart.';
+      const url = $('#bannerUrl').value || 'https://studyflow.club/app.html';
+      const preview = $('#bannerPreview');
+      
+      preview.querySelector('.banner-title').textContent = title;
+      preview.querySelector('.banner-subtitle').textContent = `点击跳转到 ${new URL(url).hostname}`;
+    }
+
+    // 绑定 banner 输入事件
+    function bindBannerEvents() {
+      $('#bannerTitle').addEventListener('input', updateBannerPreview);
+      $('#bannerUrl').addEventListener('input', updateBannerPreview);
+      $('#saveBannerConfig').addEventListener('click', saveBannerConfig);
+    }
+
+    async function renderFeedback() {
+      try {
+        const all = (await apiGet('/feedback')).items || [];
+        
+        // 应用筛选条件
+        const roleFilterValue = $('#roleFilterFeedback').value;
+        const ratingFilterValue = $('#ratingFilter').value;
+        const timeRangeValue = $('#timeRangeFilter').value;
+        
+        let items = all;
+        
+        // 角色筛选
+        if (roleFilterValue !== 'all') {
+          items = items.filter(i => i.role === roleFilterValue);
+        }
+        
+        // 评分筛选
+        if (ratingFilterValue !== 'all') {
+          items = items.filter(i => Number(i.rating) === Number(ratingFilterValue));
+        }
+        
+        // 时间筛选
+        if (timeRangeValue !== 'all') {
+          const now = new Date();
+          let startDate;
+          
+          switch (timeRangeValue) {
+            case '7d':
+              startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+              break;
+            case '30d':
+              startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+              break;
+            case '90d':
+              startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+              break;
+            case 'custom':
+              const start = $('#startDate').value;
+              const end = $('#endDate').value;
+              if (start && end) {
+                items = items.filter(i => {
+                  const itemDate = new Date(i.created_at);
+                  return itemDate >= new Date(start) && itemDate <= new Date(end);
+                });
+              }
+              break;
+          }
+          
+          if (timeRangeValue !== 'custom') {
+            items = items.filter(i => new Date(i.created_at) >= startDate);
+          }
+        }
+        
+        const count = items.length;
+        const uniqueUsers = new Set(items.map(i => i.user_id || i.user_email)).size;
+        const avg = items.reduce((s, i) => s + Number(i.rating || 0), 0) / (count || 1);
+        
+        // 更新统计卡片
+        $('#avgRating').textContent = avg.toFixed(1);
+        $('#feedbackCount').textContent = String(count);
+        $('#uniqueUsers').textContent = String(uniqueUsers);
+        
+        const positive = items.filter(i => Number(i.rating) >= 4).length / (count || 1) * 100;
+        $('#positiveRatio').textContent = fmtPct(positive);
+        
+        // 分类统计: issues vs feature requests
+        const issuesCount = items.filter(i => {
+          // 检查issue_details字段是否有内容
+          if (i.issue_details && i.issue_details.trim().length > 0) {
+            return true;
+          }
+          // 后备检查：检查文本内容中的关键词
+          const text = (i.text || '').toLowerCase();
+          return text.includes('issue') || 
+                 text.includes('problem') ||
+                 text.includes('bug') ||
+                 text.includes('error') ||
+                 text.includes('无法') ||
+                 text.includes('问题') ||
+                 text.includes('崩溃') ||
+                 text.includes('闪退');
+        }).length;
+        
+        const featureRequestsCount = items.filter(i => {
+          // 检查feature_requests字段是否有内容
+          if (i.feature_requests && i.feature_requests.trim().length > 0) {
+            return true;
+          }
+          // 后备检查：检查文本内容中的关键词
+          const text = (i.text || '').toLowerCase();
+          return text.includes('feature') || 
+                 text.includes('request') ||
+                 text.includes('建议') ||
+                 text.includes('希望') ||
+                 text.includes('增加') ||
+                 text.includes('添加') ||
+                 text.includes('改进') ||
+                 text.includes('优化');
+        }).length;
+        
+        // 更新分类统计显示
+        $('#issuesCount').textContent = String(issuesCount);
+        $('#featureRequestsCount').textContent = String(featureRequestsCount);
+        $('#issuesRatio').textContent = fmtPct((issuesCount / Math.max(count, 1)) * 100);
+        $('#featuresRatio').textContent = fmtPct((featureRequestsCount / Math.max(count, 1)) * 100);
+        
+        const promoters = items.filter(i => Number(i.rating) >= 4).length / count * 100 || 0;
+        const detractors = items.filter(i => Number(i.rating) <= 2).length / count * 100 || 0;
+        const nps = Math.round(promoters - detractors);
+        $('#nps').textContent = String(nps);
+        
+        // 更新趋势指示器
+        updateTrendIndicators();
+        
+        // 更新结果计数
+        $('#feedbackResultCount').textContent = `显示 ${count} 条结果`;
+        
+        // 绘制评分分布图表
+        const dist = [1, 2, 3, 4, 5].map(r => items.filter(i => Number(i.rating) === r).length);
+        const ratingCtx = getOrCreateChart('chartRatings', 'bar');
+        ratingCtx.data = {
+          labels: ['1星', '2星', '3星', '4星', '5星'],
+          datasets: [{
+            label: '数量',
+            data: dist,
+            backgroundColor: ['#ef4444', '#f59e0b', '#eab308', '#22c55e', '#10b981']
+          }]
+        };
+        ratingCtx.update();
+        
+        // 绘制角色分布图表
+        const roleCounts = {};
+        items.forEach(item => {
+          const role = item.role || 'unknown';
+          roleCounts[role] = (roleCounts[role] || 0) + 1;
+        });
+        
+        const roleCtx = getOrCreateChart('chartRoles', 'doughnut');
+        roleCtx.data = {
+          labels: Object.keys(roleCounts).map(r => r === 'parent' ? '家长' : '学生'),
+          datasets: [{
+            data: Object.values(roleCounts),
+            backgroundColor: ['#3B82F6', '#8B5CF6']
+          }]
+        };
+        roleCtx.update();
+        
+        // 关键词分析
+        const keywordMap = {};
+        const commonKeywords = ['作业', '提醒', '家长', '语音', '速度', '界面', '功能', '使用', '问题', '建议'];
+        
+        items.forEach(item => {
+          const text = (item.text || '').toLowerCase();
+          commonKeywords.forEach(keyword => {
+            if (text.includes(keyword.toLowerCase())) {
+              keywordMap[keyword] = (keywordMap[keyword] || 0) + 1;
+            }
+          });
+        });
+        
+        const sortedKeywords = Object.entries(keywordMap)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 10);
+        
+        const kList = $('#keywordsList');
+        kList.innerHTML = '';
+        
+        sortedKeywords.forEach(([keyword, count], index) => {
+          const div = document.createElement('div');
+          div.className = 'keyword-item';
+          div.innerHTML = `
+            <span>${index + 1}. ${keyword}</span>
+            <span class="keyword-count">${count}</span>
+          `;
+          kList.appendChild(div);
+        });
+        
+        // 渲染反馈列表
+        renderFeedbackList(items);
+        
+      } catch (error) {
+        console.error('加载反馈数据失败:', error);
+        showToast('加载反馈数据失败');
+      }
+    }
+    
+    // 检测反馈分类
+    function detectFeedbackCategory(feedback) {
+      const text = (feedback.text || '').toLowerCase();
+      
+      if (text.includes('issue') || 
+          text.includes('problem') ||
+          text.includes('bug') ||
+          text.includes('error') ||
+          text.includes('无法') ||
+          text.includes('问题') ||
+          text.includes('崩溃') ||
+          text.includes('闪退')) {
+        return 'issue';
+      }
+      
+      if (text.includes('feature') || 
+          text.includes('request') ||
+          text.includes('建议') ||
+          text.includes('希望') ||
+          text.includes('增加') ||
+          text.includes('添加') ||
+          text.includes('改进') ||
+          text.includes('优化')) {
+        return 'feature';
+      }
+      
+      return null;
+    }
+    
+    // 获取分类标签HTML
+    function getCategoryBadge(category) {
+      if (category === 'issue') {
+        return '<span class="category-badge category-issue">问题反馈</span>';
+      } else if (category === 'feature') {
+        return '<span class="category-badge category-feature">功能建议</span>';
+      }
+      return '';
+    }
+
+    // 删除用户的所有调查数据
+    async function deleteUserSurveys(userId, userEmail, feedbackId) {
+      const userName = userEmail || userId || '该用户';
+      if (!confirm(`确定要删除 ${userName} 的所有调查数据吗？此操作无法撤销。`)) {
+        return;
+      }
+
+      // 调试信息：检查传递的参数
+      console.log('删除参数:', { userId, userEmail, feedbackId });
+
+      try {
+        const result = await apiPost('/feedback/delete', { 
+          user_id: userId,
+          user_email: userEmail,
+          feedback_id: feedbackId
+        });
+        
+        showToast(`已成功删除 ${userName} 的调查数据`);
+        
+        // 重新加载反馈数据
+        setTimeout(() => loadFeedback(), 1000);
+      } catch (error) {
+        console.error('删除失败:', error);
+        
+        // 如果端点不存在或其他错误，提供友好的错误信息
+        if (error.message.includes('404') || error.message.includes('Not Found')) {
+          showToast('删除功能暂不可用，请联系管理员');
+        } else {
+          showToast(`删除失败: ${error.message}`);
+        }
+      }
+    }
+    
+    function renderFeedbackList(items) {
+      const tableView = $('#feedbackTableView').style.display !== 'none';
+      
+      if (tableView) {
+        // 表格视图
+        const tbody = $('#feedbackTable tbody');
+        tbody.innerHTML = '';
+        
+        items.slice(0, 100).forEach(f => {
+          const tr = document.createElement('tr');
+          const at = (f.created_at || '').slice(0, 10);
+          const userName = f.user_name || f.user_email || '未知用户';
+          const category = detectFeedbackCategory(f);
+          const categoryBadge = getCategoryBadge(category);
+          
+          tr.innerHTML = `
+            <td>${at}</td>
+            <td>
+              <div class="feedback-user">
+                <div class="feedback-avatar">${userName.charAt(0).toUpperCase()}</div>
+                <div class="feedback-info">
+                  <div class="feedback-name">${escapeHtml(userName)}</div>
+                  <div class="feedback-role">${f.user_email || '无邮箱'}</div>
+                </div>
+              </div>
+            </td>
+            <td>${f.role === 'parent' ? '家长' : '学生'}</td>
+            <td>
+              <div class="feedback-rating">
+                ${'★'.repeat(f.rating)}${'☆'.repeat(5 - f.rating)}
+                <span style="font-size:12px;color:#666;margin-left:4px;">(${f.rating})</span>
+              </div>
+            </td>
+            <td>
+              ${categoryBadge}
+              ${escapeHtml(f.text || '')}
+              ${f.issue_details ? `<div style="margin-top:4px;padding:4px;background:#fff5f5;border-radius:2px;font-size:11px;color:#7f1d1d;">
+                <strong>问题:</strong> ${escapeHtml(f.issue_details.substring(0, 50))}${f.issue_details.length > 50 ? '...' : ''}
+              </div>` : ''}
+              ${f.feature_requests ? `<div style="margin-top:4px;padding:4px;background:#f0f9ff;border-radius:2px;font-size:11px;color:#0c4a6e;">
+                <strong>建议:</strong> ${escapeHtml(f.feature_requests.substring(0, 50))}${f.feature_requests.length > 50 ? '...' : ''}
+              </div>` : ''}
+            </td>
+            <td>
+              <button class="btn btn-sm" onclick="showFeedbackDetail(${JSON.stringify(f).replace(/"/g, '&quot;')})">详情</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteUserSurveys('${f.user_id || ''}', '${f.user_email || ''}', '${f.id}')" style="margin-left:4px;">删除</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } else {
+        // 卡片视图
+        const container = $('#feedbackCardsContainer');
+        container.innerHTML = '';
+        
+        items.slice(0, 50).forEach(f => {
+          const card = document.createElement('div');
+          card.className = 'feedback-card';
+          const userName = f.user_name || f.user_email || '未知用户';
+          const at = (f.created_at || '').slice(0, 10);
+          const category = detectFeedbackCategory(f);
+          const categoryBadge = getCategoryBadge(category);
+          
+          card.innerHTML = `
+            <div class="feedback-header">
+              <div class="feedback-user">
+                <div class="feedback-avatar">${userName.charAt(0).toUpperCase()}</div>
+                <div class="feedback-info">
+                  <div class="feedback-name">${escapeHtml(userName)}</div>
+                  <div class="feedback-role">${f.role === 'parent' ? '家长' : '学生'} • ${f.user_email || '无邮箱'}</div>
+                </div>
+              </div>
+              <div class="feedback-rating">
+                ${'★'.repeat(f.rating)}${'☆'.repeat(5 - f.rating)}
+              </div>
+            </div>
+            <div class="feedback-content">
+              ${categoryBadge}
+              ${escapeHtml(f.text || '')}
+            </div>
+            ${f.issue_details ? `<div class="feedback-issue" style="margin-top:8px;padding:8px;background:#fff5f5;border-radius:4px;border-left:3px solid #ef4444;">
+              <div style="font-size:12px;color:#ef4444;font-weight:500;margin-bottom:4px;">遇到的问题:</div>
+              <div style="font-size:13px;color:#7f1d1d;">${escapeHtml(f.issue_details)}</div>
+            </div>` : ''}
+            ${f.feature_requests ? `<div class="feedback-feature" style="margin-top:8px;padding:8px;background:#f0f9ff;border-radius:4px;border-left:3px solid #0ea5e9;">
+              <div style="font-size:12px;color:#0ea5e9;font-weight:500;margin-bottom:4px;">功能建议:</div>
+              <div style="font-size:13px;color:#0c4a6e;">${escapeHtml(f.feature_requests)}</div>
+            </div>` : ''}
+            <div class="feedback-time">
+              ${at}
+            </div>
+            <div class="feedback-actions">
+              <button class="btn btn-sm btn-danger" onclick="deleteUserSurveys('${f.user_id || ''}', '${f.user_email || ''}', '${f.id}')">删除用户数据</button>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+    }
+    
+    function showFeedbackDetail(feedback) {
+      // 显示反馈详情的模态框
+      let detailText = `反馈详情:\n用户: ${feedback.user_name || feedback.user_email}\n评分: ${feedback.rating}星`;
+      
+      if (feedback.additional_comments) {
+        detailText += `\n附加评论: ${feedback.additional_comments}`;
+      }
+      if (feedback.issue_details) {
+        detailText += `\n遇到的问题: ${feedback.issue_details}`;
+      }
+      if (feedback.feature_requests) {
+        detailText += `\n功能建议: ${feedback.feature_requests}`;
+      }
+      
+      alert(detailText);
+    }
+    
+    function updateTrendIndicators() {
+      // 这里可以添加趋势计算逻辑
+      $('#avgRatingTrend').textContent = '+—';
+      $('#feedbackTrend').textContent = '+—';
+      $('#usersTrend').textContent = '+—';
+      $('#positiveTrend').textContent = '+—';
+      $('#npsTrend').textContent = '+—';
+    }
+
+    async function renderMaintenance() {
+      const res = await apiGet('/maintenance/preview');
+      const m = res.metrics;
+      $('#orphans').textContent = String(m.orphans||0);
+      $('#duplicates').textContent = String(m.duplicates||0);
+      $('#archives').textContent = String(m.archives||0);
+      $('#orphansTrend').textContent = '—';
+      $('#duplicatesTrend').textContent = '—';
+      $('#archivesTrend').textContent = '—';
+      if (!$('#dbLogs').dataset.init) {
+        $('#dbLogs').dataset.init = '1';
+        $('#dbLogs').innerHTML = '';
+        logDb('准备就绪');
+      }
+    }
+
+    async function runMaintenance(action) {
+      const map = { 
+        backup: '备份数据库',
+        cleanup: '清理残留数据', 
+        dedupe: '去重', 
+        reindex: '重建索引', 
+        archive: '归档旧记录', 
+        vacuum: '压缩空间' 
+      };
+      
+      // 危险操作需要确认
+      const dangerousActions = ['cleanup', 'dedupe', 'archive'];
+      if (dangerousActions.includes(action)) {
+        const confirmed = confirm(`⚠️  警告：此操作将${map[action]}，可能会删除数据。\n\n请确认已备份数据库并了解操作风险。\n\n确定要继续吗？`);
+        if (!confirmed) {
+          logDb(`${map[action]}已取消`);
+          showToast('操作已取消');
+          return;
+        }
+      }
+      
+      logDb(`${map[action]}开始`);
+      showToast(`${map[action]}执行中`);
+      const btns = $$('#tab-db [data-action]');
+      btns.forEach(b=> b.disabled = true);
+      
+      try {
+        const headers = { 'X-Admin-Password': PASSWORD };
+        let path = '';
+        
+        if (action === 'backup') {
+          // 备份数据库 - 下载JSON文件
+          await backupDatabase();
+        } else if (action === 'cleanup' || action === 'dedupe' || action === 'reindex' || action === 'archive' || action === 'vacuum') {
+          path = `/maintenance/${action}`;
+          const res = await fetch(`${API_BASE}${path}`, { method: 'POST', headers });
+          const json = await res.json();
+          if (!json.ok) throw new Error(json.error||'API error');
+        }
+        
+        logDb(`${map[action]}完成`);
+        if (action !== 'backup') {
+          await renderMaintenance();
+        }
+        showToast(`${map[action]}完成`);
+      } catch (e) {
+        logDb(`${map[action]}失败: ${e.message}`);
+        showToast(`${map[action]}失败`);
+      } finally {
+        btns.forEach(b=> b.disabled = false);
+      }
+    }
+    
+    async function backupDatabase() {
+      try {
+        logDb('开始备份数据库...');
+        showToast('正在备份数据库，请稍候...');
+        
+        // 使用新的备份API端点获取完整数据
+        const response = await fetch(`${API_BASE}/backup/data`, {
+          headers: { 'X-Admin-Password': PASSWORD }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+        }
+        
+        const backupData = await response.json();
+        
+        // 创建下载链接
+        const dataStr = JSON.stringify(backupData, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+        
+        link.href = url;
+        link.download = `studyflow_backup_${dateStr}.json`;
+        link.click();
+        
+        // 清理URL
+        setTimeout(() => URL.revokeObjectURL(url), 100);
+        
+        logDb(`数据库备份完成，共 ${backupData.metadata.totalRecords} 条记录`);
+        showToast('数据库备份已下载');
+        
+      } catch (error) {
+        console.error('备份失败:', error);
+        logDb(`备份失败: ${error.message}`);
+        showToast('备份失败');
+      }
+    }
+
+    function logDb(msg) {
+      const d = new Date().toISOString().replace('T',' ').slice(0,19);
+      const row = document.createElement('div');
+      row.textContent = `[${d}] ${msg}`;
+      $('#dbLogs').prepend(row);
+    }
+
+    // 数据库恢复功能
+    function toggleRestorePanel() {
+      const panel = $('#restorePanel');
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function cancelRestore() {
+      $('#restorePanel').style.display = 'none';
+      $('#restoreFile').value = '';
+    }
+
+    async function confirmRestore() {
+      const fileInput = $('#restoreFile');
+      const file = fileInput.files[0];
+      
+      if (!file) {
+        showToast('请选择备份文件');
+        return;
+      }
+
+      // 根据选项生成确认消息
+      const safeMode = $('#safeMode').checked;
+      const dryRun = $('#dryRun').checked;
+      
+      let confirmMessage = '⚠️  警告：此操作将恢复数据库数据。\n\n';
+      confirmMessage += '安全选项：';
+      confirmMessage += safeMode ? '✅ 安全模式（忽略重复记录）' : '❌ 安全模式已禁用（可能覆盖数据）';
+      confirmMessage += dryRun ? ' ✅ 干跑模式（只验证不修改）' : ' ❌ 干跑模式已禁用（实际修改数据）';
+      confirmMessage += '\n\n请确认备份文件正确且了解操作风险。\n\n确定要继续吗？';
+      
+      if (!confirm(confirmMessage)) {
+        return;
+      }
+
+      try {
+        logDb('开始恢复数据库...');
+        showToast('正在恢复数据库，请稍候...');
+        
+        const fileContent = await readFileAsText(file);
+        const backupData = JSON.parse(fileContent);
+        
+        // 验证备份文件格式
+        if (!backupData.tables || !backupData.timestamp) {
+          throw new Error('无效的备份文件格式');
+        }
+        
+        // 获取安全选项
+        const safeMode = $('#safeMode').checked;
+        const dryRun = $('#dryRun').checked;
+        
+        const response = await fetch(`${API_BASE}/backup/restore`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Admin-Password': PASSWORD
+          },
+          body: JSON.stringify({ 
+            backupData,
+            safeMode,
+            dryRun
+          })
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`恢复失败: ${errorText}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          logDb(`数据库恢复完成，共恢复 ${result.totalRestored} 条记录`);
+          showToast('数据库恢复成功');
+          
+          // 显示详细的恢复结果
+          for (const [table, tableResult] of Object.entries(result.results)) {
+            if (tableResult.success) {
+              logDb(`表 ${table}: 成功恢复 ${tableResult.records} 条记录`);
+            } else {
+              logDb(`表 ${table}: 恢复失败 - ${tableResult.error}`);
+            }
+          }
+          
+        } else {
+          throw new Error(result.error || '恢复失败');
+        }
+        
+      } catch (error) {
+        console.error('恢复失败:', error);
+        logDb(`恢复失败: ${error.message}`);
+        showToast('恢复失败');
+      } finally {
+        $('#restorePanel').style.display = 'none';
+        fileInput.value = '';
+      }
+    }
+
+    function readFileAsText(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.onerror = e => reject(new Error('文件读取失败'));
+        reader.readAsText(file);
+      });
+    }
+
+    async function renderPayment() {
+      const res = await apiGet('/metrics/payment');
+      const p = res.metrics || {};
+      $('#revenueTotal').textContent = p.unavailable ? 'N/A' : fmtMoney(p.revenueTotal||0);
+      $('#paidUsers').textContent = p.unavailable ? 'N/A' : String(p.paidUsers||0);
+      $('#conversion').textContent = p.unavailable ? 'N/A' : fmtPct(p.conversion||0);
+      $('#mrrGrowth').textContent = p.unavailable ? 'N/A' : fmtPct(p.mrrGrowth||0);
+      $('#revenueTrend').textContent = '—';
+      $('#paidUsersTrend').textContent = '—';
+      $('#conversionTrend').textContent = '—';
+      $('#mrrGrowthTrend').textContent = '—';
+
+      const months = Array.from({length:12}, (_,i)=> `${i+1}月`);
+      const revCtx = getOrCreateChart('chartRevenue','bar');
+      revCtx.data = { labels: months, datasets: [{ label: '收入', data: p.revenueMonthly||[], backgroundColor: '#2b6ef2' }] };
+      revCtx.options = { scales: { y: { beginAtZero: true, ticks: { callback: v=> '$'+v } } } };
+      revCtx.update();
+
+      const planCtx = getOrCreateChart('chartPlans','doughnut');
+      const plans = p.plans || { labels: [], values: [] };
+      planCtx.data = { labels: plans.labels, datasets: [{ data: plans.values, backgroundColor: ['#0ea5e9','#10b981','#7c3aed'] }] };
+      planCtx.update();
+    }
+
+    function getOrCreateChart(id, type) {
+      if (charts[id]) return charts[id];
+      const ctx = document.getElementById(id).getContext('2d');
+      charts[id] = new Chart(ctx, { type, data: {}, options: { plugins: { legend: { labels: { usePointStyle: true } } }, responsive: true, maintainAspectRatio: false, resizeDelay: 100 } });
+      return charts[id];
+    }
+
+    function exportTableCSV(selector, filename) {
+      const rows = $$(selector + ' tr').map(tr => $$("td,th", tr).map(td => '"'+(td.innerText||'').replace(/"/g,'""')+'"').join(','));
+      const csv = rows.join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function escapeHtml(s) { return s.replace(/[&<>"]+/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+    // 用户详情模态框
+    function showUserDetail(user) {
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.innerHTML = `
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>用户详情</h3>
+            <button class="modal-close">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="user-detail-grid">
+              <div class="detail-item">
+                <label>姓名:</label>
+                <span>${escapeHtml(user.full_name || '未设置')}</span>
+              </div>
+              <div class="detail-item">
+                <label>邮箱:</label>
+                <span>${escapeHtml(user.email || '未设置')}</span>
+              </div>
+              <div class="detail-item">
+                <label>角色:</label>
+                <span>${user.role === 'parent' ? '家长' : '学生'}</span>
+              </div>
+              <div class="detail-item">
+                <label>注册时间:</label>
+                <span>${user.created_at ? user.created_at.slice(0, 10) : '未知'}</span>
+              </div>
+              <div class="detail-item">
+                <label>用户ID:</label>
+                <span>${user.id || '未知'}</span>
+              </div>
+              <div class="detail-item">
+                <label>年龄:</label>
+                <span>${user.age ? user.age + '岁' : '未设置'}</span>
+              </div>
+              <div class="detail-item">
+                <label>性别:</label>
+                <span>${user.gender === 'male' ? '男' : user.gender === 'female' ? '女' : '未设置'}</span>
+              </div>
+              <div class="detail-item">
+                <label>年级:</label>
+                <span>${user.grade ? 'Grade ' + user.grade : '未设置'}</span>
+              </div>
+              <div class="detail-item">
+                <label>学校:</label>
+                <span>${escapeHtml(user.school_name || '未设置')}</span>
+              </div>
+              <div class="detail-item">
+                <label>课程:</label>
+                <span>${user.selected_courses && user.selected_courses.length > 0 ? user.selected_courses.length + '门课程' : '未设置'}</span>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" onclick="closeUserDetail()">关闭</button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      modal.querySelector('.modal-close').addEventListener('click', closeUserDetail);
+      document.body.appendChild(modal);
+      setTimeout(() => modal.classList.add('show'), 10);
+    }
+
+    function closeUserDetail() {
+      const modal = document.querySelector('.modal');
+      if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => modal.remove(), 300);
+      }
+    }
+  </script>
+
+  <style>
+    /* Banner 配置模块样式 */
+    .banner-config-panel {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    .banner-config-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    
+    .banner-config-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .form-label {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    .modern-input {
+      border: 2px solid var(--border-light);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      background: white;
+    }
+    
+    .modern-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(43, 110, 242, 0.1);
+      outline: none;
+    }
+    
+    .modern-select {
+      border: 2px solid var(--border-light);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 14px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .modern-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(43, 110, 242, 0.1);
+      outline: none;
+    }
+    
+    .form-help {
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-top: 6px;
+      display: block;
+    }
+    
+    .checkbox-group {
+      margin-top: 8px;
+    }
+    
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--text-primary);
+      padding: 8px 0;
+    }
+    
+    .modern-checkbox {
+      display: none;
+    }
+    
+    .checkmark {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    
+    .modern-checkbox:checked + .checkmark {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+    
+    .modern-checkbox:checked + .checkmark::after {
+      content: '✓';
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .banner-preview-section {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid var(--border-light);
+    }
+    
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .preview-badge {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    
+    .banner-preview {
+      background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+      border-radius: 16px;
+      padding: 24px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    
+    .banner-preview:hover {
+      transform: translateY(-2px);
+    }
+    
+    .banner-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+    
+    .banner-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    
+    .banner-subtitle {
+      font-size: 12px;
+      opacity: 0.9;
+      margin-bottom: 12px;
+    }
+    
+    .banner-badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .banner-gradient-overlay {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+      pointer-events: none;
+    }
+    
+    .preview-info {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+    
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 6px 8px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      justify-content: center;
+    }
+    
+    /* 移动端响应式 */
+    @media (max-width: 768px) {
+      .banner-config-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .banner-preview-section {
+        order: -1;
+      }
+      
+      .banner-preview {
+        min-height: 100px;
+        padding: 20px;
+      }
+      
+      .banner-title {
+        font-size: 16px;
+      }
+      
+      .preview-info {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    /* 用户详情模态框样式 */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      max-height: 80vh;
+      overflow: hidden;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal.show .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #6b7280;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+    }
+
+    .modal-close:hover {
+      background: #f3f4f6;
+      color: #374151;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .user-detail-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .detail-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .detail-item label {
+      font-weight: 500;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .detail-item span {
+      color: #374151;
+      font-size: 14px;
+      word-break: break-all;
+    }
+
+    .modal-footer {
+      padding: 16px 20px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .name-cell .name-text {
+      cursor: pointer;
+      color: #2563eb;
+      text-decoration: underline;
+    }
+
+    .name-cell .name-text:hover {
+      color: #1d4ed8;
+    }
+  </style>
+</body>
+</html>

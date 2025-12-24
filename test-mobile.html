@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>移动样式测试</title>
+  <style>
+    /* 从admin.html复制的移动样式 */
+    @media (max-width: 768px) {
+      .test-card {
+        background: white;
+        border: 1px solid #e4e7ec;
+        border-radius: 12px;
+        padding: 12px;
+        margin: 8px;
+      }
+      
+      .test-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1f2c;
+      }
+      
+      .test-value {
+        font-size: 20px;
+        font-weight: 700;
+        color: #2b6ef2;
+      }
+    }
+    
+    @media (min-width: 769px) {
+      .test-card {
+        background: white;
+        border: 1px solid #e4e7ec;
+        border-radius: 20px;
+        padding: 24px;
+        margin: 16px;
+      }
+      
+      .test-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1a1f2c;
+      }
+      
+      .test-value {
+        font-size: 32px;
+        font-weight: 700;
+        color: #2b6ef2;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="test-card">
+    <div class="test-title">测试卡片</div>
+    <div class="test-value">1234</div>
+    <div>在手机上应该显示小尺寸，在电脑上显示大尺寸</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>样式调试页面</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      padding: 20px;
+      background: #f5f7ff;
+    }
+    
+    .test-section {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 16px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .test-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      margin: 8px 0;
+    }
+    
+    .stat-title { color: var(--text-secondary); font-size: 12px; font-weight: 600; }
+    .stat-value { font-size: 24px; font-weight: 700; color: var(--primary); }
+    
+    /* 从admin.html复制的移动样式 */
+    @media (max-width: 768px) {
+      .test-card {
+        padding: 12px;
+        border-radius: 12px;
+      }
+      
+      .stat-title {
+        font-size: 11px;
+      }
+      
+      .stat-value {
+        font-size: 20px;
+      }
+      
+      .test-section {
+        padding: 12px;
+        margin: 12px 0;
+      }
+    }
+    
+    .info {
+      background: #eef4ff;
+      border-left: 4px solid var(--primary);
+      padding: 12px;
+      margin: 16px 0;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>移动样式测试</h1>
+  
+  <div class="info">
+    屏幕宽度: <span id="screenWidth"></span>px<br>
+    当前媒体查询: <span id="mediaQuery"></span>
+  </div>
+  
+  <div class="test-section">
+    <h2>测试卡片样式</h2>
+    <div class="test-card">
+      <div class="stat-title">注册用户总数</div>
+      <div class="stat-value">1234</div>
+    </div>
+    <div class="test-card">
+      <div class="stat-title">近7日新增</div>
+      <div class="stat-value">56</div>
+    </div>
+  </div>
+  
+  <script>
+    // 显示屏幕信息
+    document.getElementById('screenWidth').textContent = window.innerWidth;
+    
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    document.getElementById('mediaQuery').textContent = mediaQuery.matches ? '移动设备 (≤768px)' : '桌面设备 (>768px)';
+    
+    // 监听窗口变化
+    window.addEventListener('resize', () => {
+      document.getElementById('screenWidth').textContent = window.innerWidth;
+      const mediaQuery = window.matchMedia('(max-width: 768px)');
+      document.getElementById('mediaQuery').textContent = mediaQuery.matches ? '移动设备 (≤768px)' : '桌面设备 (>768px)';
+    });
+  </script>
+</body>
+</html>

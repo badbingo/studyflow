@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyFlow - College Admissions Resource Center</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+        }
+
+        .ranking-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .ranking-card {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.2s ease;
+        }
+
+        .ranking-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .ranking-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .university-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .university-location {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .info-card i {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .info-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .info-card p {
+            color: #718096;
+            font-size: 0.95rem;
+        }
+
+        .timeline {
+            margin-top: 30px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 12px;
+            border-left: 4px solid #48bb78;
+        }
+
+        .timeline-number {
+            background: #48bb78;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .timeline-content h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2d3748;
+        }
+
+        .timeline-content p {
+            color: #718096;
+            font-size: 0.95rem;
+        }
+
+        .resources-list {
+            margin-top: 20px;
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .resource-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        }
+
+        .resource-item i {
+            color: #667eea;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            width: 24px;
+        }
+
+        .resource-content {
+            flex: 1;
+        }
+
+        .resource-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2d3748;
+        }
+
+        .resource-content p {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .main-content {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .ranking-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .timeline-number {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 20px 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .ranking-card {
+                padding: 15px;
+            }
+            
+            .info-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 College Admissions Resource Center</h1>
+            <p>Comprehensive guidance and resources for high school students preparing for US college applications</p>
+        </div>
+
+        <div class="main-content">
+            <!-- US University Rankings 2025 -->
+            <div class="section">
+                <h2 class="section-title">US University Rankings 2025 - Comprehensive Analysis</h2>
+                <p style="margin-bottom: 20px; color: #718096; font-size: 1.1rem;">Based on the latest US News & World Report rankings, acceptance rate trends, and academic reputation scores. Data reflects 2024-2025 admission cycle projections.</p>
+                
+                <div class="ranking-grid">
+                    <div class="ranking-card">
+                        <div class="ranking-number">#1</div>
+                        <h3 class="university-name">Princeton University</h3>
+                        <p class="university-location">Princeton, NJ | Founded: 1746</p>
+                        <p><strong>Admissions:</strong> 4.0% acceptance rate | SAT: 1460-1570 | ACT: 33-35</p>
+                        <p><strong>Student Body:</strong> 5,400 undergraduates | 13% international | 52% female</p>
+                        <p><strong>Financial:</strong> $58,965 tuition | 60% receive aid | Average aid: $62,800</p>
+                        <p><strong>Notable:</strong> #1 in National Universities | Strong endowment: $37.7B | 5:1 student-faculty ratio</p>
+                        <p><strong>Trend:</strong> Applications increased 15% last year | Early Decision advantage</p>
+                    </div>
+                    
+                    <div class="ranking-card">
+                        <div class="ranking-number">#2</div>
+                        <h3 class="university-name">Massachusetts Institute of Technology</h3>
+                        <p class="university-location">Cambridge, MA | Founded: 1861</p>
+                        <p><strong>Admissions:</strong> 4.1% acceptance rate | SAT: 1500-1570 | ACT: 34-36</p>
+                        <p><strong>Student Body:</strong> 4,600 undergraduates | 10% international | 47% female</p>
+                        <p><strong>Financial:</strong> $57,986 tuition | 58% receive aid | Average aid: $53,996</p>
+                        <p><strong>Notable:</strong> #1 in Engineering worldwide | 85 Nobel laureates | $3.9B research budget</p>
+                        <p><strong>Trend:</strong> Early Action acceptance: 4.8% | Regular Decision: 2.5%</p>
+                    </div>
+                    
+                    <div class="ranking-card">
+                        <div class="ranking-number">#3</div>
+                        <h3 class="university-name">Harvard University</h3>
+                        <p class="university-location">Cambridge, MA | Founded: 1636</p>
+                        <p><strong>Admissions:</strong> 3.4% acceptance rate | SAT: 1480-1580 | ACT: 33-35</p>
+                        <p><strong>Student Body:</strong> 6,800 undergraduates | 12% international | 50% female</p>
+                        <p><strong>Financial:</strong> $54,269 tuition | 55% receive aid | Average aid: $59,000</p>
+                        <p><strong>Notable:</strong> World's largest endowment: $53.2B | 161 Nobel laureates | 13:1 applicant ratio</p>
+                        <p><strong>Trend:</strong> Early Action applications up 22% | Legacy admission rate: 33%</p>
+                    </div>
+                    
+                    <div class="ranking-card">
+                        <div class="ranking-number">#4</div>
+                        <h3 class="university-name">Stanford University</h3>
+                        <p class="university-location">Stanford, CA | Founded: 1885</p>
+                        <p><strong>Admissions:</strong> 4.3% acceptance rate | SAT: 1440-1570 | ACT: 32-35</p>
+                        <p><strong>Student Body:</strong> 7,100 undergraduates | 9% international | 49% female</p>
+                        <p><strong>Financial:</strong> $58,416 tuition | 47% receive aid | Average aid: $58,000</p>
+                        <p><strong>Notable:</strong> #1 for Entrepreneurship | 84 Nobel laureates | $1.7B annual research</p>
+                        <p><strong>Trend:</strong> REA acceptance: 7.6% | Regular Decision: 3.2% | Tech focus increasing</p>
+                    </div>
+                    
+                    <div class="ranking-card">
+                        <div class="ranking-number">#5</div>
+                        <h3 class="university-name">Yale University</h3>
+                        <p class="university-location">New Haven, CT | Founded: 1701</p>
+                        <p><strong>Admissions:</strong> 4.6% acceptance rate | SAT: 1460-1580 | ACT: 33-35</p>
+                        <p><strong>Student Body:</strong> 6,100 undergraduates | 11% international | 51% female</p>
+                        <p><strong>Financial:</strong> $62,250 tuition | 53% receive aid | Average aid: $61,000</p>
+                        <p><strong>Notable:</strong> #3 in Humanities | $42.3B endowment | 14 residential colleges</p>
+                        <p><strong>Trend:</strong> Early Action applications +18% | Strong arts/humanities focus</p>
+                    </div>
+                    
+                    <div class="ranking-card">
+                        <div class="ranking-number">#6</div>
+                        <h3 class="university-name">University of Pennsylvania</h3>
+                        <p class="university-location">Philadelphia, PA | Founded: 1740</p>
+                        <p><strong>Admissions:</strong> 5.9% acceptance rate | SAT: 1460-1570 | ACT: 33-35</p>
+                        <p><strong>Student Body:</strong> 10,000 undergraduates | 13% international | 52% female</p>
+                        <p><strong>Financial:</strong> $63,452 tuition | 45% receive aid | Average aid: $56,000</p>
+                        <p><strong>Notable:</strong> Wharton ranked #1 | $20.7B endowment | Interdisciplinary focus</p>
+                        <p><strong>Trend:</strong> Early Decision advantage | Business applications +25%</p>
+                    </div>
+
+                    <div class="ranking-card">
+                        <div class="ranking-number">#7</div>
+                        <h3 class="university-name">California Institute of Technology</h3>
+                        <p class="university-location">Pasadena, CA | Founded: 1891</p>
+                        <p><strong>Admissions:</strong> 3.9% acceptance rate | SAT: 1530-1580 | ACT: 35-36</p>
+                        <p><strong>Student Body:</strong> 900 undergraduates | 8% international | 45% female</p>
+                        <p><strong>Financial:</strong> $58,680 tuition | 51% receive aid | Average aid: $52,000</p>
+                        <p><strong>Notable:</strong> #1 in Physical Sciences | 39 Nobel laureates | 3:1 student-faculty ratio</p>
+                        <p><strong>Trend:</strong> Smallest top university | Research focus | NASA JPL partnership</p>
+                    </div>
+
+                    <div class="ranking-card">
+                        <div class="ranking-number">#8</div>
+                        <h3 class="university-name">Duke University</h3>
+                        <p class="university-location">Durham, NC | Founded: 1838</p>
+                        <p><strong>Admissions:</strong> 5.8% acceptance rate | SAT: 1480-1570 | ACT: 34-35</p>
+                        <p><strong>Student Body:</strong> 6,600 undergraduates | 10% international | 50% female</p>
+                        <p><strong>Financial:</strong> $60,488 tuition | 52% receive aid | Average aid: $54,000</p>
+                        <p><strong>Notable:</strong> #3 in Medical Research | $12.7B endowment | Strong athletics</p>
+                        <p><strong>Trend:</strong> Early Decision acceptance: 17% | Regular: 4.3% | Pre-med focus</p>
+                    </div>
+
+                    <div class="ranking-card">
+                        <div class="ranking-number">#9</div>
+                        <h3 class="university-name">Brown University</h3>
+                        <p class="university-location">Providence, RI | Founded: 1764</p>
+                        <p><strong>Admissions:</strong> 5.0% acceptance rate | SAT: 1460-1570 | ACT: 33-35</p>
+                        <p><strong>Student Body:</strong> 7,100 undergraduates | 12% international | 53% female</p>
+                        <p><strong>Financial:</strong> $62,680 tuition | 48% receive aid | Average aid: $57,000</p>
+                        <p><strong>Notable:</strong> Open curriculum | #1 for happiest students | $6.9B endowment</p>
+                        <p><strong>Trend:</strong> Applications +9% | Strong in humanities/arts | Collaborative culture</p>
+                    </div>
+
+                    <div class="ranking-card">
+                        <div class="ranking-number">#10</div>
+                        <h3 class="university-name">Johns Hopkins University</h3>
+                        <p class="university-location">Baltimore, MD | Founded: 1876</p>
+                        <p><strong>Admissions:</strong> 6.5% acceptance rate | SAT: 1470-1560 | ACT: 33-35</p>
+                        <p><strong>Student Body:</strong> 6,200 undergraduates | 14% international | 51% female</p>
+                        <p><strong>Financial:</strong> $58,720 tuition | 49% receive aid | Average aid: $55,000</p>
+                        <p><strong>Notable:</strong> #1 in Medical Research | $7.8B research budget | Strong STEM focus</p>
+                        <p><strong>Trend:</strong> Early Decision advantage | Pre-med applications +20% | Research emphasis</p>
+                    </div>
+
+                    <div class="ranking-card">
+                        <div class="ranking-number">#11</div>
+                        <h3 class="university-name">Northwestern University</h3>
+                        <p class="university-location">Evanston, IL | Founded: 1851</p>
+                        <p><strong>Admissions:</strong> 6.8% acceptance rate | SAT: 1450-1540 | ACT: 33-35</p>
+                        <p><strong>Student Body:</strong> 8,300 undergraduates | 10% international | 52% female</p>
+                        <p><strong>Financial:</strong> $60,984 tuition | 46% receive aid | Average aid: $52,000</p>
+                        <p><strong>Notable:</strong> #1 in Journalism | $16.1B endowment | Lake Michigan campus</p>
+                        <p><strong>Trend:</strong> Early Decision acceptance: 25% | Regular: 5.1% | Media focus</p>
+                    </div>
+
+                    <div class="ranking-card">
+                        <div class="ranking-number">#12</div>
+                        <h3 class="university-name">Columbia University</h3>
+                        <p class="university-location">New York, NY | Founded: 1754</p>
+                        <p><strong>Admissions:</strong> 3.7% acceptance rate | SAT: 1470-1570 | ACT: 33-35</p>
+                        <p><strong>Student Body:</strong> 8,100 undergraduates | 15% international | 51% female</p>
+                        <p><strong>Financial:</strong> $65,524 tuition | 50% receive aid | Average aid: $63,000</p>
+                        <p><strong>Notable:</strong> Core curriculum | NYC location | $13.3B endowment | 96 Nobel laureates</p>
+                        <p><strong>Trend:</strong> Applications +5% | Urban campus advantage | Strong arts/sciences</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- College Application Guide -->
+            <div class="section">
+                <h2 class="section-title">Complete Application Guide - Step by Step</h2>
+                <p style="margin-bottom: 25px; color: #718096; font-size: 1.1rem;">Comprehensive breakdown of each application component with detailed requirements, timelines, and expert tips for maximizing your chances of admission.</p>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Application Materials Checklist</h3>
+                        <p><strong>Required:</strong> Official transcripts (9-12 grades), 2-3 teacher recommendations, counselor recommendation, SAT/ACT scores, Common App essay, school report</p>
+                        <p><strong>Optional:</strong> AP scores, subject tests, portfolios (art/music), research papers, additional recommendations</p>
+                        <p><strong>Deadline:</strong> Start collecting summer before senior year | Submit by November 1 (ED/EA) or January 1-15 (RD)</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <i class="fas fa-pencil-alt"></i>
+                        <h3>Standardized Testing Strategy</h3>
+                        <p><strong>SAT:</strong> 7 test dates annually | Preparation: 3-6 months recommended | Target scores: 1450+ for top schools | Superscore accepted by most universities</p>
+                        <p><strong>ACT:</strong> 7 test dates | Science section advantage for STEM students | Writing section optional | Composite score range: 32-36 for top schools</p>
+                        <p><strong>Test-Optional 2025:</strong> 50% of colleges remain test-optional | Strong GPA/essays can compensate | Check individual college policies</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>College Selection & List Building</h3>
+                        <p><strong>Reach Schools (2-3):</strong> <25% acceptance rate | GPA/SAT below 25th percentile | Dream schools that challenge your profile</p>
+                        <p><strong>Target Schools (3-4):</strong> 25-50% acceptance rate | GPA/SAT within middle 50% | Strong chance of admission with good fit</p>
+                        <p><strong>Safety Schools (2-3):</strong> >50% acceptance rate | GPA/SAT above 75th percentile | Guaranteed admission options</p>
+                        <p><strong>Consider:</strong> Location, size, majors, cost, campus culture, career outcomes</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <h3>Financial Aid & Funding Strategy</h3>
+                        <p><strong>FAFSA:</strong> Opens October 1 | Required for federal aid | EFC calculation | Pell Grants, work-study, loans</p>
+                        <p><strong>CSS Profile:</strong> 400+ colleges | More detailed financial picture | Institutional aid determination | $25 fee waiver available</p>
+                        <p><strong>Merit Scholarships:</strong> Based on academics/achievements | Automatic consideration at many schools | Separate applications for some</p>
+                        <p><strong>International Students:</strong> Limited need-based aid | More merit opportunities | External scholarships recommended</p>
+                    </div>
+
+                    <div class="info-card">
+                        <i class="fas fa-edit"></i>
+                        <h3>Essay Writing & Personal Statements</h3>
+                        <p><strong>Common App Essay (650 words):</strong> 7 prompts available | Personal growth, identity, challenges | Show don't tell | 4-6 weeks writing time</p>
+                        <p><strong>Supplemental Essays:</strong> Why this college? | Why this major? | Community contributions | Short answers (150-250 words)</p>
+                        <p><strong>Tips:</strong> Authentic voice | Specific examples | Proofread multiple times | Get teacher feedback | Avoid clichés</p>
+                        <p><strong>Timeline:</strong> Brainstorm summer | Drafts August-September | Finalize October | Supplemental essays October-November</p>
+                    </div>
+
+                    <div class="info-card">
+                        <i class="fas fa-calendar"></i>
+                        <h3>Strategic Application Timeline</h3>
+                        <p><strong>Early Decision (ED):</strong> Binding commitment | November 1 deadline | Higher acceptance rates (15-25% vs 5-10%) | Financial aid package with acceptance</p>
+                        <p><strong>Early Action (EA):</strong> Non-binding | November 1/15 deadlines | Early notification | Can apply to multiple EA schools</p>
+                        <p><strong>Restrictive Early Action (REA):</strong> Non-binding but restrictive | Cannot apply ED elsewhere | Stanford, Harvard, Yale, Princeton</p>
+                        <p><strong>Regular Decision (RD):</strong> January 1-15 deadlines | April 1 decisions | Compare multiple offers | May 1 commitment deadline</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Application Timeline -->
+            <div class="section">
+                <h2 class="section-title">Comprehensive Application Timeline</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-content">
+                            <h4>Sophomore Year (Grade 10)</h4>
+                            <p>• Focus on maintaining strong GPA (3.5+ recommended)<br>• Explore potential majors and career interests<br>• Begin building extracurricular profile<br>• Take PSAT/NMSQT for practice<br>• Start researching colleges and universities</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-content">
+                            <h4>Junior Year (Grade 11)</h4>
+                            <p>• Take SAT/ACT (spring semester)<br>• Maintain rigorous course load with AP/IB classes<br>• Develop leadership in extracurricular activities<br>• Create preliminary college list (15-20 schools)<br>• Attend college fairs and virtual tours<br>• Request teacher recommendations (spring)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-number">3</div>
+                        <div class="timeline-content">
+                            <h4>Summer Before Senior Year</h4>
+                            <p>• Finalize college list (8-12 schools)<br>• Begin working on Common App essay<br>• Complete resume/activity list<br>• Visit campuses if possible<br>• Prepare for possible SAT/ACT retakes<br>• Research scholarship opportunities</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-number">4</div>
+                        <div class="timeline-content">
+                            <h4>Senior Year - Fall Semester</h4>
+                            <p>• Submit Early Decision/Early Action applications (Nov 1)<br>• Complete remaining applications<br>• Request official transcripts<br>• Follow up on recommendations<br>• Prepare for interviews if required<br>• Submit CSS Profile if applying for aid</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-number">5</div>
+                        <div class="timeline-content">
+                            <h4>Senior Year - Spring Semester</h4>
+                            <p>• Submit Regular Decision applications (Jan 1-15)<br>• Complete FAFSA (opens Oct 1)<br>• Await admission decisions (March-April)<br>• Compare financial aid packages<br>• Make final college decision by May 1<br>• Submit enrollment deposit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Resources -->
+            <div class="section">
+                <h2 class="section-title">Essential Resources & Tools</h2>
+                <div class="resources-list">
+                    <div class="resource-item">
+                        <i class="fas fa-book"></i>
+                        <div class="resource-content">
+                            <h4>Khan Academy</h4>
+                            <p>Free SAT preparation, practice tests, and comprehensive study materials for all subjects</p>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-item">
+                        <i class="fas fa-laptop"></i>
+                        <div class="resource-content">
+                            <h4>Coursera & edX</h4>
+                            <p>University-level online courses to enhance academic profile and explore potential majors</p>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-item">
+                        <i class="fas fa-users"></i>
+                        <div class="resource-content">
+                            <h4>College Confidential</h4>
+                            <p>Largest college admissions forum with real-time updates, acceptance data, and expert advice</p>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-item">
+                        <i class="fas fa-globe"></i>
+                        <div class="resource-content">
+                            <h4>Common Application</h4>
+                            <p>Official platform for applying to 900+ colleges with one application system</p>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-item">
+                        <i class="fas fa-chart-bar"></i>
+                        <div class="resource-content">
+                            <h4>US News Education</h4>
+                            <p>Comprehensive college rankings, acceptance rates, and detailed program information</p>
+                        </div>
+                    </div>
+
+                    <div class="resource-item">
+                        <i class="fas fa-graduation-cap"></i>
+                        <div class="resource-content">
+                            <h4>College Board</h4>
+                            <p>SAT registration, AP exam information, and college planning tools</p>
+                        </div>
+                    </div>
+
+                    <div class="resource-item">
+                        <i class="fas fa-dollar-sign"></i>
+                        <div class="resource-content">
+                            <h4>Fastweb Scholarships</h4>
+                            <p>Largest scholarship database with personalized matching and application tools</p>
+                        </div>
+                    </div>
+
+                    <div class="resource-item">
+                        <i class="fas fa-passport"></i>
+                        <div class="resource-content">
+                            <h4>EducationUSA</h4>
+                            <p>Official US government resource for international students seeking US education</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Major Selection & Career Outlook -->
+            <div class="section">
+                <h2 class="section-title">Popular Majors & Career Prospects</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <i class="fas fa-laptop-code"></i>
+                        <h3>Computer Science</h3>
+                        <p>High demand field with $70,000-$120,000 starting salaries. 22% job growth expected through 2030. Strong opportunities in software development, AI, and cybersecurity.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <i class="fas fa-brain"></i>
+                        <h3>Data Science</h3>
+                        <p>Emerging field with $85,000 average starting salary. High demand across industries including tech, healthcare, finance, and marketing for data analysis skills.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <i class="fas fa-heartbeat"></i>
+                        <h3>Biomedical Engineering</h3>
+                        <p>Combines engineering with medical sciences. $92,000 median salary with 6% growth. Excellent research opportunities and graduate school pathways.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Business Administration</h3>
+                        <p>Versatile degree with $65,000 median starting salary. Opportunities in management, consulting, finance, and entrepreneurship. Strong MBA pipeline.</p>
+                    </div>
+
+                    <div class="info-card">
+                        <i class="fas fa-microscope"></i>
+                        <h3>Biological Sciences</h3>
+                        <p>$69,000 median salary with research opportunities. Excellent preparation for medical school, dental school, and graduate studies in life sciences.</p>
+                    </div>
+
+                    <div class="info-card">
+                        <i class="fas fa-balance-scale"></i>
+                        <h3>Political Science</h3>
+                        <p>$68,000 median salary with paths to law school, government, international relations, and public policy. Develops critical thinking and writing skills.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- International Student Section -->
+            <div class="section">
+                <h2 class="section-title">International Student Guide</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <i class="fas fa-passport"></i>
+                        <h3>Visa Requirements</h3>
+                        <p>Complete F-1 student visa process, SEVIS fees, documentation requirements, and interview preparation guide</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <i class="fas fa-language"></i>
+                        <h3>English Proficiency</h3>
+                        <p>TOEFL/IELTS requirements, minimum scores by university, and preparation resources for international applicants</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <i class="fas fa-exchange-alt"></i>
+                        <h3>Credit Transfer</h3>
+                        <p>How international credits transfer to US system, evaluation services, and maximizing transfer credits</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <i class="fas fa-home"></i>
+                        <h3>Housing & Accommodation</h3>
+                        <p>On-campus vs off-campus housing, international student dormitories, and early arrival accommodations</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Planning -->
+            <div class="section">
+                <h2 class="section-title">Financial Planning & Costs</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <i class="fas fa-money-bill"></i>
+                        <h3>Tuition Costs</h3>
+                        <p>Public universities: $25,000-$40,000/year | Private universities: $50,000-$75,000/year | Ivy League: $60,000-$85,000/year</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <i class="fas fa-home"></i>
+                        <h3>Living Expenses</h3>
+                        <p>Housing: $8,000-$15,000/year | Food: $3,000-$5,000/year | Books & Supplies: $1,000-$2,000/year | Personal: $2,000-$4,000/year</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <i class="fas fa-plane"></i>
+                        <h3>Additional Costs</h3>
+                        <p>Health insurance: $2,000-$3,000/year | Travel expenses | Application fees: $50-$100 per application | Testing fees: $60-$100 per test</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <h3>Financial Aid Options</h3>
+                        <p>Merit scholarships | Need-based aid | Work-study programs | International student loans | Graduate assistantships | Research funding</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 StudyFlow - Supporting Students on Their Path to Success</p>
+            <p>Questions? Contact: studyflowclub@gmail.com </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "studyflow-web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "commonjs",
+  "engines": {
+    "node": "24.x"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.80.0"
+  }
+}
