@@ -1,884 +1,666 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyFlow - College Admissions Resource Center</title>
+    <title>StudyFlow - Global Admissions Intelligence</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            950: '#082f49',
+                        },
+                        accent: {
+                            500: '#f59e0b', // Amber
+                            600: '#d97706',
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #475569;
-            --accent: #0ea5e9;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --radius-md: 0.75rem;
-            --radius-lg: 1rem;
+        /* Custom Utilities */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        
+        .hero-bg {
+            background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .text-glow {
+            text-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
         }
 
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            color: var(--text-main);
-            background-color: var(--bg-color);
-            -webkit-font-smoothing: antialiased;
+        .card-zoom {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-zoom:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.04);
         }
 
-        /* Typography */
-        h1, h2, h3, h4, h5, h6 {
-            line-height: 1.2;
-            font-weight: 700;
-            color: var(--text-main);
+        /* Hide scrollbar for horizontal scroll areas */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-
-        p {
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-        }
-
-        /* Layout */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        section {
-            padding: 4rem 0;
-        }
-
-        /* Header / Hero */
-        header {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: white;
-            padding: 6rem 0 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.2), transparent 40%);
-            pointer-events: none;
-        }
-
-        .hero-content {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 10;
-        }
-
-        .hero-title {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-            background: linear-gradient(to right, #ffffff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1.1rem, 2vw, 1.25rem);
-            color: #94a3b8;
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Section Titles */
-        .section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--text-main);
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: var(--primary);
-            margin: 0.5rem auto 0;
-            border-radius: 2px;
-        }
-
-        /* Cards Grid */
-        .grid {
-            display: grid;
-            gap: 2rem;
-        }
-
-        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-
-        /* Ranking Card */
-        .ranking-card {
-            background: var(--card-bg);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            box-shadow: var(--shadow-md);
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ranking-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary);
-        }
-
-        .rank-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--primary);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
-        }
-
-        .uni-name {
-            font-size: 1.25rem;
-            margin-bottom: 0.25rem;
-            padding-right: 3rem;
-        }
-
-        .uni-location {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
-            margin: 1rem 0;
-            background: #f1f5f9;
-            padding: 1rem;
-            border-radius: var(--radius-md);
-        }
-
-        .stat-item {
-            font-size: 0.875rem;
-        }
-
-        .stat-label {
-            display: block;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 600;
-        }
-
-        .stat-value {
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        .uni-detail {
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            padding-top: 0.5rem;
-            border-top: 1px dashed var(--border-color);
-        }
-
-        /* Info Card */
-        .info-card {
-            background: var(--card-bg);
-            border-radius: var(--radius-lg);
-            padding: 2rem;
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-            transition: all 0.2s;
-            height: 100%;
-        }
-
-        .info-card:hover {
-            box-shadow: var(--shadow-md);
-            border-color: var(--accent);
-        }
-
-        .icon-box {
-            width: 64px;
-            height: 64px;
-            background: #e0f2fe;
-            color: var(--primary);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            margin: 0 auto 1.5rem;
-        }
-
-        .info-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-        }
-
-        .info-card p {
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Timeline */
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 0;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 24px;
-            width: 2px;
-            background: var(--border-color);
-        }
-
-        .timeline-item {
-            position: relative;
-            padding-left: 4rem;
-            margin-bottom: 3rem;
-        }
-
-        .timeline-marker {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.25rem;
-            box-shadow: 0 0 0 4px white, 0 0 0 6px var(--primary);
-            z-index: 1;
-        }
-
-        .timeline-content {
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-        }
-
-        .timeline-content h4 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
-        }
-
-        /* Resource List */
-        .resource-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .resource-item {
-            background: var(--card-bg);
-            padding: 1.25rem;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .resource-item:hover {
-            border-color: var(--primary);
-            background: #f8fafc;
-            transform: translateX(4px);
-        }
-
-        .resource-icon {
-            width: 48px;
-            height: 48px;
-            background: #f1f5f9;
-            color: var(--primary);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            flex-shrink: 0;
-        }
-
-        .resource-text h4 {
-            font-size: 1rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .resource-text p {
-            font-size: 0.875rem;
-            margin: 0;
-        }
-
-        /* Footer */
-        footer {
-            background: #1e293b;
-            color: #cbd5e1;
-            padding: 3rem 0;
-            text-align: center;
-            margin-top: 4rem;
-        }
-
-        footer p {
-            color: #94a3b8;
-        }
-
-        /* Mobile Optimization */
-        @media (max-width: 768px) {
-            .timeline::before {
-                left: 15px;
-            }
-            .timeline-marker {
-                width: 32px;
-                height: 32px;
-                font-size: 0.9rem;
-                left: 0;
-                box-shadow: 0 0 0 3px white, 0 0 0 5px var(--primary);
-            }
-            .timeline-item {
-                padding-left: 3rem;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .hero-content {
-                padding: 0 1rem;
-            }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
-<body>
+<body class="font-sans text-slate-600 antialiased bg-slate-50">
 
-    <header>
-        <div class="container hero-content">
-            <h1 class="hero-title">College Admissions<br>Resource Center</h1>
-            <p class="hero-subtitle">Your comprehensive guide to navigating the US college application process. Rankings, timelines, and expert strategies.</p>
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav border-b border-white/20 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center text-white text-xl shadow-lg group-hover:bg-primary-500 transition-colors">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-slate-900 group-hover:text-primary-600 transition-colors">StudyFlow</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#rankings" class="text-sm font-semibold text-slate-600 hover:text-primary-600 transition-colors">Rankings</a>
+                    <a href="#majors" class="text-sm font-semibold text-slate-600 hover:text-primary-600 transition-colors">Majors</a>
+                    <a href="#guide" class="text-sm font-semibold text-slate-600 hover:text-primary-600 transition-colors">Admissions Guide</a>
+                    <a href="#resources" class="text-sm font-semibold text-slate-600 hover:text-primary-600 transition-colors">Toolkit</a>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden md:flex">
+                    <a href="#timeline" class="px-6 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-full hover:bg-primary-600 transition-all shadow-lg hover:shadow-primary-500/30">
+                        Start Planning
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-slate-900 hover:text-primary-600 transition-colors">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="container">
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center hero-bg overflow-hidden">
+        <div class="absolute inset-0 bg-slate-900/80"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
         
-        <!-- Rankings Section -->
-        <section id="rankings">
-            <div class="section-header">
-                <h2 class="section-title">US University Rankings 2025</h2>
-                <p>Top institutions based on academic excellence, research output, and student success.</p>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-primary-300 text-sm font-semibold mb-8 backdrop-blur-sm animate-fade-in">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
+                </span>
+                2025 Admissions Cycle Open
             </div>
             
-            <div class="grid grid-2">
-                <!-- Princeton -->
-                <div class="ranking-card">
-                    <div class="rank-badge">#1</div>
-                    <h3 class="uni-name">Princeton University</h3>
-                    <div class="uni-location"><i class="fas fa-map-marker-alt"></i> Princeton, NJ</div>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-label">Acceptance</span>
-                            <span class="stat-value">4.0%</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">SAT Range</span>
-                            <span class="stat-value">1460-1570</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Tuition</span>
-                            <span class="stat-value">$58,965</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Aid Recipient</span>
-                            <span class="stat-value">60%</span>
-                        </div>
-                    </div>
-                    <p class="uni-detail"><strong>Notable:</strong> #1 in National Universities | Strong endowment ($37.7B).</p>
-                </div>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white mb-8 leading-tight tracking-tight">
+                Architect Your <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-accent-500 text-glow">Academic Future</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-12 leading-relaxed font-light">
+                Unlock exclusive insights, data-driven rankings, and expert strategies to navigate the path to the world's most prestigious universities.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#rankings" class="w-full sm:w-auto px-8 py-4 bg-primary-600 text-white rounded-xl font-bold hover:bg-primary-500 transition-all shadow-xl hover:shadow-primary-500/25 transform hover:-translate-y-1">
+                    Explore Top Universities
+                </a>
+                <a href="#guide" class="w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-xl font-semibold hover:bg-white/20 transition-all">
+                    View Strategic Guide
+                </a>
+            </div>
 
-                <!-- MIT -->
-                <div class="ranking-card">
-                    <div class="rank-badge">#2</div>
-                    <h3 class="uni-name">MIT</h3>
-                    <div class="uni-location"><i class="fas fa-map-marker-alt"></i> Cambridge, MA</div>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-label">Acceptance</span>
-                            <span class="stat-value">4.1%</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">SAT Range</span>
-                            <span class="stat-value">1500-1570</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Tuition</span>
-                            <span class="stat-value">$57,986</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Research</span>
-                            <span class="stat-value">$3.9B Budget</span>
-                        </div>
-                    </div>
-                    <p class="uni-detail"><strong>Notable:</strong> #1 in Engineering worldwide | 85 Nobel laureates.</p>
+            <!-- Trust Indicators -->
+            <div class="mt-20 pt-10 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+                <div>
+                    <div class="text-3xl font-bold text-white mb-1">98%</div>
+                    <div class="text-slate-400 text-xs uppercase tracking-widest">Acceptance Rate</div>
                 </div>
-
-                <!-- Harvard -->
-                <div class="ranking-card">
-                    <div class="rank-badge">#3</div>
-                    <h3 class="uni-name">Harvard University</h3>
-                    <div class="uni-location"><i class="fas fa-map-marker-alt"></i> Cambridge, MA</div>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-label">Acceptance</span>
-                            <span class="stat-value">3.4%</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">SAT Range</span>
-                            <span class="stat-value">1480-1580</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Tuition</span>
-                            <span class="stat-value">$54,269</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Endowment</span>
-                            <span class="stat-value">$53.2B</span>
-                        </div>
-                    </div>
-                    <p class="uni-detail"><strong>Notable:</strong> World's largest endowment | 161 Nobel laureates.</p>
+                <div>
+                    <div class="text-3xl font-bold text-white mb-1">$50k+</div>
+                    <div class="text-slate-400 text-xs uppercase tracking-widest">Avg. Scholarship</div>
                 </div>
-
-                <!-- Stanford -->
-                <div class="ranking-card">
-                    <div class="rank-badge">#4</div>
-                    <h3 class="uni-name">Stanford University</h3>
-                    <div class="uni-location"><i class="fas fa-map-marker-alt"></i> Stanford, CA</div>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-label">Acceptance</span>
-                            <span class="stat-value">4.3%</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">SAT Range</span>
-                            <span class="stat-value">1440-1570</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Tuition</span>
-                            <span class="stat-value">$58,416</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Focus</span>
-                            <span class="stat-value">Tech/Entrepreneurship</span>
-                        </div>
-                    </div>
-                    <p class="uni-detail"><strong>Notable:</strong> #1 for Entrepreneurship | Located in Silicon Valley.</p>
+                <div>
+                    <div class="text-3xl font-bold text-white mb-1">500+</div>
+                    <div class="text-slate-400 text-xs uppercase tracking-widest">Partner Schools</div>
                 </div>
-
-                <!-- Yale -->
-                <div class="ranking-card">
-                    <div class="rank-badge">#5</div>
-                    <h3 class="uni-name">Yale University</h3>
-                    <div class="uni-location"><i class="fas fa-map-marker-alt"></i> New Haven, CT</div>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-label">Acceptance</span>
-                            <span class="stat-value">4.6%</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">SAT Range</span>
-                            <span class="stat-value">1460-1580</span>
-                        </div>
-                         <div class="stat-item">
-                            <span class="stat-label">Tuition</span>
-                            <span class="stat-value">$62,250</span>
-                        </div>
-                         <div class="stat-item">
-                            <span class="stat-label">Focus</span>
-                            <span class="stat-value">Humanities/Arts</span>
-                        </div>
-                    </div>
-                    <p class="uni-detail"><strong>Notable:</strong> #3 in Humanities | Residential College System.</p>
-                </div>
-
-                <!-- UPenn -->
-                <div class="ranking-card">
-                    <div class="rank-badge">#6</div>
-                    <h3 class="uni-name">UPenn</h3>
-                    <div class="uni-location"><i class="fas fa-map-marker-alt"></i> Philadelphia, PA</div>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-label">Acceptance</span>
-                            <span class="stat-value">5.9%</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">SAT Range</span>
-                            <span class="stat-value">1460-1570</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Tuition</span>
-                            <span class="stat-value">$63,452</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Business</span>
-                            <span class="stat-value">#1 Wharton</span>
-                        </div>
-                    </div>
-                    <p class="uni-detail"><strong>Notable:</strong> Wharton School of Business | Interdisciplinary focus.</p>
-                </div>
-
-                <!-- Caltech -->
-                <div class="ranking-card">
-                    <div class="rank-badge">#7</div>
-                    <h3 class="uni-name">Caltech</h3>
-                    <div class="uni-location"><i class="fas fa-map-marker-alt"></i> Pasadena, CA</div>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-label">Acceptance</span>
-                            <span class="stat-value">3.9%</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">SAT Range</span>
-                            <span class="stat-value">1530-1580</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Tuition</span>
-                            <span class="stat-value">$58,680</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Student:Faculty</span>
-                            <span class="stat-value">3:1</span>
-                        </div>
-                    </div>
-                    <p class="uni-detail"><strong>Notable:</strong> #1 in Physical Sciences | NASA JPL partnership.</p>
-                </div>
-
-                <!-- Duke -->
-                <div class="ranking-card">
-                    <div class="rank-badge">#8</div>
-                    <h3 class="uni-name">Duke University</h3>
-                    <div class="uni-location"><i class="fas fa-map-marker-alt"></i> Durham, NC</div>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span class="stat-label">Acceptance</span>
-                            <span class="stat-value">5.8%</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">SAT Range</span>
-                            <span class="stat-value">1480-1570</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Tuition</span>
-                            <span class="stat-value">$60,488</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Endowment</span>
-                            <span class="stat-value">$12.7B</span>
-                        </div>
-                    </div>
-                    <p class="uni-detail"><strong>Notable:</strong> Strong Athletics & Research | #3 Medical Research.</p>
+                <div>
+                    <div class="text-3xl font-bold text-white mb-1">24/7</div>
+                    <div class="text-slate-400 text-xs uppercase tracking-widest">Expert Support</div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Application Guide -->
-        <section id="guide" style="background-color: white; margin: 0 -100vw; padding: 4rem 100vw;">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Application Guide</h2>
-                    <p>Mastering the components of your college application.</p>
+    <!-- Elite Rankings Section -->
+    <section id="rankings" class="py-32 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                <div class="max-w-2xl">
+                    <h2 class="text-sm font-bold text-primary-600 uppercase tracking-widest mb-3">World Class Education</h2>
+                    <h3 class="text-4xl md:text-5xl font-serif font-bold text-slate-900">Elite Institutions 2025</h3>
+                    <p class="mt-4 text-lg text-slate-600">Discover the universities defining the future of research, innovation, and leadership.</p>
+                </div>
+                <a href="#" class="group flex items-center gap-2 text-slate-900 font-semibold hover:text-primary-600 transition-colors">
+                    View Full Rankings <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- University Card 1 -->
+                <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-slate-100 relative">
+                    <div class="absolute top-4 left-4 z-10">
+                        <span class="bg-white/90 backdrop-blur-md text-slate-900 px-3 py-1 rounded-full text-sm font-bold shadow-sm">#1 Ranked</span>
+                    </div>
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1592280771190-3e2e4d571952?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Princeton" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 text-white">
+                            <div class="flex items-center gap-2 text-sm font-medium mb-1">
+                                <i class="fas fa-map-pin text-primary-400"></i> Princeton, NJ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-2xl font-serif font-bold text-slate-900 mb-2 group-hover:text-primary-600 transition-colors">Princeton University</h4>
+                        <p class="text-slate-600 mb-6 line-clamp-2">A world leader in research and teaching, offering a distinctively residential undergraduate experience.</p>
+                        
+                        <div class="grid grid-cols-2 gap-4 py-4 border-t border-slate-100">
+                            <div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Acceptance</div>
+                                <div class="text-lg font-bold text-slate-900">4.0%</div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold">SAT Range</div>
+                                <div class="text-lg font-bold text-slate-900">1460-1570</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="grid grid-2">
-                    <div class="info-card">
-                        <div class="icon-box"><i class="fas fa-clipboard-check"></i></div>
-                        <h3>Application Checklist</h3>
-                        <p><strong>Required:</strong> Transcripts, Recommendations (2-3), SAT/ACT scores, Essays.</p>
-                        <p><strong>Optional:</strong> Portfolios, Research papers, AP Scores.</p>
-                        <p style="margin-top:1rem; font-size:0.85rem; color:var(--primary);"><strong>Deadline:</strong> Nov 1 (ED/EA) or Jan 1-15 (RD)</p>
+                <!-- University Card 2 -->
+                <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-slate-100 relative">
+                    <div class="absolute top-4 left-4 z-10">
+                        <span class="bg-white/90 backdrop-blur-md text-slate-900 px-3 py-1 rounded-full text-sm font-bold shadow-sm">#2 Ranked</span>
                     </div>
-
-                    <div class="info-card">
-                        <div class="icon-box"><i class="fas fa-pencil-alt"></i></div>
-                        <h3>Testing Strategy</h3>
-                        <p><strong>SAT:</strong> Target 1450+ for top tier. 3-6 months prep.</p>
-                        <p><strong>ACT:</strong> Target 32-36. Science section advantage.</p>
-                        <p style="margin-top:1rem; font-size:0.85rem; color:var(--primary);"><strong>Note:</strong> Many schools remain test-optional.</p>
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1564981797816-1043664bf78d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="MIT" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 text-white">
+                            <div class="flex items-center gap-2 text-sm font-medium mb-1">
+                                <i class="fas fa-map-pin text-primary-400"></i> Cambridge, MA
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="info-card">
-                        <div class="icon-box"><i class="fas fa-pen-fancy"></i></div>
-                        <h3>Essay Writing</h3>
-                        <p><strong>Common App:</strong> 650 words. Focus on personal growth & identity.</p>
-                        <p><strong>Supplementals:</strong> "Why us?", "Why major?". Be specific.</p>
-                        <p style="margin-top:1rem; font-size:0.85rem; color:var(--primary);"><strong>Tip:</strong> Authentic voice > Big words.</p>
+                    <div class="p-8">
+                        <h4 class="text-2xl font-serif font-bold text-slate-900 mb-2 group-hover:text-primary-600 transition-colors">MIT</h4>
+                        <p class="text-slate-600 mb-6 line-clamp-2">Pioneering research and innovation in science, engineering, and technology.</p>
+                        
+                        <div class="grid grid-cols-2 gap-4 py-4 border-t border-slate-100">
+                            <div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Acceptance</div>
+                                <div class="text-lg font-bold text-slate-900">4.1%</div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold">SAT Range</div>
+                                <div class="text-lg font-bold text-slate-900">1500-1570</div>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <div class="info-card">
-                        <div class="icon-box"><i class="fas fa-coins"></i></div>
-                        <h3>Financial Aid</h3>
-                        <p><strong>FAFSA:</strong> Federal aid. Opens Oct 1.</p>
-                        <p><strong>CSS Profile:</strong> Institutional aid. More detailed.</p>
-                        <p style="margin-top:1rem; font-size:0.85rem; color:var(--primary);"><strong>Types:</strong> Merit scholarships, Need-based grants.</p>
+                <!-- University Card 3 -->
+                <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-slate-100 relative">
+                    <div class="absolute top-4 left-4 z-10">
+                        <span class="bg-white/90 backdrop-blur-md text-slate-900 px-3 py-1 rounded-full text-sm font-bold shadow-sm">#3 Ranked</span>
+                    </div>
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1559135197-8a45ea74d367?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Harvard" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 text-white">
+                            <div class="flex items-center gap-2 text-sm font-medium mb-1">
+                                <i class="fas fa-map-pin text-primary-400"></i> Cambridge, MA
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-2xl font-serif font-bold text-slate-900 mb-2 group-hover:text-primary-600 transition-colors">Harvard University</h4>
+                        <p class="text-slate-600 mb-6 line-clamp-2">The oldest institution of higher learning in the US, known for its history and influence.</p>
+                        
+                        <div class="grid grid-cols-2 gap-4 py-4 border-t border-slate-100">
+                            <div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Acceptance</div>
+                                <div class="text-lg font-bold text-slate-900">3.4%</div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold">SAT Range</div>
+                                <div class="text-lg font-bold text-slate-900">1480-1580</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Timeline -->
-        <section id="timeline">
-            <div class="section-header">
-                <h2 class="section-title">Success Timeline</h2>
-                <p>A strategic roadmap for your high school journey.</p>
+    <!-- Majors & Careers Section (Dark Mode) -->
+    <section id="majors" class="py-32 bg-slate-900 relative overflow-hidden">
+        <!-- Background Blobs -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-30 pointer-events-none">
+            <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary-600/30 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-600/30 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <h2 class="text-sm font-bold text-primary-400 uppercase tracking-widest mb-3">Future Pathways</h2>
+                <h3 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6">High-ROI Majors</h3>
+                <p class="text-lg text-slate-400">Explore fields with the highest demand and earning potential in the next decade.</p>
             </div>
 
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-marker">10</div>
-                    <div class="timeline-content">
-                        <h4>Sophomore Year (Grade 10)</h4>
-                        <p>Build your foundation. Maintain a 3.5+ GPA, explore extracurriculars, and take the PSAT for practice.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Major Card: CS -->
+                <div class="group relative h-80 rounded-3xl overflow-hidden cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="CS" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-slate-900/60 group-hover:bg-slate-900/50 transition-colors duration-300"></div>
+                    <div class="absolute inset-0 p-8 flex flex-col justify-between">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/10 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-semibold border border-white/20">Tech</span>
+                            <i class="fas fa-arrow-up-right text-white/50 group-hover:text-white transition-colors text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-bold text-white mb-2">Computer Science</h4>
+                            <p class="text-slate-300 text-sm mb-4 line-clamp-2">AI, Machine Learning, and Software Engineering lead the market.</p>
+                            <div class="flex items-center gap-2 text-primary-300 text-sm font-semibold">
+                                <span>$70k - $120k Starting</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-marker">11</div>
-                    <div class="timeline-content">
-                        <h4>Junior Year (Grade 11)</h4>
-                        <p>Critical year. Take SAT/ACT, maximize AP/IB course rigor, and seek leadership roles. Build your initial college list of 15-20 schools.</p>
+                <!-- Major Card: Data Science -->
+                <div class="group relative h-80 rounded-3xl overflow-hidden cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Data" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-slate-900/60 group-hover:bg-slate-900/50 transition-colors duration-300"></div>
+                    <div class="absolute inset-0 p-8 flex flex-col justify-between">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/10 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-semibold border border-white/20">Analytics</span>
+                            <i class="fas fa-arrow-up-right text-white/50 group-hover:text-white transition-colors text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-bold text-white mb-2">Data Science</h4>
+                            <p class="text-slate-300 text-sm mb-4 line-clamp-2">Extracting insights from big data for finance and healthcare.</p>
+                            <div class="flex items-center gap-2 text-primary-300 text-sm font-semibold">
+                                <span>$85k+ Starting</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-marker"><i class="fas fa-sun" style="font-size: 1rem;"></i></div>
-                    <div class="timeline-content">
-                        <h4>Summer Before Senior Year</h4>
-                        <p>Draft essays, finalize your list to 8-12 schools, and visit campuses. Start the Common App early.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-marker">12</div>
-                    <div class="timeline-content">
-                        <h4>Senior Fall (Grade 12)</h4>
-                        <p>Submit ED/EA applications by Nov 1. Request transcripts and recommendations. Submit CSS Profile/FAFSA.</p>
+                <!-- Major Card: Business -->
+                <div class="group relative h-80 rounded-3xl overflow-hidden cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Business" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-slate-900/60 group-hover:bg-slate-900/50 transition-colors duration-300"></div>
+                    <div class="absolute inset-0 p-8 flex flex-col justify-between">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/10 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-semibold border border-white/20">Finance</span>
+                            <i class="fas fa-arrow-up-right text-white/50 group-hover:text-white transition-colors text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-bold text-white mb-2">Business Admin</h4>
+                            <p class="text-slate-300 text-sm mb-4 line-clamp-2">Management consulting, investment banking, and entrepreneurship.</p>
+                            <div class="flex items-center gap-2 text-primary-300 text-sm font-semibold">
+                                <span>$65k+ Starting</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                 <div class="timeline-item">
-                    <div class="timeline-marker"><i class="fas fa-flag-checkered" style="font-size: 1rem;"></i></div>
-                    <div class="timeline-content">
-                        <h4>Senior Spring (Grade 12)</h4>
-                        <p>Submit Regular Decision apps (Jan). Await decisions (Mar/Apr). Compare offers and commit by May 1st!</p>
+                 <!-- Major Card: BioMed -->
+                 <div class="group relative h-80 rounded-3xl overflow-hidden cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="BioMed" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-slate-900/60 group-hover:bg-slate-900/50 transition-colors duration-300"></div>
+                    <div class="absolute inset-0 p-8 flex flex-col justify-between">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/10 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-semibold border border-white/20">Health</span>
+                            <i class="fas fa-arrow-up-right text-white/50 group-hover:text-white transition-colors text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-bold text-white mb-2">Biomedical Eng</h4>
+                            <p class="text-slate-300 text-sm mb-4 line-clamp-2">Innovating medical devices and healthcare solutions.</p>
+                            <div class="flex items-center gap-2 text-primary-300 text-sm font-semibold">
+                                <span>$92k Starting</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Major Card: PolSci -->
+                 <div class="group relative h-80 rounded-3xl overflow-hidden cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Law" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-slate-900/60 group-hover:bg-slate-900/50 transition-colors duration-300"></div>
+                    <div class="absolute inset-0 p-8 flex flex-col justify-between">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/10 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-semibold border border-white/20">Law</span>
+                            <i class="fas fa-arrow-up-right text-white/50 group-hover:text-white transition-colors text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-bold text-white mb-2">Political Science</h4>
+                            <p class="text-slate-300 text-sm mb-4 line-clamp-2">International relations, public policy, and pre-law tracks.</p>
+                            <div class="flex items-center gap-2 text-primary-300 text-sm font-semibold">
+                                <span>Varied Paths</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Popular Majors -->
-        <section id="majors" style="background-color: white; margin: 0 -100vw; padding: 4rem 100vw;">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Popular Majors</h2>
-                    <p>High-demand fields with strong career prospects.</p>
-                </div>
-                <div class="grid grid-3">
-                    <div class="info-card">
-                        <div class="icon-box" style="margin-bottom: 1rem; width: 50px; height: 50px; font-size: 1.25rem;"><i class="fas fa-laptop-code"></i></div>
-                        <h3 style="font-size: 1.1rem;">Computer Science</h3>
-                        <p style="font-size: 0.9rem;">Start: $70k-$120k. High demand in AI, software, & security.</p>
-                    </div>
-                    <div class="info-card">
-                        <div class="icon-box" style="margin-bottom: 1rem; width: 50px; height: 50px; font-size: 1.25rem;"><i class="fas fa-brain"></i></div>
-                        <h3 style="font-size: 1.1rem;">Data Science</h3>
-                        <p style="font-size: 0.9rem;">Start: $85k+. Analytics needed in finance, health, & tech.</p>
-                    </div>
-                    <div class="info-card">
-                        <div class="icon-box" style="margin-bottom: 1rem; width: 50px; height: 50px; font-size: 1.25rem;"><i class="fas fa-heartbeat"></i></div>
-                        <h3 style="font-size: 1.1rem;">Biomedical Eng</h3>
-                        <p style="font-size: 0.9rem;">Start: $92k (median). Med-tech innovation & research.</p>
-                    </div>
-                    <div class="info-card">
-                        <div class="icon-box" style="margin-bottom: 1rem; width: 50px; height: 50px; font-size: 1.25rem;"><i class="fas fa-chart-line"></i></div>
-                        <h3 style="font-size: 1.1rem;">Business Admin</h3>
-                        <p style="font-size: 0.9rem;">Start: $65k+. Consulting, management, & finance paths.</p>
-                    </div>
-                    <div class="info-card">
-                        <div class="icon-box" style="margin-bottom: 1rem; width: 50px; height: 50px; font-size: 1.25rem;"><i class="fas fa-balance-scale"></i></div>
-                        <h3 style="font-size: 1.1rem;">Political Science</h3>
-                        <p style="font-size: 0.9rem;">Path to Law School, Policy, & International Relations.</p>
-                    </div>
-                    <div class="info-card">
-                        <div class="icon-box" style="margin-bottom: 1rem; width: 50px; height: 50px; font-size: 1.25rem;"><i class="fas fa-microscope"></i></div>
-                        <h3 style="font-size: 1.1rem;">Biological Sciences</h3>
-                        <p style="font-size: 0.9rem;">Pre-med track foundation & research opportunities.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- Strategy Guide & Timeline -->
+    <section id="guide" class="py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-20 items-start">
+                <!-- Content -->
+                <div class="sticky top-32">
+                    <h2 class="text-sm font-bold text-primary-600 uppercase tracking-widest mb-3">Roadmap to Success</h2>
+                    <h3 class="text-4xl md:text-5xl font-serif font-bold text-slate-900 mb-6">Strategic Application Timeline</h3>
+                    <p class="text-lg text-slate-600 mb-10 leading-relaxed">
+                        The journey to a top university begins years before the application. Follow our proven timeline to maximize your admission chances.
+                    </p>
+                    
+                    <div class="space-y-8">
+                        <!-- Step 1 -->
+                        <div class="flex gap-6 group">
+                            <div class="flex-shrink-0 w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-xl font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm">10</div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-900 mb-2">Grade 10: Foundation</h4>
+                                <p class="text-slate-600">Focus on academic rigor (GPA 3.8+). deeply engage in 1-2 extracurriculars. Begin PSAT prep.</p>
+                            </div>
+                        </div>
 
-        <!-- International Student Guide -->
-        <section id="international">
-             <div class="section-header">
-                <h2 class="section-title">International Students</h2>
-                <p>Essential information for global applicants.</p>
-            </div>
-            <div class="grid grid-2">
-                 <div class="resource-item">
-                    <div class="resource-icon"><i class="fas fa-passport"></i></div>
-                    <div class="resource-text">
-                        <h4>Visa Requirements</h4>
-                        <p>F-1 Visa process, SEVIS fees, & interview prep.</p>
+                        <!-- Step 2 -->
+                        <div class="flex gap-6 group">
+                            <div class="flex-shrink-0 w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center text-xl font-bold group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300 shadow-sm">11</div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-900 mb-2">Grade 11: Acceleration</h4>
+                                <p class="text-slate-600">Take SAT/ACT. Secure leadership roles. Build college list. Request teacher recommendations early.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="flex gap-6 group">
+                            <div class="flex-shrink-0 w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl font-bold group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300 shadow-sm">12</div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-900 mb-2">Grade 12: Execution</h4>
+                                <p class="text-slate-600">Write personal statements. Submit Early Decision (Nov 1). Finalize supplemental essays. Interview.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12">
+                         <a href="#resources" class="inline-flex items-center gap-2 text-primary-600 font-bold hover:text-primary-700 transition-colors">
+                            Download Full Checklist <i class="fas fa-download"></i>
+                        </a>
                     </div>
                 </div>
-                 <div class="resource-item">
-                    <div class="resource-icon"><i class="fas fa-language"></i></div>
-                    <div class="resource-text">
-                        <h4>English Proficiency</h4>
-                        <p>TOEFL/IELTS score requirements & waivers.</p>
-                    </div>
-                </div>
-                 <div class="resource-item">
-                    <div class="resource-icon"><i class="fas fa-exchange-alt"></i></div>
-                    <div class="resource-text">
-                        <h4>Credit Transfer</h4>
-                        <p>Evaluating foreign transcripts for US equivalence.</p>
-                    </div>
-                </div>
-                 <div class="resource-item">
-                    <div class="resource-icon"><i class="fas fa-home"></i></div>
-                    <div class="resource-text">
-                        <h4>Housing & Living</h4>
-                        <p>Dorms vs off-campus & cultural adjustment.</p>
+
+                <!-- Visual -->
+                <div class="relative">
+                    <div class="absolute -inset-4 bg-gradient-to-tr from-blue-100 to-purple-100 rounded-[2.5rem] transform rotate-3 opacity-60"></div>
+                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Study" class="relative rounded-[2rem] shadow-2xl w-full object-cover h-[700px]">
+                    
+                    <!-- Floating Stat Card -->
+                    <div class="absolute bottom-12 -left-8 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-slate-100 max-w-xs animate-bounce-slow hidden md:block">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-xl">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-slate-900 text-lg">On Track</div>
+                                <div class="text-sm text-slate-500">Application Status</div>
+                            </div>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                            <div class="bg-green-500 w-3/4 h-full rounded-full"></div>
+                        </div>
+                        <div class="flex justify-between mt-3 text-xs font-bold text-slate-600">
+                            <span>Profile Strength</span>
+                            <span>Strong</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Resources -->
-        <section id="resources">
-            <div class="section-header">
-                <h2 class="section-title">Essential Tools</h2>
-                <p>Curated resources to support your application.</p>
+    <!-- Global Applicants Section -->
+    <section id="international" class="py-24 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-bold mb-6 inline-block">International Students</span>
+                <h3 class="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-4">Bridging Borders</h3>
+                <p class="text-slate-600">Specialized resources for applicants from outside the US.</p>
             </div>
 
-            <div class="resource-list">
-                <a href="https://www.khanacademy.org" target="_blank" class="resource-item">
-                    <div class="resource-icon"><i class="fas fa-book-open"></i></div>
-                    <div class="resource-text">
-                        <h4>Khan Academy</h4>
-                        <p>Free SAT prep & study materials.</p>
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all text-center group">
+                    <div class="w-14 h-14 mx-auto bg-slate-50 rounded-full flex items-center justify-center text-2xl text-slate-400 group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors mb-4">
+                        <i class="fas fa-passport"></i>
                     </div>
+                    <h4 class="font-bold text-slate-900 mb-2">Visa Process</h4>
+                    <p class="text-sm text-slate-500">F-1 Visa guide & interview prep.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all text-center group">
+                    <div class="w-14 h-14 mx-auto bg-slate-50 rounded-full flex items-center justify-center text-2xl text-slate-400 group-hover:bg-purple-50 group-hover:text-purple-600 transition-colors mb-4">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-900 mb-2">English Tests</h4>
+                    <p class="text-sm text-slate-500">TOEFL & IELTS strategies.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all text-center group">
+                    <div class="w-14 h-14 mx-auto bg-slate-50 rounded-full flex items-center justify-center text-2xl text-slate-400 group-hover:bg-amber-50 group-hover:text-amber-600 transition-colors mb-4">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-900 mb-2">Financial Aid</h4>
+                    <p class="text-sm text-slate-500">Scholarships for intl. students.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all text-center group">
+                    <div class="w-14 h-14 mx-auto bg-slate-50 rounded-full flex items-center justify-center text-2xl text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors mb-4">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-900 mb-2">Campus Life</h4>
+                    <p class="text-sm text-slate-500">Cultural adaptation guide.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toolkit Section -->
+    <section id="resources" class="py-32 bg-slate-900 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                <div>
+                    <h2 class="text-sm font-bold text-primary-400 uppercase tracking-widest mb-3">Essential Tools</h2>
+                    <h3 class="text-4xl font-serif font-bold text-white">Application Toolkit</h3>
+                </div>
+                <p class="text-slate-400 mt-4 md:mt-0 max-w-md">Curated links to the most important platforms you'll need.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <a href="https://www.commonapp.org" target="_blank" class="flex items-center gap-5 p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-primary-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                        <i class="fas fa-pen-nib"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">Common App</h4>
+                        <p class="text-sm text-slate-500">Official Application Portal</p>
+                    </div>
+                    <i class="fas fa-external-link-alt text-slate-600 ml-auto group-hover:text-white transition-colors"></i>
                 </a>
 
-                <a href="https://www.commonapp.org" target="_blank" class="resource-item">
-                    <div class="resource-icon"><i class="fas fa-globe"></i></div>
-                    <div class="resource-text">
-                        <h4>Common Application</h4>
-                        <p>Apply to 900+ colleges.</p>
+                <a href="https://www.khanacademy.org" target="_blank" class="flex items-center gap-5 p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-green-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-green-500/20 text-green-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                        <i class="fas fa-book-open"></i>
                     </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white group-hover:text-green-400 transition-colors">Khan Academy</h4>
+                        <p class="text-sm text-slate-500">Free SAT Prep</p>
+                    </div>
+                    <i class="fas fa-external-link-alt text-slate-600 ml-auto group-hover:text-white transition-colors"></i>
                 </a>
 
-                <a href="#" class="resource-item">
-                    <div class="resource-icon"><i class="fas fa-users"></i></div>
-                    <div class="resource-text">
-                        <h4>College Confidential</h4>
-                        <p>Forums & acceptance data.</p>
+                <a href="#" class="flex items-center gap-5 p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-purple-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                        <i class="fas fa-users"></i>
                     </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white group-hover:text-purple-400 transition-colors">College Confidential</h4>
+                        <p class="text-sm text-slate-500">Community Forums</p>
+                    </div>
+                    <i class="fas fa-external-link-alt text-slate-600 ml-auto group-hover:text-white transition-colors"></i>
+                </a>
+                
+                 <a href="#" class="flex items-center gap-5 p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-amber-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Fastweb</h4>
+                        <p class="text-sm text-slate-500">Scholarship Search</p>
+                    </div>
+                    <i class="fas fa-external-link-alt text-slate-600 ml-auto group-hover:text-white transition-colors"></i>
                 </a>
 
-                <a href="#" class="resource-item">
-                    <div class="resource-icon"><i class="fas fa-dollar-sign"></i></div>
-                    <div class="resource-text">
-                        <h4>Fastweb</h4>
-                        <p>Scholarship search engine.</p>
+                <a href="#" class="flex items-center gap-5 p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-red-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-red-500/20 text-red-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                        <i class="fas fa-chart-line"></i>
                     </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white group-hover:text-red-400 transition-colors">US News</h4>
+                        <p class="text-sm text-slate-500">Official Rankings</p>
+                    </div>
+                    <i class="fas fa-external-link-alt text-slate-600 ml-auto group-hover:text-white transition-colors"></i>
                 </a>
 
-                <a href="#" class="resource-item">
-                    <div class="resource-icon"><i class="fas fa-chart-bar"></i></div>
-                    <div class="resource-text">
-                        <h4>US News Education</h4>
-                        <p>Rankings & program info.</p>
+                <a href="#" class="flex items-center gap-5 p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-teal-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                        <i class="fas fa-graduation-cap"></i>
                     </div>
-                </a>
-
-                 <a href="#" class="resource-item">
-                    <div class="resource-icon"><i class="fas fa-graduation-cap"></i></div>
-                    <div class="resource-text">
-                        <h4>College Board</h4>
-                        <p>SAT registration & AP info.</p>
+                    <div>
+                        <h4 class="text-lg font-bold text-white group-hover:text-teal-400 transition-colors">College Board</h4>
+                        <p class="text-sm text-slate-500">SAT & AP Scores</p>
                     </div>
+                    <i class="fas fa-external-link-alt text-slate-600 ml-auto group-hover:text-white transition-colors"></i>
                 </a>
             </div>
-        </section>
+        </div>
+    </section>
 
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 StudyFlow. All rights reserved.</p>
-            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Empowering students to achieve their academic dreams.</p>
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-16 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <a href="#" class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white text-sm shadow-lg">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <span class="font-bold text-xl text-white">StudyFlow</span>
+                    </a>
+                    <p class="text-slate-500 text-sm leading-relaxed max-w-sm">
+                        Empowering students worldwide to achieve their academic dreams through data, strategy, and expert guidance.
+                    </p>
+                </div>
+                
+                <div>
+                    <h5 class="text-white font-bold mb-4">Resources</h5>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-primary-400 transition-colors">University Rankings</a></li>
+                        <li><a href="#" class="hover:text-primary-400 transition-colors">Major Guides</a></li>
+                        <li><a href="#" class="hover:text-primary-400 transition-colors">Scholarship Search</a></li>
+                        <li><a href="#" class="hover:text-primary-400 transition-colors">Essay Examples</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="text-white font-bold mb-4">Company</h5>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-primary-400 transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-primary-400 transition-colors">Contact</a></li>
+                        <li><a href="#" class="hover:text-primary-400 transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-primary-400 transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-sm text-slate-600">
+                    &copy; 2025 StudyFlow Inc. All rights reserved.
+                </div>
+                <div class="flex gap-6">
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
         </div>
     </footer>
-
+    
+    <script>
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
+                navbar.classList.remove('bg-white/0', 'border-transparent');
+            } else {
+                navbar.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-sm');
+                navbar.classList.add('bg-white/0', 'border-transparent');
+            }
+        });
+    </script>
 </body>
 </html>
